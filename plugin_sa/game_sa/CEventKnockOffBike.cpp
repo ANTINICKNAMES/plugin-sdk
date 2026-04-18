@@ -28,10 +28,7 @@ CEventKnockOffBike::CEventKnockOffBike(const CEventKnockOffBike& src) : CEvent(p
 
 // 0x4B4AA0
 CEventKnockOffBike& CEventKnockOffBike::operator=(const CEventKnockOffBike& src) {
-    // if doesn't work use this:
-    // return plugin::CallMethodAndReturn<CEventKnockOffBike&, 0x4B4AA0, CEventKnockOffBike*, const CEventKnockOffBike&>(this, src);
-
-    plugin::CallMethod<0x4B4AA0, CEventKnockOffBike*, const CEventKnockOffBike&>(this, src);
+    return plugin::CallMethodAndReturn<CEventKnockOffBike&, 0x4B4AA0, CEventKnockOffBike*, const CEventKnockOffBike&>(this, src);
 }
 
 eEventType CEventKnockOffBike::GetEventType() {
