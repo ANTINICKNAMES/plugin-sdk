@@ -17,31 +17,36 @@ class CPedGroup;
 enum class PLUGIN_API eDecisionMakerType : int {
     UNKNOWN = -1,
 
-    PED_GROUPMEMBER,
-    PED_COP,
-    PED_RANDOM1,
-    PED_RANDOM2,
-    PED_RANDOM3,
-    PED_FIREMAN,
-    PED_EMPTY,
-    PED_INDOORS,
+    DECISION_MAKER_PED_GROUPMEMBER = 0,
+    DECISION_MAKER_PED_COP,
+    DECISION_MAKER_PED_RANDOM1,
+    DECISION_MAKER_PED_RANDOM2,
+    DECISION_MAKER_PED_RANDOM3,
+    DECISION_MAKER_PED_FIREMAN,
+    DECISION_MAKER_PED_EMPTY,
+    DECISION_MAKER_PED_INDOORS,
 
-    GROUP_RANDOM_AGGRESSIVE,
-    GROUP_RANDOM_PASSIVE,
+    DECISION_MAKER_GROUP_RANDOM_AGGRESSIVE,
+    DECISION_MAKER_GROUP_RANDOM_PASSIVE,
 
-    MISSION0,
-    MISSION1,
-    MISSION2,
-    MISSION3,
-    MISSION4,
-    MISSION5,
-    MISSION6,
-    MISSION7,
-    MISSION8,
-    MISSION9,
+    DECISION_MAKER_MISSION0,
+    DECISION_MAKER_MISSION1,
+    DECISION_MAKER_MISSION2,
+    DECISION_MAKER_MISSION3,
+    DECISION_MAKER_MISSION4,
+    DECISION_MAKER_MISSION5,
+    DECISION_MAKER_MISSION6,
+    DECISION_MAKER_MISSION7,
+    DECISION_MAKER_MISSION8,
+    DECISION_MAKER_MISSION9,
 
-    COUNT_TOTAL,
-    COUNT_GAME_DM = MISSION0, // Number of built-in decision makers
+    MAX_NUM_DECISION_MAKER_TYPES,
+    COUNT_GAME_DM = DECISION_MAKER_MISSION0, // Number of built-in decision makers
+};
+
+enum {
+    DEFAULT_DECISION_MAKER = -1,
+    PLAYER_DECISION_MAKER = -2
 };
 
 class CDecisionMakerTypes {
@@ -66,8 +71,8 @@ public:
 
 public:
     int            m_NoOfDecisionMakers;
-    CDecisionMaker m_DecisionMakers[(size_t)eDecisionMakerType::COUNT_TOTAL];
-    int            m_EventIndices[(size_t)eEventType::EVENT_TOTAL_NUM_EVENTS];
+    CDecisionMaker m_DecisionMakers[(size_t)eDecisionMakerType::MAX_NUM_DECISION_MAKER_TYPES];
+    int            m_EventIndices[(size_t)eEventType::MAX_NUM_EVENT_TYPES];
     CDecisionMaker m_DefaultRandomPedDecisionMaker;
     CDecisionMaker m_DefaultMissionPedDecisionMaker;
     CDecisionMaker m_DefaultPlayerPedDecisionMaker;

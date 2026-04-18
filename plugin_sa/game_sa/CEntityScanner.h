@@ -8,14 +8,27 @@
 
 #include "PluginBase.h"
 
+#include "CTickCounter.h"
+
+class CEntity;
+class CPed;
+
+static constexpr size_t MAX_NUM_ENTITIES = 16;
+
 class PLUGIN_API CEntityScanner {
 protected:
-    void *vtable;
+    //void *vtable;
 public:
-    int field_4;
-    unsigned int   m_nCount;
-    class CEntity *m_apEntities[16];
-    int field_4C;
+    CTickCounter m_timer;
+    CEntity* m_entities[16]; // MAX_NUM_ENTITIES
+    CEntity* m_pClosestEntity;
+
+    void Clear();
+    virtual void ScanForEntitiesInRange(eRepeatSectorList iScanType, CPed& ped);
+
+    // unused
+    CTickCounter* GetTimer() { return &m_timer; }
+    CEntity* GetClosestEntity() { return m_pClosestEntity; }
 };
 
 VALIDATE_SIZE(CEntityScanner, 0x50);

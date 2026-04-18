@@ -9,9 +9,9 @@
 #include "CPtrListDoubleLink.h"
 
 enum eRepeatSectorList {
-    REPEATSECTOR_VEHICLES = 0,
-    REPEATSECTOR_PEDS = 1,
-    REPEATSECTOR_OBJECTS = 2
+    VEHICLE_SCAN = 0,
+    PED_SCAN = 1,
+    OBJECT_SCAN = 2
 };
 
 class PLUGIN_API CRepeatSector {

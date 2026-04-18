@@ -15,7 +15,7 @@ class PLUGIN_API CBulletInfo {
 public:
     eWeaponType m_nWeaponType;
     CEntity *m_pCreator;
-    int      m_nDestroyTime;
+    float    m_nDestroyTime;
     bool     m_bExists;
 private:
     char _pad0D[3];

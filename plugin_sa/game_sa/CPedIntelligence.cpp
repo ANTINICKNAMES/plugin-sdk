@@ -9,13 +9,13 @@
 using namespace plugin;
 
 // Converted from thiscall void CPedIntelligence::SetPedDecisionMakerType(int newtype) 0x600B50 
-void CPedIntelligence::SetPedDecisionMakerType(eDecisionMakerType dm) {
-	plugin::CallMethod<0x600B50, CPedIntelligence*, eDecisionMakerType>(this, dm);
+void CPedIntelligence::SetPedDecisionMakerType(eDecisionMakerType iType) {
+	plugin::CallMethod<0x600B50, CPedIntelligence*, eDecisionMakerType>(this, iType);
 }
 
 // Converted from thiscall void CPedIntelligence::SetPedDecisionMakerTypeInGroup(int newtype) 0x600BB0 
-void CPedIntelligence::SetPedDecisionMakerTypeInGroup(eDecisionMakerType dm) {
-	plugin::CallMethod<0x600BB0, CPedIntelligence*, eDecisionMakerType>(this, dm);
+void CPedIntelligence::SetPedDecisionMakerTypeInGroup(eDecisionMakerType iType) {
+	plugin::CallMethod<0x600BB0, CPedIntelligence*, eDecisionMakerType>(this, iType);
 }
 
 // Converted from thiscall void CPedIntelligence::RestorePedDecisionMakerType(void) 0x600BC0 
@@ -23,59 +23,34 @@ void CPedIntelligence::RestorePedDecisionMakerType() {
 	plugin::CallMethod<0x600BC0, CPedIntelligence *>(this);
 }
 
-// Converted from thiscall void CPedIntelligence::SetHearingRange(float range) 0x600BE0 
-void CPedIntelligence::SetHearingRange(float range) {
-	plugin::CallMethod<0x600BE0, CPedIntelligence *, float>(this, range);
-}
-
-// Converted from thiscall void CPedIntelligence::SetSeeingRange(float range) 0x600BF0 
-void CPedIntelligence::SetSeeingRange(float range) {
-	plugin::CallMethod<0x600BF0, CPedIntelligence *, float>(this, range);
-}
-
-// Converted from thiscall bool CPedIntelligence::IsInHearingRange(CVector const& posn) 0x600C00 
-bool CPedIntelligence::IsInHearingRange(CVector const& posn) {
-	return plugin::CallMethodAndReturn<bool, 0x600C00, CPedIntelligence *, CVector const&>(this, posn);
-}
-
-// Converted from thiscall bool CPedIntelligence::IsInSeeingRange(CVector const& posn) 0x600C60 
-bool CPedIntelligence::IsInSeeingRange(CVector const& posn) {
-	return plugin::CallMethodAndReturn<bool, 0x600C60, CPedIntelligence *, CVector const&>(this, posn);
-}
-
-// Converted from thiscall bool CPedIntelligence::FindRespectedFriendInInformRange(void) 0x600CF0 
-bool CPedIntelligence::FindRespectedFriendInInformRange() {
-	return plugin::CallMethodAndReturn<bool, 0x600CF0, CPedIntelligence *>(this);
-}
-
-// Converted from thiscall bool CPedIntelligence::IsRespondingToEvent(int event) 0x600DB0 
-bool CPedIntelligence::IsRespondingToEvent(int event) {
-	return plugin::CallMethodAndReturn<bool, 0x600DB0, CPedIntelligence *, int>(this, event);
-}
-
 // Converted from thiscall void CPedIntelligence::AddTaskPhysResponse(CTask *task,bool arg2) 0x600DC0 
-void CPedIntelligence::AddTaskPhysResponse(CTask* task, bool arg2) {
-	plugin::CallMethod<0x600DC0, CPedIntelligence *, CTask*, bool>(this, task, arg2);
+void CPedIntelligence::AddTaskPhysResponse(CTask* task, bool bForce) {
+	plugin::CallMethod<0x600DC0, CPedIntelligence*, CTask*, bool>(this, task, bForce);
 }
 
 // Converted from thiscall void CPedIntelligence::AddTaskEventResponseTemp(CTask *task,bool arg2) 0x600DE0 
-void CPedIntelligence::AddTaskEventResponseTemp(CTask* task, bool arg2) {
-	plugin::CallMethod<0x600DE0, CPedIntelligence *, CTask*, bool>(this, task, arg2);
+void CPedIntelligence::AddTaskEventResponseTemp(CTask* task, bool bForce) {
+	plugin::CallMethod<0x600DE0, CPedIntelligence*, CTask*, bool>(this, task, bForce);
 }
 
-// Converted from thiscall void CPedIntelligence::AddTaskEventResponseNonTemp(CTask *task,bool arg2) 0x600E00 
-void CPedIntelligence::AddTaskEventResponseNonTemp(CTask* task, bool arg2) {
-	plugin::CallMethod<0x600E00, CPedIntelligence *, CTask*, bool>(this, task, arg2);
+// Converted from thiscall void CPedIntelligence::AddTaskEventResponseNonTemp(CTask *task,bool bForce) 0x600E00 
+void CPedIntelligence::AddTaskEventResponseNonTemp(CTask* task, bool bForce) {
+	plugin::CallMethod<0x600E00, CPedIntelligence*, CTask*, bool>(this, task, bForce);
 }
 
 // Converted from thiscall void CPedIntelligence::AddTaskPrimaryMaybeInGroup(CTask *task,bool arg2) 0x600E20 
-void CPedIntelligence::AddTaskPrimaryMaybeInGroup(CTask* task, bool arg2) {
-	plugin::CallMethod<0x600E20, CPedIntelligence *, CTask*, bool>(this, task, arg2);
+void CPedIntelligence::AddTaskPrimaryMaybeInGroup(CTask* task, bool bAcceptWhenDead) {
+	plugin::CallMethod<0x600E20, CPedIntelligence*, CTask*, bool>(this, task, bAcceptWhenDead);
+}
+
+// 0x4B8610
+void CPedIntelligence::ClearTaskEventResponse() {
+	plugin::CallMethod<0x4B8610, CPedIntelligence*>(this);
 }
 
 // Converted from thiscall CTask* CPedIntelligence::FindTaskByType(int type) 0x600EE0 
 CTask* CPedIntelligence::FindTaskByType(int type) {
-	return plugin::CallMethodAndReturn<CTask*, 0x600EE0, CPedIntelligence *, int>(this, type);
+	return plugin::CallMethodAndReturn<CTask*, 0x600EE0, CPedIntelligence*, int>(this, type);
 }
 
 // Converted from thiscall CTaskSimpleFight* CPedIntelligence::GetTaskFighting(void) 0x600F30 
@@ -94,8 +69,8 @@ CTaskSimpleThrowProjectile* CPedIntelligence::GetTaskThrow() {
 }
 
 // Converted from thiscall CTaskSimpleHoldEntity* CPedIntelligence::GetTaskHold(bool arg1) 0x600FF0 
-CTaskSimpleHoldEntity* CPedIntelligence::GetTaskHold(bool arg1) {
-	return plugin::CallMethodAndReturn<CTaskSimpleHoldEntity*, 0x600FF0, CPedIntelligence *, bool>(this, arg1);
+CTaskSimpleHoldEntity* CPedIntelligence::GetTaskHold(bool bOnlyReturnSecondaryTask) {
+	return plugin::CallMethodAndReturn<CTaskSimpleHoldEntity*, 0x600FF0, CPedIntelligence *, bool>(this, bOnlyReturnSecondaryTask);
 }
 
 // Converted from thiscall CTaskSimpleSwim* CPedIntelligence::GetTaskSwim(void) 0x601070 
@@ -104,8 +79,8 @@ CTaskSimpleSwim* CPedIntelligence::GetTaskSwim() {
 }
 
 // Converted from thiscall CTaskSimpleDuck* CPedIntelligence::GetTaskDuck(bool arg1) 0x6010A0 
-CTaskSimpleDuck* CPedIntelligence::GetTaskDuck(bool arg1) {
-	return plugin::CallMethodAndReturn<CTaskSimpleDuck*, 0x6010A0, CPedIntelligence *, bool>(this, arg1);
+CTaskSimpleDuck* CPedIntelligence::GetTaskDuck(bool bSecondaryVersionOnly) {
+	return plugin::CallMethodAndReturn<CTaskSimpleDuck*, 0x6010A0, CPedIntelligence *, bool>(this, bSecondaryVersionOnly);
 }
 
 // Converted from thiscall CTaskSimpleJetPack* CPedIntelligence::GetTaskJetPack(void) 0x601110 
@@ -128,9 +103,14 @@ bool CPedIntelligence::GetUsingParachute() {
 	return plugin::CallMethodAndReturn<bool, 0x6011B0, CPedIntelligence *>(this);
 }
 
+// Converted from thiscall int* CPedIntelligence::GetMoveStateFromGoToTask(void) 0x601D70 
+int* CPedIntelligence::GetMoveStateFromGoToTask() {
+	return plugin::CallMethodAndReturn<int*, 0x601D70, CPedIntelligence*>(this);
+}
+
 // Converted from thiscall void CPedIntelligence::SetTaskDuckSecondary(ushort arg1) 0x601230 
-void CPedIntelligence::SetTaskDuckSecondary(unsigned short arg1) {
-	plugin::CallMethod<0x601230, CPedIntelligence *, unsigned short>(this, arg1);
+void CPedIntelligence::SetTaskDuckSecondary(uint16_t nTime) {
+	plugin::CallMethod<0x601230, CPedIntelligence *, uint16_t>(this, nTime);
 }
 
 // Converted from thiscall void CPedIntelligence::ClearTaskDuckSecondary(void) 0x601390 
@@ -139,13 +119,13 @@ void CPedIntelligence::ClearTaskDuckSecondary() {
 }
 
 // Converted from thiscall void CPedIntelligence::ClearTasks(bool arg1,bool arg2) 0x601420 
-void CPedIntelligence::ClearTasks(bool arg1, bool arg2) {
-	plugin::CallMethod<0x601420, CPedIntelligence *, bool, bool>(this, arg1, arg2);
+void CPedIntelligence::ClearTasks(bool bClearMainTask, bool bClearSecondaryTask) {
+	plugin::CallMethod<0x601420, CPedIntelligence *, bool, bool>(this, bClearMainTask, bClearSecondaryTask);
 }
 
 // Converted from thiscall void CPedIntelligence::FlushImmediately(bool arg1) 0x601640 
-void CPedIntelligence::FlushImmediately(bool arg1) {
-	plugin::CallMethod<0x601640, CPedIntelligence *, bool>(this, arg1);
+void CPedIntelligence::FlushImmediately(bool bRestartDefaultTasks) {
+	plugin::CallMethod<0x601640, CPedIntelligence *, bool>(this, bRestartDefaultTasks);
 }
 
 // Converted from thiscall C2dEffect* CPedIntelligence::GetEffectInUse(void) 0x6018D0 
@@ -154,8 +134,43 @@ C2dEffect* CPedIntelligence::GetEffectInUse() {
 }
 
 // Converted from thiscall void CPedIntelligence::SetEffectInUse(C2dEffect *arg1) 0x6018E0 
-void CPedIntelligence::SetEffectInUse(C2dEffect* arg1) {
-	plugin::CallMethod<0x6018E0, CPedIntelligence *, C2dEffect*>(this, arg1);
+void CPedIntelligence::SetEffectInUse(C2dEffect* pEffect) {
+	plugin::CallMethod<0x6018E0, CPedIntelligence *, C2dEffect*>(this, pEffect);
+}
+
+// Converted from thiscall void CPedIntelligence::SetHearingRange(float range) 0x600BE0 
+void CPedIntelligence::SetHearingRange(float range) {
+	plugin::CallMethod<0x600BE0, CPedIntelligence*, float>(this, range);
+}
+
+// Converted from thiscall void CPedIntelligence::SetSeeingRange(float range) 0x600BF0 
+void CPedIntelligence::SetSeeingRange(float range) {
+	plugin::CallMethod<0x600BF0, CPedIntelligence*, float>(this, range);
+}
+
+// Converted from thiscall bool CPedIntelligence::IsInHearingRange(CVector const& posn) 0x600C00 
+bool CPedIntelligence::IsInHearingRange(CVector const& posn) {
+	return plugin::CallMethodAndReturn<bool, 0x600C00, CPedIntelligence*, CVector const&>(this, posn);
+}
+
+// Converted from thiscall bool CPedIntelligence::IsInSeeingRange(CVector const& posn) 0x600C60 
+bool CPedIntelligence::IsInSeeingRange(CVector const& posn) {
+	return plugin::CallMethodAndReturn<bool, 0x600C60, CPedIntelligence*, CVector const&>(this, posn);
+}
+
+// Converted from thiscall bool CPedIntelligence::FindRespectedFriendInInformRange(void) 0x600CF0 
+bool CPedIntelligence::FindRespectedFriendInInformRange() {
+	return plugin::CallMethodAndReturn<bool, 0x600CF0, CPedIntelligence*>(this);
+}
+
+// Converted from thiscall bool CPedIntelligence::IsRespondingToEvent(int event) 0x600DB0 
+bool CPedIntelligence::IsRespondingToEvent(int event) {
+	return plugin::CallMethodAndReturn<bool, 0x600DB0, CPedIntelligence*, int>(this, event);
+}
+
+// 0x4B85B0
+CTask* CPedIntelligence::GetActivePrimaryTask() {
+	return plugin::CallMethodAndReturn<CTask*, 0x4B85B0, CPedIntelligence*>(this);
 }
 
 // Converted from thiscall void CPedIntelligence::ProcessAfterProcCol(void) 0x6018F0 
@@ -203,24 +218,19 @@ bool CPedIntelligence::IsPedGoingSomewhereOnFoot() {
 	return plugin::CallMethodAndReturn<bool, 0x601D50, CPedIntelligence *>(this);
 }
 
-// Converted from thiscall int* CPedIntelligence::GetMoveStateFromGoToTask(void) 0x601D70 
-int* CPedIntelligence::GetMoveStateFromGoToTask() {
-	return plugin::CallMethodAndReturn<int*, 0x601D70, CPedIntelligence *>(this);
-}
-
 // Converted from thiscall void CPedIntelligence::FlushIntelligence(void) 0x601DA0 
 void CPedIntelligence::FlushIntelligence() {
 	plugin::CallMethod<0x601DA0, CPedIntelligence *>(this);
 }
 
 // Converted from thiscall bool CPedIntelligence::TestForStealthKill(CPed *pPed,bool arg2) 0x601E00 
-bool CPedIntelligence::TestForStealthKill(CPed* pPed, bool arg2) {
-	return plugin::CallMethodAndReturn<bool, 0x601E00, CPedIntelligence *, CPed*, bool>(this, pPed, arg2);
+bool CPedIntelligence::TestForStealthKill(CPed* pTargetPed, bool bAboutToDoKill) {
+	return plugin::CallMethodAndReturn<bool, 0x601E00, CPedIntelligence *, CPed*, bool>(this, pTargetPed, bAboutToDoKill);
 }
 
 // Converted from thiscall void CPedIntelligence::RecordEventForScript(int EventID,int EventPriority) 0x602050 
-void CPedIntelligence::RecordEventForScript(int EventID, int EventPriority) {
-	plugin::CallMethod<0x602050, CPedIntelligence *, int, int>(this, EventID, EventPriority);
+void CPedIntelligence::RecordEventForScript(int iEventType, int iEventPriority) {
+	plugin::CallMethod<0x602050, CPedIntelligence *, int, int>(this, iEventType, iEventPriority);
 }
 
 // Converted from thiscall bool CPedIntelligence::HasInterestingEntites(void) 0x602080 
@@ -238,6 +248,34 @@ void CPedIntelligence::LookAtInterestingEntities() {
 	plugin::CallMethod<0x6020D0, CPedIntelligence *>(this);
 }
 
+// inline, unknown address
+inline void CPedIntelligence::AddInterestingEntity(CEntity* pEntity) {
+	// whacky reimplementation, but I guess should work
+	for (int i = 0; i < 3; i++) {
+		CEntity* interestingEntity = m_pInterestingEntities[i];
+		if (!interestingEntity) {
+			interestingEntity->RegisterReference(&interestingEntity); // REGREF ?
+			interestingEntity = pEntity;
+			return;
+		}
+	}
+}
+
+// inline, unknown address
+inline bool CPedIntelligence::RemoveInterestingEntity(CEntity* pEntity) {
+	// whacky reimplementation, but I guess should work
+	for (int i = 0; i < 3; i++) {
+		CEntity* interestingEntity = m_pInterestingEntities[i];
+		if (interestingEntity == pEntity) {
+			interestingEntity->CleanUpOldReference(&interestingEntity); // TIDYREF ?
+			interestingEntity = NULL;
+			return true;
+		}
+	}
+
+	return false;
+}
+
 // Converted from thiscall void CPedIntelligence::RemoveAllInterestingEntities(void) 0x602320 
 void CPedIntelligence::RemoveAllInterestingEntities() {
 	plugin::CallMethod<0x602320, CPedIntelligence *>(this);
@@ -249,8 +287,8 @@ bool CPedIntelligence::IsPedGoingForCarDoor() {
 }
 
 // Converted from thiscall float CPedIntelligence::CanSeeEntityWithLights(CEntity const*pEntity,bool arg2) 0x605550 
-float CPedIntelligence::CanSeeEntityWithLights(CEntity const* pEntity, bool arg2) {
-	return plugin::CallMethodAndReturn<float, 0x605550, CPedIntelligence *, CEntity const*, bool>(this, pEntity, arg2);
+float CPedIntelligence::CanSeeEntityWithLights(CEntity const* pEntity, bool bHasSeenEnt) {
+	return plugin::CallMethodAndReturn<float, 0x605550, CPedIntelligence *, CEntity const*, bool>(this, pEntity, bHasSeenEnt);
 }
 
 // Converted from thiscall void CPedIntelligence::ProcessStaticCounter(void) 0x605650 

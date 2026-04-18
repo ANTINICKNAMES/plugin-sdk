@@ -45,3 +45,13 @@ bool CTask::MakeAbortable(class CPed *ped, eAbortPriority priority, class CEvent
 {
 	return ((bool (__thiscall *)(CTask *, CPed *, int, class CEvent *))plugin::GetVMT(this, 6))(this, ped, priority, _event);
 }
+
+// 0x61A4B0
+bool CTask::IsTaskPtr(void* pData) {
+	return plugin::CallAndReturn<bool, 0x61A4B0, void*>(pData);
+}
+
+// 0x61A360
+bool8 CTask::IsGoToTask(CTask* pTask) {
+	return plugin::CallAndReturn<bool8, 0x61A360, CTask*>(pTask);
+}

@@ -52,9 +52,9 @@ bool CGameLogic::SkipCanBeActivated() {
 	return plugin::CallAndReturn<bool, 0x4415C0>();
 }
 
-//Converted from int __cdecl CGameLogic::IsPointWithinLineArea(int a1, signed int a2, float a3, float a4) 0x4416E0
-int CGameLogic::IsPointWithinLineArea(RwV3d* vectors, signed int sizeofvectors, float x, float y) {
-	return plugin::CallAndReturn<int, 0x4416E0, RwV3d*, signed int, float, float>(vectors, sizeofvectors, x, y);
+//Converted from bool __cdecl CGameLogic::IsPointWithinLineArea(CVector* pPointArray, Int32 NumPoints, CVector TestPoint) 0x4416E0
+bool CGameLogic::IsPointWithinLineArea(CVector* pPointArray, int32_t NumPoints, CVector TestPoint) {
+	return plugin::CallAndReturn<int, 0x4416E0, CVector*, int32_t, CVector>(pPointArray, NumPoints, TestPoint);
 }
 
 //Converted from void __cdecl CGameLogic::SetPlayerWantedLevelForForbiddenTerritories(char townNumber) 0x441770

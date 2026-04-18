@@ -145,6 +145,10 @@ public:
     void RemoveEscalatorsForEntity();
     bool IsEntityOccluded();
 
+    inline int GetModelIndex() {
+        return m_nModelIndex;
+    }
+
     inline float GetBoundRadius() {
         return CModelInfo::GetColModel(m_nModelIndex)->m_boundSphere.m_fRadius;
     }

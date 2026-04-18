@@ -18,44 +18,48 @@ class CPhysical : public CEntity {
 protected:
     CPhysical(plugin::dummy_func_t) : CEntity(plugin::dummy) {}
 public:
+
+    struct CPhysicalFlags
+    {
+        bool bExtraHeavy : 1;
+        bool bDoGravity : 1;
+        bool bInfiniteMass : 1;
+        bool bInfiniteMassFixed : 1;
+        bool bPedPhysics : 1;
+        bool bDoorPhysics : 1;
+        bool bHangingPhysics : 1;
+        bool bPoolBallPhysics : 1;
+        bool bIsInWater : 1;
+        bool bCollidedThisFrame : 1;
+
+        bool bUnFreezable : 1;
+        bool bTrainForceCol : 1;
+        bool bSkipLineCol : 1;
+        bool bCoorsFrozenByScript : 1;
+        bool bDontLoadCollision : 1;
+        bool bHalfSpeedCollision : 1;
+        bool bForceHitReturnFalse : 1;
+        bool bDontProcessCollisionOurSelves : 1;
+        bool bNotDamagedByBullets : 1;
+        bool bNotDamagedByFlames : 1;
+        bool bNotDamagedByCollisions : 1;
+        bool bNotDamagedByMelee : 1;
+        bool bOnlyDamagedByPlayer : 1;
+        bool bIgnoresExplosions : 1;
+        bool bFlyer : 1;
+        bool bNeverGoStatic : 1;
+        bool bUsingSpecialColModel : 1;
+        bool bForceFullWaterCheck : 1;
+        bool bUsesCollisionRecords : 1;
+        bool bRenderScorched : 1;
+        bool bDoorHitEndStop : 1;
+        bool bCarriedByRope : 1;
+    };
+
     int field_38;
     unsigned int m_nLastCollisionTime;
 
-    bool bIsHeavy : 1; // double the mass
-    bool bApplyGravity : 1;
-    bool bDisableCollisionForce : 1;
-    bool bCollidable : 1;
-    bool bDisableTurnForce : 1;
-    bool bDisableMoveForce : 1;
-    bool bInfiniteMass : 1;
-    bool bDisableZ : 1;
-
-    bool bSubmergedInWater : 1;
-    bool bOnSolidSurface : 1;
-    bool bBroken : 1;
-    bool bProcessCollisionEvenIfStationary : 1;
-    bool bSkipLineCol : 1; // only used for peds
-    bool bDontApplySpeed : 1;
-    bool b15 : 1;
-    bool bProcessingShift : 1;
-
-    bool b17 : 1;
-    bool bDisableSimpleCollision : 1;
-    bool bBulletProof : 1;
-    bool bFireProof : 1;
-    bool bCollisionProof : 1;
-    bool bMeleeProof : 1;
-    bool bInvulnerable : 1;
-    bool bExplosionProof : 1;
-
-    bool bDontCollideWithFlyers : 1;
-    bool bAttachedToEntity : 1;
-    bool bAddMovingCollisionSpeed : 1;
-    bool bTouchingWater : 1;
-    bool bCanBeCollidedWith : 1;
-    bool bDestroyed : 1;
-    bool b31 : 1;
-    bool b32 : 1;
+    CPhysical::CPhysicalFlags m_nPhysicalFlags;
 
     CVector          m_vecMoveSpeed;
     CVector          m_vecTurnSpeed;

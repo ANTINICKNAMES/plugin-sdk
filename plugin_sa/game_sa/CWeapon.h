@@ -30,19 +30,19 @@ class PLUGIN_API CWeapon {
 public:
     eWeaponType m_eWeaponType;
     eWeaponState m_nState;
-	unsigned int m_nAmmoInClip;
-	unsigned int m_nAmmoTotal;
-	unsigned int m_nTimeForNextShot;
-	char field_14;
-	char field_15;
-	char field_16;
-	char field_17;
+    int32_t m_nAmmoInClip;
+    int32_t m_nAmmoTotal;
+    uint32_t m_nTimeForNextShot;
+    bool m_bFirstPersonWeaponModeSelected;
+    bool m_bDontPlaceInHand;
     FxSystem_c *m_pFxSystem; // flamethrower, spraycan, extinguisher particle
 
-    static float &ms_fExtinguisherAimAngle; // default -0.34907
-    static bool &bPhotographHasBeenTaken;
-    static bool &ms_bTakePhoto;
+    static bool &ms_bPhotographHasBeenTaken; 
+    static bool &ms_bTakePhoto; 
+    static int &m_nTakePhotoFrames;
     static CColModel &ms_PelletTestCol;
+
+    static float &ms_fExtinguisherAimAngle; // default -0.34907
 
     CWeapon(eWeaponType weaponType, int ammo);
     void Shutdown();
@@ -102,3 +102,22 @@ extern float &PELLET_COL_SCALE_RATIO_MULT; // default 1.3
 extern float *fReloadAnimSampleFraction; // default { 0.5, 0.7, 0.75, 0.75, 0.7 }
 
 void FireOneInstantHitRound(CVector* startPoint, CVector* endPoint, int intensity);
+
+
+// CWeaponSaveStructure
+
+class PLUGIN_API CWeaponSaveStructure
+{
+public:
+    eWeaponType m_eWeaponType;
+    eWeaponState m_eState;
+    int32_t m_nAmmoInClip;
+    int32_t m_nAmmoTotal;
+    int32_t m_nTimer;
+    bool m_bFirstPersonWeaponModeSelected;
+    bool m_bDontPlaceInHand;
+
+    int32_t m_pWeaponFxSys;
+};
+
+VALIDATE_SIZE(CWeaponSaveStructure, 0x1C);

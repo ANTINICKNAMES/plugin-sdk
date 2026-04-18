@@ -174,12 +174,12 @@ public:
         float                       fFrontBufferV1;
         float                       fFrontBufferU2;
         float                       fFrontBufferV2;
-        std::array<RwIm2DVertex, 3> triangle;
+        RwIm2DVertex                triangle[3];
         float                       uMinTri;
         float                       uMaxTri;
         float                       vMinTri;
         float                       vMaxTri;
-        std::array<RwIm2DVertex, 6> quad;
+        RwIm2DVertex                quad[6];
         RwBlendFunction             blendSrc;
         RwBlendFunction             blendDst;
         RwBool                      bFog;
