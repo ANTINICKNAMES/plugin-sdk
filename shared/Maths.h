@@ -23,4 +23,4 @@ namespace plugin {
 }
 
 #define PI (plugin::maths::pi<double>())
-#define TWOPI (PI*2)
+#define TWO_PI (PI*2)

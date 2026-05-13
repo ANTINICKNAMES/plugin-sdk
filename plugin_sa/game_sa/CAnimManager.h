@@ -49,7 +49,7 @@ public:
 	static void Initialise();
 
 
-	static CAnimationStyleDescriptor* ms_aAnimAssocDefinitions;		 // CAnimationStyleDescriptor CAnimManager__ms_aAnimAssocDefinitions[118];
+	static CAnimationStyleDescriptor* ms_aAnimAssocDefinitions;		 // CAnimationStyleDescriptor CAnimManager__ms_aAnimAssocDefinitions[145];
 	static CAnimBlendAssocGroup* ms_aAnimAssocGroups;				 
 	static CAnimBlendHierarchy* ms_aAnimations;							// CAnimBlendHierarchy CAnimManager__ms_aAnimations[2500];	
 	static CAnimBlock* ms_aAnimBlocks;				                       // CAnimBlock CAnimManager__ms_aAnimBlocks[180];			
@@ -58,4 +58,5 @@ public:
 	static int& ms_numAnimBlocks;
 	static int& ms_numAnimations;
 
+	inline static int32_t GetNumAnimAssocDefinitions() { return ms_numAnimAssocDefinitions; }
 };

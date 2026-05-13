@@ -8,6 +8,8 @@
 
 #include "PluginBase.h"
 
+/*
+
 class PLUGIN_API CQueuedMode {
 public:
     unsigned short m_nMode;
@@ -17,3 +19,5 @@ public:
 };
 
 VALIDATE_SIZE(CQueuedMode, 0xC);
+
+*/

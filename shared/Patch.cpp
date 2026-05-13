@@ -121,6 +121,10 @@ void plugin::patch::ReplaceFunctionCall(uintptr_t address, void *func, bool vp) 
     RedirectCall(address, func, vp);
 }
 
+void plugin::patch::ReplaceVirtualFunction(uintptr_t VMTaddress, int index, void* func) {
+    injector::WriteMemory(GetGlobalAddress((int)&(((int*)VMTaddress)[index])), (uint32_t)func);
+}
+
 void plugin::patch::SetRaw(uintptr_t address, void* value, size_t size, bool vp) {   
     injector::WriteMemoryRaw(GetGlobalAddress(address), value, size, vp);
 }

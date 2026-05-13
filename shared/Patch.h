@@ -80,6 +80,7 @@ public:
 
     static void ReplaceFunction(uintptr_t address, void *func, bool vp = true);
     static void ReplaceFunctionCall(uintptr_t address, void *func, bool vp = true);
+    static void ReplaceVirtualFunction(uintptr_t VMTaddress, int index, void* func);
 
     static inline void SetPointer(std::vector<uintptr_t> const& addresses, injector::memory_pointer_raw value, bool vp = true) {
         for (auto& address : addresses) {

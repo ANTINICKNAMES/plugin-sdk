@@ -42,18 +42,18 @@ void CAnimBlendAssocGroup::DestroyAssociations() {
 }
 
 // Converted from thiscall CAnimBlendAssociation* CAnimBlendAssocGroup::GetAnimation(char const *AnimName) 0x4CE040
-CAnimBlendAssociation* CAnimBlendAssocGroup::GetAnimation(char const* AnimName) {
-	return plugin::CallMethodAndReturn<CAnimBlendAssociation*, 0x4CE040, CAnimBlendAssocGroup *, char const*>(this, AnimName);
+CAnimBlendStaticAssociation* CAnimBlendAssocGroup::GetAnimation(const char* pName) {
+	return plugin::CallMethodAndReturn<CAnimBlendStaticAssociation*, 0x4CE040, CAnimBlendAssocGroup *, char const*>(this, pName);
 }
 
 // Converted from thiscall CAnimBlendAssociation* CAnimBlendAssocGroup::GetAnimation(uint ID) 0x4CE090
-CAnimBlendAssociation* CAnimBlendAssocGroup::GetAnimation(unsigned int ID) {
-	return plugin::CallMethodAndReturn<CAnimBlendAssociation*, 0x4CE090, CAnimBlendAssocGroup *, unsigned int>(this, ID);
+CAnimBlendStaticAssociation* CAnimBlendAssocGroup::GetAnimation(uint32_t id) {
+	return plugin::CallMethodAndReturn<CAnimBlendStaticAssociation*, 0x4CE090, CAnimBlendAssocGroup *, uint32_t>(this, id);
 }
 
 // Converted from thiscall uint CAnimBlendAssocGroup::GetAnimationId(char const *AnimName) 0x4CE1B0
 unsigned int CAnimBlendAssocGroup::GetAnimationId(char const* AnimName) {
-	return plugin::CallMethodAndReturn<unsigned int, 0x4CE1B0, CAnimBlendAssocGroup *, char const*>(this, AnimName);
+	return plugin::CallMethodAndReturn<unsigned int, 0x4CE1B0, CAnimBlendAssocGroup*, char const*>(this, AnimName);
 }
 
 // Converted from thiscall void CAnimBlendAssocGroup::InitEmptyAssociations(RpClump *pClump) 0x4CDFB0

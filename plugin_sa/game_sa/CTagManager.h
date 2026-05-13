@@ -12,16 +12,16 @@
 class CEntity;
 class CRect;
 
-struct tTagDesc {
-    CEntity* m_pEntity;
-    uint8_t    m_nAlpha;
-};
-
 class CTagManager {
+public:
+    struct TagDesc {
+        CEntity* m_pEntity;
+        uint8    m_nAlpha;
+    };
 public:
     static constexpr uint32_t MAX_TAGS = 150;
 
-    static tTagDesc(&ms_tagDesc)[MAX_TAGS];
+    static CTagManager::TagDesc (&ms_tagDesc)[MAX_TAGS];
     static int32_t& ms_numTags;
     static int32_t& ms_numTagged;
     static RxPipeline*& ms_pPipeline;

@@ -6,6 +6,10 @@ Do not delete this comment block. Respect others' work!
 */
 #include "CTagManager.h"
 
+CTagManager::TagDesc (&CTagManager::ms_tagDesc)[CTagManager::MAX_TAGS] = *(CTagManager::TagDesc(*)[CTagManager::MAX_TAGS])0xA9A8C0;
+uint32 ms_numTags = *(uint32*)0xA9AD70;
+uint32 ms_numTagged = *(uint32*)0xA9AD74;
+
 // 0x5D3D60
 void CTagManager::Save() {
 	plugin::Call<0x5D3D60>();

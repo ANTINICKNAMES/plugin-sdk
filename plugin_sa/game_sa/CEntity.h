@@ -16,6 +16,20 @@
 #include "CColModel.h"
 #include "CModelInfo.h"
 
+// Handly macros to ease the annoying calls to CleanUpOldReference/RegisterReference
+#define TIDYREF(entityPtr, refPtr)                                                 \
+    do                                                                             \
+    {                                                                              \
+        if (entityPtr)                                                             \
+        {                                                                          \
+            (entityPtr)->CleanUpOldReference(reinterpret_cast<CEntity**>(refPtr)); \
+        }                                                                          \
+    } while (false)
+
+#define TIDYREF_NOTINWORLD(entityPtr, refPtr) TIDYREF(entityPtr, refPtr)
+
+#define REGREF(entityPtr, refPtr) (entityPtr)->RegisterReference(reinterpret_cast<CEntity**>(refPtr))
+
 class PLUGIN_API CEntity : public CPlaceable {
 protected:
     CEntity(plugin::dummy_func_t) : CPlaceable(plugin::dummy) {}
@@ -96,7 +110,7 @@ public:
     void SpecialEntityPreCollisionStuff(class CEntity *colEntity, bool unk1, unsigned char *unk2, unsigned char *unk3, unsigned char *unk4, unsigned char *unk5);
     void SpecialEntityCalcCollisionSteps(unsigned char *unk1, unsigned char *unk2);
     void PreRender();
-    void Render();
+    virtual void Render();
     bool SetupLighting();
     void RemoveLighting();
     void FlagToDestroyWhenNextProcessed();

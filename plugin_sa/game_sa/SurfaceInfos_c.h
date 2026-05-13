@@ -199,3 +199,5 @@ public:
     float GetAdhesiveLimit(CColPoint* colPoint);
 };
 VALIDATE_SIZE(SurfaceInfos_c, 0x8F4);
+
+static SurfaceInfos_c& g_surfaceInfos = *reinterpret_cast<SurfaceInfos_c*>(0xB79538);

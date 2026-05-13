@@ -97,7 +97,8 @@ void CEntity::PreRender()
 
 void CEntity::Render()
 {
-	((void (__thiscall *)(CEntity *))(*(void ***)this)[18])(this);
+	//((void (__thiscall *)(CEntity *))(*(void ***)this)[18])(this);
+	((void(__thiscall*)(CEntity*))plugin::GetVMT(this, 18))(this);
 }
 
 bool CEntity::SetupLighting()

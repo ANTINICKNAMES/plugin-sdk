@@ -15,10 +15,6 @@
 #include "eAnimations.h"
 #include "ePedPieceTypes.h"
 
-// TODO: AnimationID & AssocGroupID stuff
-typedef int AnimationId;
-typedef int AssocGroupId;
-
 class PLUGIN_API CEventDamage : public CEventEditableResponse
 {
 public:

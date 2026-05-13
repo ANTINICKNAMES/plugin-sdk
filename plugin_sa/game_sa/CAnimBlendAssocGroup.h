@@ -13,11 +13,11 @@
 class CAnimBlendAssocGroup
 {
 public:
-    CAnimBlock *m_pAnimBlock;
-    CAnimBlendStaticAssociation *m_pAssociations;
-    unsigned int m_nNumAnimations;
-    int m_nIdOffset;
-    int m_nGroupID;
+	CAnimBlock* m_pAnimBlock;
+	CAnimBlendStaticAssociation* m_aAssociationArray;
+	int32_t m_numAssociations;
+	int32_t m_idOffset;
+	int32_t m_grpId;
 
 	CAnimBlendAssocGroup();
 	CAnimBlendAssociation* CopyAnimation(char const* AnimName);
@@ -26,8 +26,8 @@ public:
 	void CreateAssociations(char const* AnimName, RpClump* pClump, char** arg3, int NumAnimations);
 	void CreateAssociations(char const* AnimName, char const* arg2, char const* arg3, int arg4);
 	void DestroyAssociations();
-	CAnimBlendAssociation* GetAnimation(char const* AnimName);
-	CAnimBlendAssociation* GetAnimation(unsigned int ID);
+	CAnimBlendStaticAssociation* GetAnimation(const char* pName);
+	CAnimBlendStaticAssociation* GetAnimation(uint32_t id);
 	unsigned int GetAnimationId(char const* AnimName);
 	void InitEmptyAssociations(RpClump* pClump);
 	~CAnimBlendAssocGroup();	

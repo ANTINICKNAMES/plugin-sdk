@@ -6,8 +6,6 @@
 */
 #include "SurfaceInfos_c.h"
 
-SurfaceInfos_c& g_surfaceInfos = *reinterpret_cast<SurfaceInfos_c*>(0xB79538);
-
 // 0x55D220
 SurfaceId SurfaceInfos_c::GetSurfaceIdFromName(const char* cName) {
     return plugin::CallAndReturn<SurfaceId, 0x55D220, const char*>(cName);

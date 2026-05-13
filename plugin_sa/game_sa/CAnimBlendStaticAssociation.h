@@ -16,12 +16,12 @@ class PLUGIN_API CAnimBlendStaticAssociation {
     PLUGIN_NO_DEFAULT_CONSTRUCTION_VIRTUALBASE(CAnimBlendStaticAssociation)
 
 public:
-    unsigned short m_nNumBlendNodes;
-    short m_nAnimId;
-    unsigned short m_nAnimGroup;
-    unsigned short m_nFlags;
-    CAnimBlendSequence **m_pSequenceArray;
-    CAnimBlendHierarchy *m_pHeirarchy;
+    int16_t m_iNumAnimBlendNodes;
+    int16_t m_animId;
+    int16_t m_animGrp;
+    uint16_t m_bitsFlag;
+    CAnimBlendSequence** m_pAnimBlendSequences;
+    CAnimBlendHierarchy* m_pAnimBlendHierarchy;
 
     // vtable function #0 (destructor)
 

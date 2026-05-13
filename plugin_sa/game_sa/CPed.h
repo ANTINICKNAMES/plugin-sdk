@@ -309,9 +309,9 @@ public:
 
     CPedAcquaintance    m_acquaintances; // CAcquaintance, actually
 
-    RwObject*           m_pWeaponObject; // RpClump*
+    RpClump*           m_pWeaponClump;
     RwFrame*            m_pWeaponFlashFrame;
-    RwObject*           m_pGogglesObject; // RpClump*
+    RpClump*           m_pGogglesClump;
     bool*               m_pbGogglesEffect;
     int16_t             m_nGunFlashBlendAmount; // AKA m_nWeaponGunflashStateRightHand
     int16_t             m_nGunFlashBlendOutRate;
@@ -650,6 +650,10 @@ public:
         return &m_WeaponSlots[m_nCurrentWeapon];
     }
 
+    inline CWeapon& GetWeapon(uint8_t slot) {
+        return m_WeaponSlots[slot];
+    }
+
     inline void SetShootingAccuracy(uint8_t nShootingAccuracy) {
         m_nShootingAccuracy = nShootingAccuracy;
     }
@@ -667,7 +671,7 @@ public:
     }
 
     inline bool IsWearingGoggles() {
-        if (m_pGogglesObject)
+        if (m_pGogglesClump)
             return true;
 
         return false;

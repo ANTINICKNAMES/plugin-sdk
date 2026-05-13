@@ -9,10 +9,3 @@
 #include "PluginBase.h"
 
 
-class PLUGIN_API CCamPathSplines
-{
-public:
-	float *m_pArrPathData;
-};
-
-VALIDATE_SIZE(CCamPathSplines, 4);

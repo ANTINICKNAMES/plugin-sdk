@@ -11,14 +11,14 @@
 
 class CAnimBlendHierarchy {
 public:
-    unsigned int m_hashKey;
+    uint32_t m_hashKey;
     CAnimBlendSequence *m_pSequences;
-    unsigned short m_nSeqCount;
-    bool m_bRunningCompressed;
-    char field_B;
-    int m_nAnimBlockId;
+    int16_t m_NumSequences;
+    bool m_bIsCompressed;
+    bool m_bRunCompressed;
+    int32_t m_animBlock;
     float m_fTotalTime;
-    int field_14;
+    CLink<CAnimBlendHierarchy*>* m_pLink;
 
 	//funcs
 

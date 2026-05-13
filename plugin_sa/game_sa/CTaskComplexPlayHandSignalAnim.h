@@ -8,8 +8,7 @@
 
 #include "PluginBase.h"
 #include "CTaskComplex.h"
-
-typedef int AnimationId;
+#include "eAnimations.h"
 
 class PLUGIN_API CTaskComplexPlayHandSignalAnim : public CTaskComplex {
 public:

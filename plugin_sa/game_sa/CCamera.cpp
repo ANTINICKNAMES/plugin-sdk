@@ -8,6 +8,47 @@ Do not delete this comment block. Respect others' work!
 
 PLUGIN_SOURCE_FILE
 
+#include <CPed.h>
+
+//
+//  CCamera
+//
+
+const uint8 MAX_HANDSHAKERS = 6;
+
+bool& gbFirstPersonRunThisFrame = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC20, 0, 0, 0, 0, 0));
+
+CHandShaker& gHandShaker = *reinterpret_cast<CHandShaker*>(GLOBAL_ADDRESS_BY_VERSION(0xB6ECA0, 0, 0, 0, 0, 0));
+
+bool& gPlayerPedVisible = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC380, 0, 0, 0, 0, 0));
+
+int8& gbCineyCamMessageDisplayed = *reinterpret_cast<int8*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC381, 0, 0, 0, 0, 0));
+
+int32& DirectionIsLooking = *reinterpret_cast<int32*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC384, 0, 0, 0, 0, 0));
+
+int32& gLastCamMode = *reinterpret_cast<int32*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC388, 0, 0, 0, 0, 0));
+
+uint32& gLastTime2PlayerCameraWasOK = *reinterpret_cast<uint32*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC24, 0, 0, 0, 0, 0));
+uint32& gLastTime2PlayerCameraCollided = *reinterpret_cast<uint32*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC28, 0, 0, 0, 0, 0));
+
+CVector& gTargetCoordsForLookingBehind = *reinterpret_cast<CVector*>(GLOBAL_ADDRESS_BY_VERSION(0xB6F018, 0, 0, 0, 0, 0));
+
+bool& gAllowScriptedFixedCameraCollision = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC2C, 0, 0, 0, 0, 0));
+
+bool& bDidWeProcessAnyCinemaCam = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC2D, 0, 0, 0, 0, 0));
+
+float& fRangePlayerRadius = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC38C, 0, 0, 0, 0, 0)); // 0.50f;
+float& fCloseNearClipLimit = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC390, 0, 0, 0, 0, 0)); // 0.15f; // unused
+
+float& PLAYERPED_LEVEL_SMOOTHING_CONST_INV = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC394, 0, 0, 0, 0, 0)); // 0.60f;
+float& PLAYERPED_TREND_SMOOTHING_CONST_INV = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC398, 0, 0, 0, 0, 0)); // 0.80f;
+float& PLAYERFIGHT_LEVEL_SMOOTHING_CONST = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC39C, 0, 0, 0, 0, 0)); // 0.90f;
+
+float& DrunkRotation = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC30, 0, 0, 0, 0, 0));
+bool& JustGoneIntoObbeCamera = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC34, 0, 0, 0, 0, 0));
+
+bool& gInitShakeCams = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB70048, 0, 0, 0, 0, 0));
+
 float &CCamera::m_f3rdPersonCHairMultY = *reinterpret_cast<float *>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC10, 0, 0, 0, 0, 0));
 float &CCamera::m_f3rdPersonCHairMultX = *reinterpret_cast<float *>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC14, 0, 0, 0, 0, 0));
 float &CCamera::m_fMouseAccelVertical = *reinterpret_cast<float *>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC18, 0, 0, 0, 0, 0));
@@ -26,6 +67,24 @@ int del_dtor_gaddr(CCamera) = GLOBAL_ADDRESS_BY_VERSION(0x514010, 0, 0, 0, 0, 0)
 
 int addrof(CCamera::AddShakeSimple) = ADDRESS_BY_VERSION(0x50D240, 0, 0, 0, 0, 0);
 int gaddrof(CCamera::AddShakeSimple) = GLOBAL_ADDRESS_BY_VERSION(0x50D240, 0, 0, 0, 0, 0);
+
+
+// Cam sequences
+// Note: in the game they use one more index in array, so Sequence[NUM_OF_TRANSPORT+1]
+const int NUM_CAMS_CAR = 11;
+Int32& SequenceOfCarCams = *reinterpret_cast<Int32*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC828, 0, 0, 0, 0, 0));
+
+const int NUM_CAMS_TRAIN = 6;
+Int32& SequenceOfTrainCams = *reinterpret_cast<Int32*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC858, 0, 0, 0, 0, 0));
+
+const int NUM_CAMS_HELI = 7;
+Int32& SequenceOfHeliCams = *reinterpret_cast<Int32*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC874, 0, 0, 0, 0, 0));
+
+const int NUM_CAMS_PLANE = 6;
+Int32& SequenceOfPlaneCams = *reinterpret_cast<Int32*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC894, 0, 0, 0, 0, 0));
+
+const int NUM_CAMS_BOAT = 3;
+Int32& SequenceOfBoatCams = *reinterpret_cast<Int32*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC8B0, 0, 0, 0, 0, 0));
 
 void CCamera::AddShakeSimple(float duration, int type, float intensity) {
     plugin::CallMethodDynGlobal<CCamera *, float, int, float>(gaddrof(CCamera::AddShakeSimple), this, duration, type, intensity);
@@ -855,4 +914,231 @@ int gaddrof(CCamera::SetColVarsVehicle) = GLOBAL_ADDRESS_BY_VERSION(0x50CCA0, 0,
 
 void CCamera::SetColVarsVehicle(int vehicletype, int CamVehicleZoom) {
     plugin::CallDynGlobal<int, int>(gaddrof(CCamera::SetColVarsVehicle), vehicletype, CamVehicleZoom);
+}
+
+
+//
+// CCam
+//
+
+int32& nUsingWhichCamera = *reinterpret_cast<int32*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC58, 0, 0, 0, 0, 0));
+CPed& pStoredCopPed = *(CPed*)0xB6EC5C;
+
+float& gTimeDWBustedCamStarted = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC60, 0, 0, 0, 0, 0));
+
+bool CCam::Using3rdPersonMouseCam() {
+    return plugin::CallMethodAndReturn<bool, 0x50A850, CCam*>(this);
+}
+
+// sub_509DC0
+bool CCam::GetWeaponFirstPersonOn() {
+    return plugin::CallMethodAndReturn<bool, 0x509DC0, CCam*>(this);
+} 
+
+// sub_509CA0
+bool CCam::GetBoatLook_L_R_HeightOffset(float& HeightOffset) { 
+    return plugin::CallMethodAndReturn<bool, 0x509CA0, CCam*, float&>(this, HeightOffset);
+} 
+
+void CCam::Init() { 
+    plugin::CallMethod<0x50E490, CCam*>(this);
+}
+
+void CCam::KeepTrackOfTheSpeed(const CVector& TheSource, const CVector& TheTargetToLookAt, const CVector& TheUpVector, const float& TrueAlpha, const float& TrueBeta, const float& TheFOV) 
+{
+    plugin::CallMethod<0x509DF0, CCam*, const CVector&, const CVector&, const CVector&, const float&, const float&, const float&>
+        (this, TheSource, TheTargetToLookAt, TheUpVector, TrueAlpha, TrueBeta, TheFOV);
+}
+
+void CCam::Process() { 
+    plugin::CallMethod<0x526FC0, CCam*>(this);
+}
+
+void CCam::Process_AimWeapon(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired) { 
+    plugin::CallMethod<0x521500, CCam*, const CVector&, float, float, float>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired);
+}
+
+void CCam::Process_FollowPed_SA(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired, bool bScriptSetAngles) {
+    plugin::CallMethod<0x522D40, CCam*, const CVector&, float, float, float, bool>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired, bScriptSetAngles);
+}
+
+void CCam::Process_FollowCar_SA(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired, bool bScriptSetAngles) { 
+    plugin::CallMethod<0x5245B0, CCam*, const CVector&, float, float, float, bool>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired, bScriptSetAngles);
+}
+
+void CCam::Process_1stPerson(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired) {
+    plugin::CallMethod<0x517EA0, CCam*, const CVector&, float, float, float>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired);
+}
+
+void CCam::Process_1rstPersonPedOnPC(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired) {
+    plugin::CallMethod<0x50EB70, CCam*, const CVector&, float, float, float>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired);
+}
+
+void CCam::Process_Editor(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired) {
+    plugin::CallMethod<0x50F3F0, CCam*, const CVector&, float, float, float>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired);
+}
+
+void CCam::Process_Fixed(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired) { 
+    plugin::CallMethod<0x51D470, CCam*, const CVector&, float, float, float>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired);
+}
+
+void CCam::Process_FlyBy(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired) { 
+    plugin::CallMethod<0x5B25F0, CCam*, const CVector&, float, float, float>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired);
+}
+
+void CCam::Process_FollowPedWithMouse(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired) { 
+    plugin::CallMethod<0x50F970, CCam*, const CVector&, float, float, float>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired);
+}
+
+void CCam::Process_M16_1stPerson(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired) { 
+    plugin::CallMethod<0x5105C0, CCam*, const CVector&, float, float, float>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired);
+}
+
+void CCam::Process_Rocket(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired, bool bHeatSeeking) { 
+    plugin::CallMethod<0x511B50, CCam*, const CVector&, float, float, float, bool>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired, bHeatSeeking);
+}
+
+void CCam::Process_SpecialFixedForSyphon(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired) { 
+    plugin::CallMethod<0x517500, CCam*, const CVector&, float, float, float>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired);
+}
+
+bool CCam::Process_WheelCam(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired) { 
+    return plugin::CallMethodAndReturn<bool, 0x512110, CCam*, const CVector&, float, float, float>(this, ThisCamsTarget, TargetOrientation, SpeedVar, SpeedVarDesired);
+}
+
+void CCam::Process_AttachedCam() { 
+    plugin::CallMethod<0x512B10, CCam*>(this);
+}
+
+void CCam::ProcessPedsDeadBaby() {
+    plugin::CallMethod<0x519250, CCam*>(this);
+}
+
+void CCam::Process_Cam_TwoPlayer() { 
+    plugin::CallMethod<0x525E50, CCam*>(this);
+}
+
+// sub_5132D0
+void CCam::Process_Cam_TwoPlayer_CalcSource(float Beta, CVector* pSource, CVector* pLookAt, CVector* pTarget) { 
+    plugin::CallMethod<0x5132D0, CCam*, float, CVector*, CVector*, CVector*>(this, Beta, pSource, pLookAt, pTarget);
+} 
+
+// sub_513220
+bool CCam::Process_Cam_TwoPlayer_TestLOSs(CVector TempSource) {
+    return plugin::CallMethodAndReturn<bool, 0x513220, CCam*, CVector>(this, TempSource);
+}
+
+void CCam::Process_Cam_TwoPlayer_InCarAndShooting() { 
+    plugin::CallMethod<0x519810, CCam*>(this);
+}
+
+void CCam::Process_Cam_TwoPlayer_Separate_Cars() {
+    plugin::CallMethod<0x513510, CCam*>(this);
+}
+
+void CCam::Process_Cam_TwoPlayer_Separate_Cars_TopDown() { 
+    plugin::CallMethod<0x513BE0, CCam*>(this);
+}
+
+CEntity* CCam::Get_TwoPlayer_AimVector(CVector& vecFront) { 
+    return plugin::CallMethodAndReturn<CEntity*, 0x513E40, CCam*, CVector&>(this, vecFront);
+}
+
+bool CCam::ProcessArrestCamOne() { 
+    return plugin::CallMethodAndReturn<bool, 0x518500, CCam*>(this);
+}
+
+// sub_515D80
+bool CCam::GetLookOverShoulderPos(CEntity* pTargetEntity, CPed* pCopPed, CVector& vecTarget, CVector& vecSource) { 
+    return plugin::CallMethodAndReturn<bool, 0x515D80, CCam*, CEntity*, CPed*, CVector&, CVector&>(this, pTargetEntity, pCopPed, vecTarget, vecSource);
+}
+
+// sub_516010
+bool CCam::GetLookAlongGroundPos(CEntity* pTargetEntity, CPed* pCopPed, CVector& vecTarget, CVector& vecSource) { 
+    return plugin::CallMethodAndReturn<bool, 0x516010, CCam*, CEntity*, CPed*, CVector&, CVector&>(this, pTargetEntity, pCopPed, vecTarget, vecSource);
+}
+
+bool CCam::GetLookFromLampPostPos(CEntity* pTargetEntity, CPed* pCopPed, CVector& vecTarget, CVector& vecSource) { 
+    return plugin::CallMethodAndReturn<bool, 0x5161A0, CCam*, CEntity*, CPed*, CVector&, CVector&>(this, pTargetEntity, pCopPed, vecTarget, vecSource);
+}
+
+void CCam::DoCamBump(float fBumpHorz, float fBumpVert) {
+    plugin::CallMethod<0x50CB30, CCam*, float, float>(this, fBumpHorz, fBumpVert);
+}
+
+bool CCam::RotCamIfInFrontCar(const CVector& TargetCoors, float TargetOrientation) {
+    return plugin::CallMethodAndReturn<bool, 0x50A4F0, CCam*, const CVector&, float>(this, TargetCoors, TargetOrientation);
+}
+
+bool CCam::LookBehind() {
+    return plugin::CallMethodAndReturn<bool, 0x520690, CCam*>(this);
+}
+
+bool CCam::LookRight(bool bIsRight) {
+    return plugin::CallMethodAndReturn<bool, 0x520E40, CCam*, bool>(this, bIsRight);
+}
+
+void CCam::GetVectorsReadyForRW() {
+    plugin::Call<0x509CE0>();
+}
+
+void CCam::CacheLastSettingsDWCineyCam() {
+    plugin::CallMethod<0x50D7A0, CCam*>(this);
+}
+
+void CCam::Finalise_DW_CineyCams(CVector* pSrc, CVector* pDst, float roll, float fov, float nearClip, float degreeShake) {
+    plugin::CallMethod<0x50DD70, CCam*, CVector*, CVector*, float, float, float, float>(this, pSrc, pDst, roll, fov, nearClip, degreeShake);
+}
+
+bool CCam::Process_DW_HeliChaseCam(bool bCheckValid) { 
+    return plugin::CallMethodAndReturn<bool, 0x51A740, CCam*, bool>(this, bCheckValid);
+}
+
+bool CCam::Process_DW_CamManCam(bool bCheckValid) { 
+    return plugin::CallMethodAndReturn<bool, 0x51B120, CCam*, bool>(this, bCheckValid);
+}
+
+bool CCam::Process_DW_BirdyCam(bool bCheckValid) { 
+    return plugin::CallMethodAndReturn<bool, 0x51B850, CCam*, bool>(this, bCheckValid);
+}
+
+bool CCam::Process_DW_PlaneSpotterCam(bool bCheckValid) { 
+    return plugin::CallMethodAndReturn<bool, 0x51C250, CCam*, bool>(this, bCheckValid);
+}
+
+bool CCam::Process_DW_PlaneCam1(bool bCheckValid) { 
+    return plugin::CallMethodAndReturn<bool, 0x51C760, CCam*, bool>(this, bCheckValid);
+}
+
+bool CCam::Process_DW_PlaneCam2(bool bCheckValid) {
+    return plugin::CallMethodAndReturn<bool, 0x51CC30, CCam*, bool>(this, bCheckValid);
+}
+
+bool CCam::Process_DW_PlaneCam3(bool bCheckValid) { 
+    return plugin::CallMethodAndReturn<bool, 0x51D100, CCam*, bool>(this, bCheckValid);
+}
+
+void CCam::GetCoreDataForDWCineyCamMode(CEntity** pEntity, CVehicle** pVehicle, CVector* dst, CVector* src, CVector* targetUp, CVector* targetRight, CVector* targetForward, 
+    CVector* targetMotion, float* targetVel, CVector* targetAngMotion, float* targetAngVel, CColSphere* sph) { 
+    plugin::CallMethod<0x517130, CCam*, CEntity**, CVehicle**, CVector*, CVector*, CVector*, CVector*, CVector*, CVector*, float*, CVector*, float*, CColSphere*>
+        (this, pEntity, pVehicle, dst, src, targetUp, targetRight, targetForward, targetMotion, targetVel, targetAngMotion, targetAngVel, sph);
+}
+
+bool CCam::IsTimeToExitThisDWCineyCamMode(int32 camId, CVector* pSrc, CVector* pDst, float t, bool bLineOfSightCheck) { 
+    return plugin::CallMethodAndReturn<bool, 0x517400, CCam*, int32, CVector*, CVector*, float, bool>(this, camId, pSrc, pDst, t, bLineOfSightCheck);
+}
+
+bool CCam::ProcessDWBustedCam1(CPed* pHandyCopPointer, bool bIsFirstTime) {
+    return plugin::CallMethodAndReturn<bool, 0x512EF0, CCam*, CPed*, bool>(this, pHandyCopPointer, bIsFirstTime);
+}
+
+//inlines
+inline void CCam::ClipBeta() {
+    if (Beta > PI)	Beta -= TWO_PI;
+    else if (Beta < -PI)	Beta += TWO_PI;
+}
+
+inline void CCam::ClipAlpha() {
+    while (Alpha >= (2.0f * PI)) { Alpha -= 2.0f * PI; }
+    while (Alpha < (0.0f)) { Alpha += 2.0f * PI; }
 }

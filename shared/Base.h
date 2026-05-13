@@ -22,15 +22,69 @@ VALIDATE_SIZE(long long, 8);
 
 // Basic types for structures describing
 typedef unsigned char bool8;
-typedef int bool32;
+//typedef int bool32;
 typedef long long int64;
 typedef unsigned long long uint64;
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
 
+typedef int8_t    int8;
+typedef int16_t   int16;
+typedef int32_t   int32;
+typedef int64_t   int64;
+typedef uint8_t   uint8;
+typedef uint16_t  uint16;
+typedef uint32_t  uint32;
+typedef uint64_t  uint64;
+typedef intptr_t  intptr;
+typedef uintptr_t uintptr;
+
+typedef uint8     bool8;
+typedef uint16    bool16;
+typedef uint32    bool32;
+
+
+typedef signed char Int8;
+typedef signed char int8;
+
+typedef short Int16;
+typedef short int16;
+typedef unsigned short Char16;
+typedef unsigned short char16;
+
+typedef int Int32;
+typedef int int32;
+
+typedef long long int Int64;
+
+typedef unsigned char UInt8;
+typedef unsigned char uint8;
+typedef unsigned char UINT8;
+typedef unsigned short UInt16;
+typedef unsigned short uint16;
+
+typedef unsigned int UInt32;
+typedef unsigned int uint32;
+
+typedef long long unsigned int UInt64;
+typedef long long unsigned int uint64;
+
+typedef char Char;
+
+typedef unsigned char Bool8;
+//typedef unsigned char bool8;
+
+typedef unsigned short Bool16;
+//typedef unsigned short bool16;
+typedef uint32 Bool;
+
+typedef Char16 GxtChar;
+
 #define _IGNORED_
 #define _CAN_BE_NULL_
+
+#define SKIP_EDX void*
 
 #if (defined(__GNUC__) || defined(__GNUG__) || defined(__clang__))
 #define PLUGIN_SOURCE_FILE
