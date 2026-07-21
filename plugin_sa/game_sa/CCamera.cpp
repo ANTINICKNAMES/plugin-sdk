@@ -8,46 +8,53 @@ Do not delete this comment block. Respect others' work!
 
 PLUGIN_SOURCE_FILE
 
+#include <CGeneral.h>
 #include <CPed.h>
 
 //
 //  CCamera
 //
 
-const uint8 MAX_HANDSHAKERS = 6;
+bool& CCamera::gbFirstPersonRunThisFrame = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC20, 0, 0, 0, 0, 0));
 
-bool& gbFirstPersonRunThisFrame = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC20, 0, 0, 0, 0, 0));
+CHandShaker *gHandShaker = reinterpret_cast<CHandShaker*>(GLOBAL_ADDRESS_BY_VERSION(0xB6ECA0, 0, 0, 0, 0, 0));
 
-CHandShaker& gHandShaker = *reinterpret_cast<CHandShaker*>(GLOBAL_ADDRESS_BY_VERSION(0xB6ECA0, 0, 0, 0, 0, 0));
+bool& CCamera::gPlayerPedVisible = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC380, 0, 0, 0, 0, 0));
 
-bool& gPlayerPedVisible = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC380, 0, 0, 0, 0, 0));
+int8& CCamera::gbCineyCamMessageDisplayed = *reinterpret_cast<int8*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC381, 0, 0, 0, 0, 0));
 
-int8& gbCineyCamMessageDisplayed = *reinterpret_cast<int8*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC381, 0, 0, 0, 0, 0));
+int32& CCamera::DirectionIsLooking = *reinterpret_cast<int32*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC384, 0, 0, 0, 0, 0));
 
-int32& DirectionIsLooking = *reinterpret_cast<int32*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC384, 0, 0, 0, 0, 0));
+int32& CCamera::gLastCamMode = *reinterpret_cast<int32*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC388, 0, 0, 0, 0, 0));
 
-int32& gLastCamMode = *reinterpret_cast<int32*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC388, 0, 0, 0, 0, 0));
+uint32& CCamera::gLastTime2PlayerCameraWasOK = *reinterpret_cast<uint32*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC24, 0, 0, 0, 0, 0));
+uint32& CCamera::gLastTime2PlayerCameraCollided = *reinterpret_cast<uint32*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC28, 0, 0, 0, 0, 0));
 
-uint32& gLastTime2PlayerCameraWasOK = *reinterpret_cast<uint32*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC24, 0, 0, 0, 0, 0));
-uint32& gLastTime2PlayerCameraCollided = *reinterpret_cast<uint32*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC28, 0, 0, 0, 0, 0));
+CVector& CCamera::gTargetCoordsForLookingBehind = *reinterpret_cast<CVector*>(GLOBAL_ADDRESS_BY_VERSION(0xB6F018, 0, 0, 0, 0, 0));
 
-CVector& gTargetCoordsForLookingBehind = *reinterpret_cast<CVector*>(GLOBAL_ADDRESS_BY_VERSION(0xB6F018, 0, 0, 0, 0, 0));
+bool& CCamera::gAllowScriptedFixedCameraCollision = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC2C, 0, 0, 0, 0, 0));
 
-bool& gAllowScriptedFixedCameraCollision = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC2C, 0, 0, 0, 0, 0));
+bool& CCamera::bDidWeProcessAnyCinemaCam = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC2D, 0, 0, 0, 0, 0));
 
-bool& bDidWeProcessAnyCinemaCam = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC2D, 0, 0, 0, 0, 0));
+float& CCamera::fRangePlayerRadius = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC38C, 0, 0, 0, 0, 0)); // 0.50f;
+float& CCamera::fCloseNearClipLimit = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC390, 0, 0, 0, 0, 0)); // 0.15f; // unused
 
-float& fRangePlayerRadius = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC38C, 0, 0, 0, 0, 0)); // 0.50f;
-float& fCloseNearClipLimit = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC390, 0, 0, 0, 0, 0)); // 0.15f; // unused
+float& CCamera::PLAYERPED_LEVEL_SMOOTHING_CONST_INV = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC394, 0, 0, 0, 0, 0)); // 0.60f;
+float& CCamera::PLAYERPED_TREND_SMOOTHING_CONST_INV = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC398, 0, 0, 0, 0, 0)); // 0.80f;
+float& CCamera::PLAYERFIGHT_LEVEL_SMOOTHING_CONST = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC39C, 0, 0, 0, 0, 0)); // 0.90f;
 
-float& PLAYERPED_LEVEL_SMOOTHING_CONST_INV = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC394, 0, 0, 0, 0, 0)); // 0.60f;
-float& PLAYERPED_TREND_SMOOTHING_CONST_INV = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC398, 0, 0, 0, 0, 0)); // 0.80f;
-float& PLAYERFIGHT_LEVEL_SMOOTHING_CONST = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC39C, 0, 0, 0, 0, 0)); // 0.90f;
+float& CCamera::DrunkRotation = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC30, 0, 0, 0, 0, 0));
+bool& CCamera::JustGoneIntoObbeCamera = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC34, 0, 0, 0, 0, 0));
 
-float& DrunkRotation = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC30, 0, 0, 0, 0, 0));
-bool& JustGoneIntoObbeCamera = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC34, 0, 0, 0, 0, 0));
+bool& CCamera::gInitShakeCams = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB70048, 0, 0, 0, 0, 0));
 
-bool& gInitShakeCams = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xB70048, 0, 0, 0, 0, 0));
+uint32& CCamera::gbCineyCamProcessedOnFrame = *reinterpret_cast<uint32*>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC40, 0, 0, 0, 0, 0));
+
+CIdleCam &gIdleCam = *reinterpret_cast<CIdleCam*>(GLOBAL_ADDRESS_BY_VERSION(0xB6FDA0, 0, 0, 0, 0, 0));
+
+float& CCamera::gCurDistForCam = *reinterpret_cast<float*>(GLOBAL_ADDRESS_BY_VERSION(0x8CCB84, 0, 0, 0, 0, 0));
+
+int& CCamera::CamModeToRestore = *reinterpret_cast<int*>(GLOBAL_ADDRESS_BY_VERSION(0x8CC824, 0, 0, 0, 0, 0));
 
 float &CCamera::m_f3rdPersonCHairMultY = *reinterpret_cast<float *>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC10, 0, 0, 0, 0, 0));
 float &CCamera::m_f3rdPersonCHairMultX = *reinterpret_cast<float *>(GLOBAL_ADDRESS_BY_VERSION(0xB6EC14, 0, 0, 0, 0, 0));
@@ -639,8 +646,8 @@ void CCamera::SetCamCutSceneOffSet(CVector const *cutsceneOffset) {
 int addrof(CCamera::SetCamPositionForFixedMode) = ADDRESS_BY_VERSION(0x50BEC0, 0, 0, 0, 0, 0);
 int gaddrof(CCamera::SetCamPositionForFixedMode) = GLOBAL_ADDRESS_BY_VERSION(0x50BEC0, 0, 0, 0, 0, 0);
 
-void CCamera::SetCamPositionForFixedMode(CVector const *fixedModeSource, CVector const *fixedModeUpOffset) {
-    plugin::CallMethodDynGlobal<CCamera *, CVector const *, CVector const *>(gaddrof(CCamera::SetCamPositionForFixedMode), this, fixedModeSource, fixedModeUpOffset);
+void CCamera::SetCamPositionForFixedMode(const CVector& CamPosToGoTo, const CVector& UpOffsets) {
+    plugin::CallMethodDynGlobal<CCamera *, const CVector&, const CVector&>(gaddrof(CCamera::SetCamPositionForFixedMode), this, CamPosToGoTo, UpOffsets);
 }
 
 int addrof(CCamera::SetCameraDirectlyBehindForFollowPed_CamOnAString) = ADDRESS_BY_VERSION(0x50BD40, 0, 0, 0, 0, 0);
@@ -881,6 +888,11 @@ bool CCamera::VectorTrackRunning() {
     return plugin::CallMethodAndReturnDynGlobal<bool, CCamera *>(gaddrof(CCamera::VectorTrackRunning), this);
 }
 
+void CCamera::WellBufferMe(float TheTarget, float* TheValueToChange, float* ValueSpeedSoFar, float TopSpeed, float SpeedStep, bool IsAnAngle)
+{
+    plugin::Call<0x509AE0, float, float*, float*, float, float, bool>(TheTarget, TheValueToChange, ValueSpeedSoFar, TopSpeed, SpeedStep, IsAnAngle);
+}
+
 int addrof(CCamera::DontProcessObbeCinemaCamera) = ADDRESS_BY_VERSION(0x50AB40, 0, 0, 0, 0, 0);
 int gaddrof(CCamera::DontProcessObbeCinemaCamera) = GLOBAL_ADDRESS_BY_VERSION(0x50AB40, 0, 0, 0, 0, 0);
 
@@ -1079,7 +1091,7 @@ bool CCam::LookRight(bool bIsRight) {
 }
 
 void CCam::GetVectorsReadyForRW() {
-    plugin::Call<0x509CE0>();
+    plugin::CallMethod<0x509CE0, CCam*>(this);
 }
 
 void CCam::CacheLastSettingsDWCineyCam() {
@@ -1133,12 +1145,42 @@ bool CCam::ProcessDWBustedCam1(CPed* pHandyCopPointer, bool bIsFirstTime) {
 }
 
 //inlines
-inline void CCam::ClipBeta() {
+void CCam::ClipBeta() {
     if (Beta > PI)	Beta -= TWO_PI;
     else if (Beta < -PI)	Beta += TWO_PI;
 }
 
-inline void CCam::ClipAlpha() {
+void CCam::ClipAlpha() {
     while (Alpha >= (2.0f * PI)) { Alpha -= 2.0f * PI; }
     while (Alpha < (0.0f)) { Alpha += 2.0f * PI; }
+}
+
+// unknown address
+void CHandShaker::SetDefaults()
+{
+    lim = CVector(0.02f, 0.02f, 0.01f);
+    motion = CVector(0.0002f, 0.0002f, 0.0001f);
+    slow = CVector(1.3f, 1.3f, 1.4f);
+
+    scaleReactionMin = 0.3f;			// a scale to modify the degree of reaction based on how angularily far we are away from it.
+    scaleReactionMax = 1.0f;
+    twitchFreq = 20;			// frequency of twitching
+    twitchVel = 0.001f;		// amount of twitch	
+
+    Reset();
+}
+
+// unknown address
+void CHandShaker::Reset()
+{
+    ang = CVector(0, 0, 0);
+    vel = CVector(CGeneral::GetRandomNumberInRange(0.0f, motion.x),
+        CGeneral::GetRandomNumberInRange(0.0f, motion.y),
+        CGeneral::GetRandomNumberInRange(0.0f, motion.z));
+}
+
+// 0x50D930
+void CHandShaker::Process(float degree)
+{
+    plugin::CallMethod<0x50D930, CHandShaker*, float>(this, degree);
 }

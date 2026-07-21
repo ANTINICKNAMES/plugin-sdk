@@ -102,6 +102,7 @@ public:
     SUPPORTED_10US static bool _SaveDataToWorkBuffer(void *pData, int Size);
 };
 
-
+extern bool &JustLoadedDontFadeInYet;
+extern bool &StillToFadeOut;
 
 #include "meta/meta.CGenericGameStorage.h"

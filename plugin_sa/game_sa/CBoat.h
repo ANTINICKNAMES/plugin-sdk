@@ -9,22 +9,7 @@
 #include "CVehicle.h"
 #include "CDoor.h"
 #include "tBoatHandlingData.h"
-
-enum eBoatNodes {
-    BOAT_NODE_NONE = 0,
-    BOAT_MOVING = 1,
-    BOAT_WINDSCREEN = 2,
-    BOAT_RUDDER = 3,
-    BOAT_FLAP_LEFT = 4,
-    BOAT_FLAP_RIGHT = 5,
-    BOAT_REARFLAP_LEFT = 6,
-    BOAT_REARFLAP_RIGHT = 7,
-    BOAT_STATIC_PROP = 8,
-    BOAT_MOVING_PROP = 9,
-    BOAT_STATIC_PROP_2 = 10,
-    BOAT_MOVING_PROP_2 = 11,
-    BOAT_NUM_NODES
-};
+#include "eHierarchyIds.h"
 
 class CBoat : public CVehicle {
 protected:
@@ -41,7 +26,7 @@ public:
 private:
     char _pad5AD[3];
 public:
-    RwFrame           *m_aBoatNodes[BOAT_NUM_NODES];
+    RwFrame           *m_aBoatNodes[MAX_BOAT_NODES];
     CDoor              m_boatFlap; // for marquis model
     tBoatHandlingData *m_pBoatHandling;
     float              m_fAnchoredAngle; // radians, initialised with -9999.99

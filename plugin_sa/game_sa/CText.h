@@ -112,7 +112,7 @@ public:
 	void LoadMpack();
 
 	// Loads GXT file
-	void Load();
+	void Load(bool bKeepMissionText);
 
 	// Unloads GXT file
 	void Unload(bool bUnloadMissionData);

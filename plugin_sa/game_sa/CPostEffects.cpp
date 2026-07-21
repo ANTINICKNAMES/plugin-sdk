@@ -321,3 +321,9 @@ void CPostEffects::SetSpeedFXManualSpeedCurrentFrame(float value) {
 void CPostEffects::Render() {
     plugin::Call<0x7046E0>();
 }
+
+// inline
+void CPostEffects::SpeedFXDisableForThisFrame()
+{
+    m_bSpeedFXUserFlagCurrentFrame = false;
+}

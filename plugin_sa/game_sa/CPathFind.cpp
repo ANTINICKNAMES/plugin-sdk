@@ -46,3 +46,15 @@ bool CPathFind::Save() {
 bool CPathFind::Load() {
 	return plugin::CallAndReturn<bool, 0x5D3500>();
 }
+
+float CPathFind::CalcRoadDensity(float TestX, float TestY)
+{
+	return plugin::CallMethodAndReturn<float, 0x44EFC0, CPathFind*, float, float>(this, TestX, TestY);
+}
+
+CNodeAddress CPathFind::FindNodeClosestToCoors(CVector SearchCoors, UInt8 GraphType, float CutoffDist, bool bIgnoreSwitchedOff, bool bIgnoreBetweenLevels, bool bIgnoreAlreadyFound,
+	bool bBoatNodes, bool bIgnoreInteriors)
+{
+	return plugin::CallMethodAndReturn<CNodeAddress, 0x44EFC0, CPathFind*, CVector, UInt8, float, bool, bool, bool, bool, bool>
+		(this, SearchCoors, GraphType, CutoffDist, bIgnoreSwitchedOff, bIgnoreBetweenLevels, bIgnoreAlreadyFound, bBoatNodes, bIgnoreInteriors);
+}

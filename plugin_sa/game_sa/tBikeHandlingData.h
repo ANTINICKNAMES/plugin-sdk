@@ -9,22 +9,25 @@
 #include "PluginBase.h"
 
 struct PLUGIN_API tBikeHandlingData {
-    int m_nVehicleId;
-    float m_fLeanFwdCOM;
-    float m_fLeanFwdForce;
-    float m_fLeanBakCOM;
-    float m_fLeanBakForce;
-    float m_fMaxLean;
-    float m_fFullAnimLean;
-    float m_fDesLean;
-    float m_fSpeedSteer;
-    float m_fSlipSteer;
-    float m_fNoPlayerCOMz;
-    float m_fWheelieAng;
-    float m_fStoppieAng;
-    float m_fWheelieSteer;
-    float m_fWheelieStabMult;
-    float m_fStoppieStabMult;
+	tVehicleType nVehicleID;
+
+	float fLeanFwdCOMMult;
+	float fLeanFwdForceMult;
+	float fLeanBakCOMMult;
+	float fLeanBakForceMult;
+	float fMaxBankAngle;
+	float fFullAnimAngle;
+
+	float fDesLeanReturnFrac;
+	float fSpeedSteerFrac;
+	float fSlippySpeedSteerMult;
+
+	float fNoRiderCOMz;
+	float fWheelieBalancePoint;
+	float fStoppieBalancePoint;
+	float fWheelieSteerMult;
+	float fRearBalanceMult;
+	float fFrontBalanceMult;
 };
 
 VALIDATE_SIZE(tBikeHandlingData, 0x40);

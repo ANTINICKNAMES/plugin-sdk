@@ -10,3 +10,8 @@ CTaskSimplePlayerOnFoot::CTaskSimplePlayerOnFoot() : CTaskSimple(plugin::dummy)
 {
     plugin::CallMethod<0x685750, CTaskSimplePlayerOnFoot*>(this);
 }
+
+void CTaskSimplePlayerOnFoot::PlayIdleAnimations(CPlayerPed* pPlayerPed)
+{
+    plugin::CallMethod<0x6872C0, CTaskSimplePlayerOnFoot*, CPed*>(this, pPlayerPed);
+}

@@ -6,15 +6,16 @@
 */
 #include "CGameLogic.h"
 
-bool			&CGameLogic::bFinishedByScript				= *(bool*)0x96A894;
+bool			&CGameLogic::SkipToBeFinishedByScript		= *(bool*)0x96A894;
 CVehicle*		&CGameLogic::SkipVehicle					= *(CVehicle**)0x96A898;
-unsigned int	&CGameLogic::SkipTimer						= *(unsigned int*)0x96A89C;
-int				&CGameLogic::SkipState						= *(int*)0x96A8A0;
+UInt32			&CGameLogic::SkipTimer						= *(UInt32*)0x96A89C;
+Int32			&CGameLogic::SkipState						= *(Int32*)0x96A8A0;
 float			&CGameLogic::fSkipAngle						= *(float*)0x96A8A4;
 bool			&CGameLogic::bScriptCoopGameGoingOn			= *(bool*)0x96A8A8;
 unsigned int	&CGameLogic::TimeOfLastEvent				= *(unsigned int*)0x96A8AC;
 char			&CGameLogic::GameState						= *(char*)0x96A8B0;
 char			&CGameLogic::bPlayersCannotTargetEachother	= *(char*)0x96A8B2;
+bool			&CGameLogic::bPlayersCanBeInSeparateCars	= *(bool*)0x96A8B3;
 
 
 //Converted from int __cdecl CGameLogic::InitAtStartOfGame() 0x441210

@@ -11,7 +11,189 @@
 
 class CColPoint;
 
-typedef uint32_t SurfaceId;
+enum SurfaceId
+{
+	SURFACE_TYPE_DEFAULT = 0,
+	SURFACE_TYPE_TARMAC,
+	SURFACE_TYPE_TARMAC_FUCKED,
+	SURFACE_TYPE_TARMAC_REALLYFUCKED,
+	SURFACE_TYPE_PAVEMENT,
+	SURFACE_TYPE_PAVEMENT_FUCKED,
+	SURFACE_TYPE_GRAVEL,
+	SURFACE_TYPE_FUCKED_CONCRETE,
+	SURFACE_TYPE_PAINTED_GROUND,
+	SURFACE_TYPE_GRASS_SHORT_LUSH,
+	SURFACE_TYPE_GRASS_MEDIUM_LUSH,
+	SURFACE_TYPE_GRASS_LONG_LUSH,
+	SURFACE_TYPE_GRASS_SHORT_DRY,
+	SURFACE_TYPE_GRASS_MEDIUM_DRY,
+	SURFACE_TYPE_GRASS_LONG_DRY,
+	SURFACE_TYPE_GOLFGRASS_ROUGH,
+	SURFACE_TYPE_GOLFGRASS_SMOOTH,
+	SURFACE_TYPE_STEEP_SLIDYGRASS,
+	SURFACE_TYPE_STEEP_CLIFF,
+	SURFACE_TYPE_FLOWERBED,
+	SURFACE_TYPE_MEADOW,
+	SURFACE_TYPE_WASTEGROUND,
+	SURFACE_TYPE_WOODLANDGROUND,
+	SURFACE_TYPE_VEGETATION,
+	SURFACE_TYPE_MUD_WET,
+	SURFACE_TYPE_MUD_DRY,
+	SURFACE_TYPE_DIRT,
+	SURFACE_TYPE_DIRTTRACK,
+	SURFACE_TYPE_SAND_DEEP,
+	SURFACE_TYPE_SAND_MEDIUM,
+	SURFACE_TYPE_SAND_COMPACT,
+	SURFACE_TYPE_SAND_ARID,
+	SURFACE_TYPE_SAND_MORE,
+	SURFACE_TYPE_SAND_BEACH,
+	SURFACE_TYPE_CONCRETE_BEACH,
+	SURFACE_TYPE_ROCK_DRY,
+	SURFACE_TYPE_ROCK_WET,
+	SURFACE_TYPE_ROCK_CLIFF,
+	SURFACE_TYPE_WATER_RIVERBED,
+	SURFACE_TYPE_WATER_SHALLOW,
+	SURFACE_TYPE_CORNFIELD,
+	SURFACE_TYPE_HEDGE,
+	SURFACE_TYPE_WOOD_CRATES,
+	SURFACE_TYPE_WOOD_SOLID,
+	SURFACE_TYPE_WOOD_THIN,
+	SURFACE_TYPE_GLASS,
+	SURFACE_TYPE_GLASS_WINDOWS_LARGE,
+	SURFACE_TYPE_GLASS_WINDOWS_SMALL,
+	SURFACE_TYPE_EMPTY1,
+	SURFACE_TYPE_EMPTY2,
+	SURFACE_TYPE_GARAGE_DOOR,
+	SURFACE_TYPE_THICK_METAL_PLATE,
+	SURFACE_TYPE_SCAFFOLD_POLE,
+	SURFACE_TYPE_LAMP_POST,
+	SURFACE_TYPE_METAL_GATE,
+	SURFACE_TYPE_METAL_CHAIN_FENCE,
+	SURFACE_TYPE_GIRDER,
+	SURFACE_TYPE_FIRE_HYDRANT,
+	SURFACE_TYPE_CONTAINER,
+	SURFACE_TYPE_NEWS_VENDOR,
+	SURFACE_TYPE_WHEELBASE,
+	SURFACE_TYPE_CARDBOARDBOX,
+	SURFACE_TYPE_PED,
+	SURFACE_TYPE_CAR,
+	SURFACE_TYPE_CAR_PANEL,
+	SURFACE_TYPE_CAR_MOVINGCOMPONENT,
+	SURFACE_TYPE_TRANSPARENT_CLOTH,
+	SURFACE_TYPE_RUBBER,
+	SURFACE_TYPE_PLASTIC,
+	SURFACE_TYPE_TRANSPARENT_STONE,
+	SURFACE_TYPE_WOOD_BENCH,
+	SURFACE_TYPE_CARPET,
+	SURFACE_TYPE_FLOORBOARD,
+	SURFACE_TYPE_STAIRSWOOD,
+	SURFACE_TYPE_P_SAND,
+	SURFACE_TYPE_P_SAND_DENSE,
+	SURFACE_TYPE_P_SAND_ARID,
+	SURFACE_TYPE_P_SAND_COMPACT,
+	SURFACE_TYPE_P_SAND_ROCKY,
+	SURFACE_TYPE_P_SANDBEACH,
+	SURFACE_TYPE_P_GRASS_SHORT,
+	SURFACE_TYPE_P_GRASS_MEADOW,
+	SURFACE_TYPE_P_GRASS_DRY,
+	SURFACE_TYPE_P_WOODLAND,
+	SURFACE_TYPE_P_WOODDENSE,
+	SURFACE_TYPE_P_ROADSIDE,
+	SURFACE_TYPE_P_ROADSIDEDES,
+	SURFACE_TYPE_P_FLOWERBED,
+	SURFACE_TYPE_P_WASTEGROUND,
+	SURFACE_TYPE_P_CONCRETE,
+	SURFACE_TYPE_P_OFFICEDESK,
+	SURFACE_TYPE_P_711SHELF1,
+	SURFACE_TYPE_P_711SHELF2,
+	SURFACE_TYPE_P_711SHELF3,
+	SURFACE_TYPE_P_RESTUARANTTABLE,
+	SURFACE_TYPE_P_BARTABLE,
+	SURFACE_TYPE_P_UNDERWATERLUSH,
+	SURFACE_TYPE_P_UNDERWATERBARREN,
+	SURFACE_TYPE_P_UNDERWATERCORAL,
+	SURFACE_TYPE_P_UNDERWATERDEEP,
+	SURFACE_TYPE_P_RIVERBED,
+	SURFACE_TYPE_P_RUBBLE,
+	SURFACE_TYPE_P_BEDROOMFLOOR,
+	SURFACE_TYPE_P_KIRCHENFLOOR,
+	SURFACE_TYPE_P_LIVINGRMFLOOR,
+	SURFACE_TYPE_P_CORRIDORFLOOR,
+	SURFACE_TYPE_P_711FLOOR,
+	SURFACE_TYPE_P_FASTFOODFLOOR,
+	SURFACE_TYPE_P_SKANKYFLOOR,
+	SURFACE_TYPE_P_MOUNTAIN,
+	SURFACE_TYPE_P_MARSH,
+	SURFACE_TYPE_P_BUSHY,
+	SURFACE_TYPE_P_BUSHYMIX,
+	SURFACE_TYPE_P_BUSHYDRY,
+	SURFACE_TYPE_P_BUSHYMID,
+	SURFACE_TYPE_P_GRASSWEEFLOWERS,
+	SURFACE_TYPE_P_GRASSDRYTALL,
+	SURFACE_TYPE_P_GRASSLUSHTALL,
+	SURFACE_TYPE_P_GRASSGRNMIX,
+	SURFACE_TYPE_P_GRASSBRNMIX,
+	SURFACE_TYPE_P_GRASSLOW,
+	SURFACE_TYPE_P_GRASSROCKY,
+	SURFACE_TYPE_P_GRASSSMALLTREES,
+	SURFACE_TYPE_P_DIRTROCKY,
+	SURFACE_TYPE_P_DIRTWEEDS,
+	SURFACE_TYPE_P_GRASSWEEDS,
+	SURFACE_TYPE_P_RIVEREDGE,
+	SURFACE_TYPE_P_POOLSIDE,
+	SURFACE_TYPE_P_FORESTSTUMPS,
+	SURFACE_TYPE_P_FORESTSTICKS,
+	SURFACE_TYPE_P_FORRESTLEAVES,
+	SURFACE_TYPE_P_DESERTROCKS,
+	SURFACE_TYPE_P_FORRESTDRY,
+	SURFACE_TYPE_P_SPARSEFLOWERS,
+	SURFACE_TYPE_P_BUILDINGSITE,
+	SURFACE_TYPE_P_DOCKLANDS,
+	SURFACE_TYPE_P_INDUSTRIAL,
+	SURFACE_TYPE_P_INDUSTJETTY,
+	SURFACE_TYPE_P_CONCRETELITTER,
+	SURFACE_TYPE_P_ALLEYRUBISH,
+	SURFACE_TYPE_P_JUNKYARDPILES,
+	SURFACE_TYPE_P_JUNKYARDGRND,
+	SURFACE_TYPE_P_DUMP,
+	SURFACE_TYPE_P_CACTUSDENSE,
+	SURFACE_TYPE_P_AIRPORTGRND,
+	SURFACE_TYPE_P_CORNFIELD,
+	SURFACE_TYPE_P_GRASSLIGHT,
+	SURFACE_TYPE_P_GRASSLIGHTER,
+	SURFACE_TYPE_P_GRASSLIGHTER2,
+	SURFACE_TYPE_P_GRASSMID1,
+	SURFACE_TYPE_P_GRASSMID2,
+	SURFACE_TYPE_P_GRASSDARK,
+	SURFACE_TYPE_P_GRASSDARK2,
+	SURFACE_TYPE_P_GRASSDIRTMIX,
+	SURFACE_TYPE_P_RIVERBEDSTONE,
+	SURFACE_TYPE_P_RIVERBEDSHALLOW,
+	SURFACE_TYPE_P_RIVERBEDWEEDS,
+	SURFACE_TYPE_P_SEAWEED,
+	SURFACE_TYPE_DOOR,
+	SURFACE_TYPE_PLASTICBARRIER,
+	SURFACE_TYPE_PARKGRASS,
+	SURFACE_TYPE_STAIRSSTONE,
+	SURFACE_TYPE_STAIRSMETAL,
+	SURFACE_TYPE_STAIRSCARPET,
+	SURFACE_TYPE_FLOORMETAL,
+	SURFACE_TYPE_FLOORCONCRETE,
+	SURFACE_TYPE_BIN_BAG,
+	SURFACE_TYPE_THIN_METAL_SHEET,
+	SURFACE_TYPE_METAL_BARREL,
+	SURFACE_TYPE_PLASTIC_CONE,
+	SURFACE_TYPE_PLASTIC_DUMPSTER,
+	SURFACE_TYPE_METAL_DUMPSTER,
+	SURFACE_TYPE_WOOD_PICKET_FENCE,
+	SURFACE_TYPE_WOOD_SLATTED_FENCE,
+	SURFACE_TYPE_WOOD_RANCH_FENCE,
+	SURFACE_TYPE_UNBREAKABLE_GLASS,
+	SURFACE_TYPE_HAY_BALE,
+	SURFACE_TYPE_GORE,
+	SURFACE_TYPE_RAILTRACK,
+	NUM_SURFACE_TYPES
+};
 
 enum eAdhesionGroup {
     ADHESION_GROUP_RUBBER = 0,
@@ -20,6 +202,7 @@ enum eAdhesionGroup {
     ADHESION_GROUP_LOOSE,
     ADHESION_GROUP_SAND,
     ADHESION_GROUP_WET,
+    NUM_ADHESION_GROUPS
 };
 
 enum eFrictionEffect {
@@ -147,55 +330,55 @@ public:
     //static constexpr const char* cDefaultName = "DEFAULT"; // 0x85C658
 
 public:
-    SurfaceId GetSurfaceIdFromName(const char* cName);
+    uint32 GetSurfaceIdFromName(const char* cName);
     void LoadAdhesiveLimits();
     void LoadSurfaceAudioInfos();
     void LoadSurfaceInfos();
     void Init();
-    eAdhesionGroup GetAdhesionGroup(SurfaceId id);
-    float GetTyreGrip(SurfaceId id);
-    float GetWetMultiplier(SurfaceId id);
-    uint32_t GetSkidmarkType(SurfaceId id);
-    eFrictionEffect GetFrictionEffect(SurfaceId id);
-    uint32_t GetBulletFx(SurfaceId id);
-    bool IsSoftLanding(SurfaceId id);
-    bool IsSeeThrough(SurfaceId id);
-    bool IsShootThrough(SurfaceId id);
-    bool IsSand(SurfaceId id);
-    bool IsWater(SurfaceId id);
-    bool IsShallowWater(SurfaceId id);
-    bool IsBeach(SurfaceId id);
-    bool IsSteepSlope(SurfaceId id);
-    bool IsGlass(SurfaceId id);
-    bool IsStairs(SurfaceId id);
-    bool IsSkateable(SurfaceId id);
-    bool IsPavement(SurfaceId id);
-    uint32_t GetRoughness(SurfaceId id);
-    uint32_t GetFlammability(SurfaceId id);
-    bool CreatesSparks(SurfaceId id);
-    bool CantSprintOn(SurfaceId id);
-    bool LeavesFootsteps(SurfaceId id);
-    bool ProducesFootDust(SurfaceId id);
-    bool MakesCarDirty(SurfaceId id);
-    bool MakesCarClean(SurfaceId id);
-    bool CreatesWheelGrass(SurfaceId id);
-    bool CreatesWheelGravel(SurfaceId id);
-    bool CreatesWheelMud(SurfaceId id);
-    bool CreatesWheelDust(SurfaceId id);
-    bool CreatesWheelSand(SurfaceId id);
-    bool CreatesWheelSpray(SurfaceId id);
-    bool CreatesPlants(SurfaceId id);
-    bool CreatesObjects(SurfaceId id);
-    bool CanClimb(SurfaceId id);
-    bool IsAudioConcrete(SurfaceId id);
-    bool IsAudioGrass(SurfaceId id);
-    bool IsAudioSand(SurfaceId id);
-    bool IsAudioGravel(SurfaceId id);
-    bool IsAudioWood(SurfaceId id);
-    bool IsAudioWater(SurfaceId id);
-    bool IsAudioMetal(SurfaceId id);
-    bool IsAudioLongGrass(SurfaceId id);
-    bool IsAudioTile(SurfaceId id);
+    eAdhesionGroup GetAdhesionGroup(uint32 id);
+    float GetTyreGrip(uint32 id);
+    float GetWetMultiplier(uint32 id);
+    uint32_t GetSkidmarkType(uint32 id);
+    eFrictionEffect GetFrictionEffect(uint32 id);
+    uint32_t GetBulletFx(uint32 id);
+    bool IsSoftLanding(uint32 id);
+    bool IsSeeThrough(uint32 id);
+    bool IsShootThrough(uint32 id);
+    bool IsSand(uint32 id);
+    bool IsWater(uint32 id);
+    bool IsShallowWater(uint32 id);
+    bool IsBeach(uint32 id);
+    bool IsSteepSlope(uint32 id);
+    bool IsGlass(uint32 id);
+    bool IsStairs(uint32 id);
+    bool IsSkateable(uint32 id);
+    bool IsPavement(uint32 id);
+    uint32_t GetRoughness(uint32 id);
+    uint32_t GetFlammability(uint32 id);
+    bool CreatesSparks(uint32 id);
+    bool CantSprintOn(uint32 id);
+    bool LeavesFootsteps(uint32 id);
+    bool ProducesFootDust(uint32 id);
+    bool MakesCarDirty(uint32 id);
+    bool MakesCarClean(uint32 id);
+    bool CreatesWheelGrass(uint32 id);
+    bool CreatesWheelGravel(uint32 id);
+    bool CreatesWheelMud(uint32 id);
+    bool CreatesWheelDust(uint32 id);
+    bool CreatesWheelSand(uint32 id);
+    bool CreatesWheelSpray(uint32 id);
+    bool CreatesPlants(uint32 id);
+    bool CreatesObjects(uint32 id);
+    bool CanClimb(uint32 id);
+    bool IsAudioConcrete(uint32 id);
+    bool IsAudioGrass(uint32 id);
+    bool IsAudioSand(uint32 id);
+    bool IsAudioGravel(uint32 id);
+    bool IsAudioWood(uint32 id);
+    bool IsAudioWater(uint32 id);
+    bool IsAudioMetal(uint32 id);
+    bool IsAudioLongGrass(uint32 id);
+    bool IsAudioTile(uint32 id);
     float GetAdhesiveLimit(CColPoint* colPoint);
 };
 VALIDATE_SIZE(SurfaceInfos_c, 0x8F4);

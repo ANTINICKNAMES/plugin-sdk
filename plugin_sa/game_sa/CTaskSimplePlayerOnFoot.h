@@ -23,6 +23,7 @@ public:
 
     CTaskSimplePlayerOnFoot();
 
+    void PlayIdleAnimations(CPlayerPed* pPlayerPed);
 };
 
 VALIDATE_SIZE(CTaskSimplePlayerOnFoot, 0x1C);

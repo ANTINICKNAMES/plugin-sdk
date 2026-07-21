@@ -20,8 +20,19 @@ int& CCullZones::CurrentFlags_Camera = *(int*)0xC87ABC;
 
 bool& CCullZones::bMilitaryZonesDisabled = *(bool*)0xC87ACD;
 
-bool CZoneDef::IsPointWithin(const CVector& point) {
-    return plugin::CallMethodAndReturn<bool, 0x72D850>(this, point);
+bool CZoneDef::IsPointWithin(CVector TestCoors) 
+{
+    return plugin::CallMethodAndReturn<bool, 0x72D850, CZoneDef*, CVector>(this, TestCoors);
+}
+
+CVector CZoneDef::FindCenter()
+{
+    return plugin::CallMethodAndReturn<CVector, 0x449FF0, CZoneDef*>(this);
+}
+
+void CZoneDef::FindBoundingBox(CVector* pMin, CVector* pMax)
+{
+    plugin::Error("'CZoneDef::FindBoundingBox' address has not yet been found!");//plugin::CallMethod<0x, CZoneDef*, CVector*, CVector*>(this, pMin, pMax);
 }
 
 void CCullZones::Init() {
@@ -80,8 +91,8 @@ CCullZoneReflection* CCullZones::FindMirrorAttributesForCoors(CVector cameraPosi
     return plugin::CallAndReturn<CCullZoneReflection*, 0x72DA70>(cameraPosition);
 }
 
-CCullZone* CCullZones::FindZoneWithStairsAttributeForPlayer() {
-    return plugin::CallAndReturn<CCullZone*, 0x72DAD0>();
+CAttributeZone* CCullZones::FindZoneWithStairsAttributeForPlayer() {
+    return plugin::CallAndReturn<CAttributeZone*, 0x72DAD0>();
 }
 
 eZoneAttributes CCullZones::FindAttributesForCoors(CVector pos) {

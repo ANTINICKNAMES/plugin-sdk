@@ -121,9 +121,9 @@ void CText::LoadMpack()
 }
 
 // Loads GXT file
-void CText::Load()
+void CText::Load(bool bKeepMissionText)
 {
-	( (void (__thiscall*)(CText*)) FUNC_CText__Load ) (this);
+	( (void (__thiscall*)(CText*, bool)) FUNC_CText__Load ) (this, bKeepMissionText);
 }
 
 // Unloads GXT file

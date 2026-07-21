@@ -367,8 +367,8 @@ public:
 //protected:
 public:
     //inlines
-    inline void ClipBeta();
-    inline void ClipAlpha();
+    void ClipBeta();
+    void ClipAlpha();
 
     bool LookBehind();
     bool LookRight(bool bIsRight);
@@ -418,11 +418,26 @@ VALIDATE_SIZE(CQueuedMode, 0xC);
 
 class PLUGIN_API CCamera : public CPlaceable {
 public:
-    enum { FRUSTUM_LEFT = 0, FRUSTUM_RIGHT, FRUSTUM_BOTTOM, FRUSTUM_TOP };
+    enum 
+    { 
+        FRUSTUM_LEFT = 0, 
+        FRUSTUM_RIGHT, 
+        FRUSTUM_BOTTOM, 
+        FRUSTUM_TOP 
+    };
 
-    enum { TRANS_NONE = 0, TRANS_INTERPOLATION, TRANS_JUMP_CUT };
+    enum 
+    { 
+        TRANS_NONE = 0, 
+        TRANS_INTERPOLATION, 
+        TRANS_JUMP_CUT 
+    };
 
-    enum { FADE_OUT = 0, FADE_IN };
+    enum 
+    { 
+        FADE_OUT = 0, 
+        FADE_IN 
+    };
     //PLUGIN_NO_DEFAULT_CONSTRUCTION(CCamera)
 public:
     bool m_bAboveGroundTrainNodesLoaded;
@@ -866,7 +881,7 @@ public:
     SUPPORTED_10US void RestoreCameraAfterMirror();
     SUPPORTED_10US void RestoreWithJumpCut();
     SUPPORTED_10US void SetCamCutSceneOffSet(CVector const *cutsceneOffset);
-    SUPPORTED_10US void SetCamPositionForFixedMode(CVector const *fixedModeSource, CVector const *fixedModeUpOffset);
+    SUPPORTED_10US void SetCamPositionForFixedMode(const CVector& CamPosToGoTo, const CVector& UpOffsets);
     SUPPORTED_10US void SetCameraDirectlyBehindForFollowPed_CamOnAString();
     //! unused
     SUPPORTED_10US void SetCameraDirectlyBehindForFollowPed_ForAPed_CamOnAString(CPed *targetPed);
@@ -914,12 +929,45 @@ public:
     SUPPORTED_10US void VectorTrackLinear(CVector *TrackLinearStartPoint, CVector *TrackLinearEndPoint, float duration, bool bEase);
     SUPPORTED_10US bool VectorTrackRunning();
 
+    static void WellBufferMe(float TheTarget, float* TheValueToChange, float* ValueSpeedSoFar, float TopSpeed, float SpeedStep, bool IsAnAngle);
+
     //! unused
     SUPPORTED_10US static void DontProcessObbeCinemaCamera();
     SUPPORTED_10US static void SetCamCollisionVarDataSet(int index);
     SUPPORTED_10US static void SetColVarsAimWeapon(int aimingType);
     SUPPORTED_10US static void SetColVarsPed(int pedtype, int nCamPedZoom);
     SUPPORTED_10US static void SetColVarsVehicle(int vehicletype, int CamVehicleZoom);
+
+    // inlines
+    CCam& GetActiveCamera() { return Cams[ActiveCam]; }
+
+    // these ones originally don't belong to CCamera
+    static bool& gbFirstPersonRunThisFrame;
+    static bool& gPlayerPedVisible;
+    static int8& gbCineyCamMessageDisplayed;
+    static int32& DirectionIsLooking;
+    static int32& gLastCamMode;
+    static uint32& gLastTime2PlayerCameraWasOK;
+    static uint32& gLastTime2PlayerCameraCollided;
+    static CVector& gTargetCoordsForLookingBehind;
+    static bool& gAllowScriptedFixedCameraCollision;
+    static bool& bDidWeProcessAnyCinemaCam;
+    static float& fRangePlayerRadius;
+    static float& fCloseNearClipLimit;
+
+    static float& PLAYERPED_LEVEL_SMOOTHING_CONST_INV; // 0.60f;
+    static float& PLAYERPED_TREND_SMOOTHING_CONST_INV; // 0.80f;
+    static float& PLAYERFIGHT_LEVEL_SMOOTHING_CONST; // 0.90f;
+
+    static float& DrunkRotation;
+    static bool& JustGoneIntoObbeCamera;
+
+    static bool& gInitShakeCams;
+    static uint32& gbCineyCamProcessedOnFrame;
+
+    static float& gCurDistForCam;
+
+    static int& CamModeToRestore;
 };
 
 VTABLE_DESC(CCamera, 0x8630E8, 1);
@@ -999,8 +1047,10 @@ public:
     int32 twitchFreq;
     float twitchVel;
 
+    /*
     CHandShaker();
     ~CHandShaker();
+    */
 
     void Reset();
     void SetDefaults();
@@ -1008,6 +1058,8 @@ public:
 };
 
 VALIDATE_SIZE(CHandShaker, 0x94);
+
+SUPPORTED_10US extern CHandShaker *gHandShaker;
 
 //
 // CIdleCamera
@@ -1094,6 +1146,8 @@ public:
     void ProcessIdleCamTicker();
 
 };
+
+SUPPORTED_10US extern CIdleCam& gIdleCam;
 
 //
 // CHeliCamSettings

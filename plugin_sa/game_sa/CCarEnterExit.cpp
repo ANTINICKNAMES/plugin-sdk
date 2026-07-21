@@ -98,8 +98,8 @@ int CCarEnterExit::ComputeTargetDoorToExit(CVehicle const *pVehicle, CPed const 
 int addrof(CCarEnterExit::GetNearestCarDoor) = ADDRESS_BY_VERSION(0x6528F0, 0, 0, 0, 0, 0);
 int gaddrof(CCarEnterExit::GetNearestCarDoor) = GLOBAL_ADDRESS_BY_VERSION(0x6528F0, 0, 0, 0, 0, 0);
 
-bool CCarEnterExit::GetNearestCarDoor(CPed const *pPed, CVehicle const *pVehicle, CVector *outPos, int doorID) {
-    return plugin::CallAndReturnDynGlobal<bool, CPed const *, CVehicle const *, CVector *, int>(gaddrof(CCarEnterExit::GetNearestCarDoor), pPed, pVehicle, outPos, doorID);
+bool CCarEnterExit::GetNearestCarDoor(const CPed& ped, const CVehicle& vehicle, CVector& vDoorPos, int& iDoor) {
+    return plugin::CallAndReturnDynGlobal<bool, const CPed&, const CVehicle&, CVector&, int&>(gaddrof(CCarEnterExit::GetNearestCarDoor), ped, vehicle, vDoorPos, iDoor);
 }
 
 int addrof(CCarEnterExit::GetNearestCarPassengerDoor) = ADDRESS_BY_VERSION(0x650BB0, 0, 0, 0, 0, 0);

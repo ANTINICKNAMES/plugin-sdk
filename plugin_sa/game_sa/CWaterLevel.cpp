@@ -91,3 +91,7 @@ void CWaterLevel::WaterLevelInitialise() {
 void CWaterLevel::Shutdown() {
     plugin::CallDynGlobal(0x6E59E0);
 }
+
+bool CWaterLevel::TestLineAgainstWater(CVector StartCoors, CVector EndCoors, CVector* pPenetrationPoint) {
+    return plugin::CallAndReturn<bool, 0x6E61B0, CVector, CVector, CVector*>(StartCoors, EndCoors, pPenetrationPoint);
+}

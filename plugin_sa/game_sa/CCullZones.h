@@ -25,36 +25,44 @@ enum eZoneAttributes : unsigned short {
 };
 
 struct CZoneDef {
-    short x1;
-    short y1;
+    Int16 CornerX, CornerY;
+    Int16 Vec1X, Vec1Y;
+    Int16 Vec2X, Vec2Y;
+    Int16 MinZ, MaxZ;
 
-    short x2;
-    short y2;
+    void Init(const CVector& center, float _CornerX, float _CornerY, float _MinZ, float _Vec1X, float _Vec1Y, float _MaxZ) {
+        CornerX = (short)(center.x - _CornerX - _Vec1X);
+        CornerY = (short)(center.y - _CornerY - _Vec1Y);
 
-    short x3;
-    short y3;
+        Vec1X = (short)(_CornerX + _CornerX);
+        Vec1Y = (short)(_CornerY + _CornerY);
 
-    short z1;
-    short z2;
+        Vec2X = (short)(_Vec1X + _Vec1X);
+        Vec2Y = (short)(_Vec1Y + _Vec1Y);
 
-    void Init(const CVector& center, float _x1, float _y1, float _z1, float _x2, float _y2, float _z2) {
-        x1 = (short)(center.x - _x1 - _x2);
-        y1 = (short)(center.y - _y1 - _y2);
-
-        x2 = (short)(_x1 + _x1);
-        y2 = (short)(_y1 + _y1);
-
-        x3 = (short)(_x2 + _x2);
-        y3 = (short)(_y2 + _y2);
-
-        z1 = (short)(_z1);
-        z2 = (short)(_z2);
+        MinZ = (short)(_MinZ);
+        MaxZ = (short)(_MaxZ);
     }
 
-    bool IsPointWithin(const CVector& point);
+    bool IsPointWithin(CVector TestCoors);
+    CVector FindCenter(); // 
+    void FindBoundingBox(CVector* pMin, CVector* pMax);
 };
 
 VALIDATE_SIZE(CZoneDef, 0x10);
+
+
+
+class PLUGIN_API CAttributeZone
+{
+public:
+    CZoneDef ZoneDef;
+
+    Int16 Flags;
+};
+VALIDATE_SIZE(CAttributeZone, 0x12);
+
+
 
 struct CCullZoneReflection {
     CZoneDef zoneDef;
@@ -108,6 +116,12 @@ public:
 
     static eZoneAttributes FindTunnelAttributesForCoors(CVector point);
     static CCullZoneReflection* FindMirrorAttributesForCoors(CVector cameraPosition);
-    static CCullZone* FindZoneWithStairsAttributeForPlayer();
+    static CAttributeZone* FindZoneWithStairsAttributeForPlayer();
     static eZoneAttributes FindAttributesForCoors(CVector pos);
+
+    static bool CamCloseInForPlayer() { return (CurrentFlags_Player & ATTRZONE_CAMCLOSEIN) != 0; }
+    static bool CamStairsForPlayer() { return (CurrentFlags_Player & ATTRZONE_STAIRS) != 0; }
+    static bool Cam1stPersonForPlayer() { return (CurrentFlags_Player & ATTRZONE_1STPERSONS) != 0; }
+    static bool PoliceAbandonCars() { return (CurrentFlags_Camera & ATTRZONE_POLICEABANDONCAR) != 0; }
+    static bool DoINeedToLoadCollision() { return (CurrentFlags_Player & ATTRZONE_DOINEEDCOLLISION) != 0; }
 };

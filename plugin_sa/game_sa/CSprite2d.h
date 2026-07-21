@@ -25,7 +25,7 @@ public:
 	static float& NearScreenZ;
 	static float& RecipNearClip;
 	// count: 8
-	static struct RwD3D9Vertex *maVertices;
+	static RwIm2DVertex *maVertices;
 	// class functions
 	CSprite2d();
 	//~CSprite2d();

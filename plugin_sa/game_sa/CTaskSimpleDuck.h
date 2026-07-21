@@ -42,6 +42,7 @@ public:
 
     CTaskSimpleDuck(eDuckControlTypes DuckControlType, unsigned short nLengthOfDuck, short nUseShotsWhizzingEvents = -1);
     
+    static bool CanPedDuck(CPed* pPed);
 };
 
 VALIDATE_SIZE(CTaskSimpleDuck, 0x28);

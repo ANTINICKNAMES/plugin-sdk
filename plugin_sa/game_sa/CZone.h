@@ -8,17 +8,11 @@
 #include "PluginBase.h"
 #include "rw/rwplcore.h"     // for RwRGBA stuct
 #include "CZoneInfo.h"
+#include "CGame.h"
 
 enum eZoneType {
 	ZONE_TYPE_NAVI = 0,		// controls text s
 	ZONE_TYPE_MAP = 3
-};
-
-enum eLevelName {
-	LEVEL_NAME_COUNTRY_SIDE,
-	LEVEL_NAME_LOS_SANTOS,
-	LEVEL_NAME_SAN_FIERRO,
-	LEVEL_NAME_LAS_VENTURAS
 };
 
 class CZone {

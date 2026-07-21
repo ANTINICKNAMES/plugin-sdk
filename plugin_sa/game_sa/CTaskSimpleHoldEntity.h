@@ -35,7 +35,7 @@ public:
     void DropEntity(CPed* pPed, bool bAtSpeed);
     void PlayAnim(AnimationId nAnimId, AssocGroupId nAnimGroup);
     static void FinishAnimHoldEntityCB(CAnimBlendAssociation* pAnim, void* pData);
-    CEntity* GetEntityBeingHeld();
+    CEntity* GetEntityBeingHeld() { return m_pHoldEntity; }
     bool GetIsAnimPlaying();
     bool GetIsFinished();
     bool CanThrowEntity();

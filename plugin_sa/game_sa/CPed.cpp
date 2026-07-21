@@ -473,7 +473,7 @@ float CPed::GetBikeRidingSkill()
 // Converted from thiscall void CPed::ShoulderBoneRotation(RpClump *clump) 0x5DF560
 void CPed::ShoulderBoneRotation(RpClump* clump)
 {
-	((void(__thiscall*)(CPed*, RpClump*))0x5DF560)(this, clump);
+	((void(__cdecl*)(RpClump*))0x5DF560)(clump);
 }
 
 // Virtual

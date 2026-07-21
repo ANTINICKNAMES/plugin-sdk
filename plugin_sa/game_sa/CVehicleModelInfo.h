@@ -14,19 +14,22 @@
 #include "CRGBA.h"
 #include "CPool.h"
 
-enum eVehicleType {
-	VEHICLE_AUTOMOBILE,
-	VEHICLE_MTRUCK,
-	VEHICLE_QUAD,
-	VEHICLE_HELI,
-	VEHICLE_PLANE,
-	VEHICLE_BOAT,
-	VEHICLE_TRAIN,
-	VEHICLE_FHELI,
-	VEHICLE_FPLANE,
-	VEHICLE_BIKE,
-	VEHICLE_BMX,
-	VEHICLE_TRAILER
+// hierarchy type
+enum VehicleType {			// Add new types at the end.
+	VEHICLE_TYPE_NONE = -1,
+	VEHICLE_TYPE_CAR = 0,
+	VEHICLE_TYPE_MONSTERTRUCK,	// derived from autmobile
+	VEHICLE_TYPE_QUADBIKE,		// derived from autmobile
+	VEHICLE_TYPE_HELI,			// derived from autmobile
+	VEHICLE_TYPE_PLANE,			// derived from autmobile
+	VEHICLE_TYPE_BOAT,
+	//	VEHICLE_TYPE_SEAPLANE,		// derived from boat (not sure this's required)
+	VEHICLE_TYPE_TRAIN,
+	VEHICLE_TYPE_NOT_USED,		// Used to be VEHICLE_TYPE_FAKE_HELI
+	VEHICLE_TYPE_FAKE_PLANE,
+	VEHICLE_TYPE_BIKE,
+	VEHICLE_TYPE_BMX,
+	VEHICLE_TYPE_TRAILER
 };
 
 enum VehicleUpgradePosn {

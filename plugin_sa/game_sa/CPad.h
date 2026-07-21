@@ -243,6 +243,45 @@ public:
     void Clear(bool enablePlayerControls, bool resetPhase);
     static void UpdatePads();
     static void ClearMouseHistory();
+
+    Int16 LookAroundLeftRight();
+    Int16 LookAroundUpDown();
+
+    // inlines
+    RwV2d GetAmountMouseMoved();
+    
+    bool IsDisabled();
+    void DisableControlsCamera();
+    void EnableControlsCamera();
+    void DisableControlsCranes();
+    void EnableControlsCranes();
+    void DisableControlsGarages();
+    void EnableControlsGarages();
+    void DisableControlsPedCode();
+    void EnableControlsPedCode();
+    void DisableControlsFadeOut();
+    void EnableControlsFadeOut();
+    void DisableControlsScript();
+    void EnableControlsScript();
+    void DisableControlsPhones();
+    void EnableControlsPhones();
+    void DisableControlsCutscenes();
+    void EnableControlsCutscenes();
+    void DisableControlsShortCut();
+    void EnableControlsShortCut();
+
+    bool TargetJustDown();
+    bool CycleCameraModeJustDown();
+    bool CycleCameraModeUpJustDown();
+    bool CycleCameraModeDownJustDown();
+
+    int32 GetStart()            { return NewState.Start; }
+    int32 GetSelect()           { return NewState.Select; }
+
+    int32 GetButtonSquare()     { return NewState.ButtonSquare; }
+    int32 GetButtonTriangle()   { return NewState.ButtonTriangle; }
+    int32 GetButtonCross()      { return NewState.ButtonCross; }
+    int32 GetButtonCircle()     { return NewState.ButtonCircle; }
 };
 
 VALIDATE_SIZE(CPad, 0x134);

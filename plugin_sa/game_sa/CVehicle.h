@@ -24,12 +24,45 @@
 
 /*  Thanks to MTA team for https://code.google.com/p/mtasa-blue/source/browse/tags/1.3.4/MTA10/game_sa/CVehicleSA.h */
 
-enum eCarWeapon {
-    CAR_WEAPON_NOT_USED,
-    CAR_WEAPON_HEAVY_GUN,
-    CAR_WEAPON_FREEFALL_BOMB,
-    CAR_WEAPON_LOCK_ON_ROCKET,
-    CAR_WEAPON_DOUBLE_ROCKET
+enum eVehicleCreatedBy
+{ 
+    UNUSED_VEHICLE = 0, 
+    RANDOM_VEHICLE, 
+    MISSION_VEHICLE, 
+    PARKED_VEHICLE, 
+    PERMANENT_VEHICLE 
+};
+
+enum eBikeWheelSpecial
+{
+    BIKE_WHEEL_F_STD = 0,
+    BIKE_WHEEL_R_STD,
+    BIKE_WHEEL_F_SLIP,
+    BIKE_WHEEL_R_SLIP,
+    BIKE_WHEEL_R_HBRAKE,
+    BIKE_WHEEL_R_SLIPBRAKE
+};
+
+enum eCarWeapon 
+{
+    SELECTEDWEAPON_NONE = 0,
+    SELECTEDWEAPON_GUNS,
+    SELECTEDWEAPON_BOMBS,
+    SELECTEDWEAPON_HSMISSILES,
+    SELECTEDWEAPON_MISSILES
+};
+
+enum eFlightModel
+{
+    FLIGHTMODEL_DODO = 0,
+    FLIGHTMODEL_RCPLANE,
+    FLIGHTMODEL_RCHELI,
+    FLIGHTMODEL_PLANE,
+    FLIGHTMODEL_PLANE_LOWPOWER,
+    FLIGHTMODEL_PLANE_GLIDER,
+    FLIGHTMODEL_HELI,
+    FLIGHTMODEL_HELI2,
+    FLIGHTMODEL_AUTOGYRO
 };
 
 enum class eComedyControlState : unsigned char {
@@ -38,23 +71,31 @@ enum class eComedyControlState : unsigned char {
 	STEER_LEFT
 };
 
-enum eDoorLock : unsigned int {
-    DOORLOCK_NOT_USED,
-    DOORLOCK_UNLOCKED,
-    DOORLOCK_LOCKED,
-    DOORLOCK_LOCKOUT_PLAYER_ONLY,
-    DOORLOCK_LOCKED_PLAYER_INSIDE,
-    DOORLOCK_COP_CAR,
-    DOORLOCK_FORCE_SHUT_DOORS,
-    DOORLOCK_SKIP_SHUT_DOORS
+enum eOrdnanceType
+{
+    ORDNANCE_TYPE_NONE = 0,
+    ORDNANCE_TYPE_PRIMARY,
+    ORDNANCE_TYPE_SECONDARY
 };
 
-enum eVehicleApperance {
-    VEHICLE_APPEARANCE_AUTOMOBILE = 1,
-    VEHICLE_APPEARANCE_BIKE,
-    VEHICLE_APPEARANCE_HELI,
-    VEHICLE_APPEARANCE_BOAT,
-    VEHICLE_APPEARANCE_PLANE,
+enum eCarLockState : unsigned int {
+    CARLOCK_NONE = 0,
+    CARLOCK_UNLOCKED,
+    CARLOCK_LOCKED,
+    CARLOCK_LOCKOUT_PLAYER_ONLY,
+    CARLOCK_LOCKED_PLAYER_INSIDE,
+    CARLOCK_LOCKED_INITIALLY,
+    CARLOCK_FORCE_SHUT_DOORS,
+    CARLOCK_LOCKED_BUT_CAN_BE_DAMAGED
+};
+
+enum eVehicleAppearance {
+    APR_UNKNOWN = 0,
+    APR_CAR,
+    APR_BIKE,
+    APR_HELI,
+    APR_BOAT,
+    APR_PLANE
 };
 
 enum eVehicleLightsFlags {
@@ -62,13 +103,6 @@ enum eVehicleLightsFlags {
     VEHICLE_LIGHTS_IGNORE_DAMAGE = 4,
     VEHICLE_LIGHTS_DISABLE_FRONT = 16,
     VEHICLE_LIGHTS_DISABLE_REAR = 32
-};
-
-enum eVehicleCreatedBy {
-    RANDOM_VEHICLE = 1,
-    MISSION_VEHICLE = 2,
-    PARKED_VEHICLE = 3,
-    PERMANENT_VEHICLE = 4
 };
 
 enum eBombState {
@@ -79,32 +113,122 @@ enum eBombState {
     BOMB_IGNITION_ACTIVATED = 5
 };
 
+enum
+{
+    WINCHTYPE_NONE = 0,
+    WINCHTYPE_MAGNET,
+    WINCHTYPE_PEOPLEPICKUP,
+    WINCHTYPE_RCHELI
+};
+
+enum 
+{ 
+    ROT_AXIS_X = 0, 
+    ROT_AXIS_Y,
+    ROT_AXIS_Z 
+};
+
+enum 
+{
+    NO_CAR_LIGHT_OVERRIDE = 0,
+    FORCE_CAR_LIGHTS_OFF,
+    FORCE_CAR_LIGHTS_ON
+};
+
 #if 0
 enum eOrdnanceType;
 enum eFlightModel;
 enum eDoors;
 enum eBikeWheelSpecial;
 #else
-typedef int eOrdnanceType;
-typedef int eFlightModel;
-typedef int eBikeWheelSpecial;
 #endif
 
 class CWeapon;
 class CPed;
-typedef int tWheelState;
 
 
 class PLUGIN_API  CVehicle : public CPhysical {
 protected:
     CVehicle(plugin::dummy_func_t) : CPhysical(plugin::dummy) {}
 public:
-    CAEVehicleAudioEntity m_vehicleAudio;
-    tHandlingData*        m_pHandlingData;
-    tFlyingHandlingData*  m_pFlyingHandlingData;
+    CAEVehicleAudioEntity m_VehicleAudioEntity;
+    tHandlingData* pHandling;
+    tFlyingHandlingData* pFlyingHandling;
+
+    struct CVehicleFlags
+    {
+        bool bIsLawEnforcer : 1;        // is this guy chasing the player at the moment
+        bool bIsAmbulanceOnDuty : 1;    // ambulance trying to get to an accident
+        bool bIsFireTruckOnDuty : 1;    // firetruck trying to get to a fire
+        bool bIsLocked : 1;             // is this guy locked by the script (cannot be removed)
+        bool bEngineOn : 1;             // for sound purposes. Parked cars have their engines switched off (so do destroyed cars)
+        bool bIsHandbrakeOn : 1;        // how's the handbrake doing?
+        bool bLightsOn : 1;             // are the lights switched on?
+        bool bFreebies : 1;             // any freebies left in this vehicle?
+
+        bool bIsVan : 1;                // is this vehicle a van (doors at back of vehicle)
+        bool bIsBus : 1;                // is this vehicle a bus
+        bool bIsBig : 1;                // is this vehicle a bus
+        bool bLowVehicle : 1;           // need this for sporty type cars to use low getting-in/out anims
+        bool bComedyControls : 1;       // will make the car hard to control (hopefully in a funny way)
+        bool bWarnedPeds : 1;           // has scan and warn peds of danger been processed?
+        bool bCraneMessageDone : 1;     // a crane message has been printed for this car allready
+
+        bool bTakeLessDamage : 1;       // this vehicle is stronger (takes about 1/4 of damage)
+        bool bIsDamaged : 1;            // this vehicle has been damaged and is displaying all its components
+        bool bHasBeenOwnedByPlayer : 1; // to work out whether stealing it is a crime
+        bool bFadeOut : 1;              // fade vehicle out
+        bool bIsBeingCarJacked : 1;     // fade vehicle out
+        bool bCreateRoadBlockPeds : 1;  // if this vehicle gets close enough we will create peds (coppers or gang members) round it
+        bool bCanBeDamaged : 1;         // set to FALSE during cut scenes to avoid explosions
+
+        bool bOccupantsHaveBeenGenerated : 1; // is true if the occupants have already been generated (shouldn't happen again)
+
+        bool bGunSwitchedOff : 1;       // level designers can use this to switch off guns on boats
+        bool bVehicleColProcessed : 1;  // has ProcessEntityCollision been processed for this car?
+        bool bIsCarParkVehicle : 1;     // car has been created using the special CAR_PARK script command
+        bool bHasAlreadyBeenRecorded : 1; // used for replays
+        bool bPartOfConvoy : 1;
+        bool bHeliMinimumTilt : 1;      // this heli should have almost no tilt really
+        bool bAudioChangingGear : 1;    // sounds like vehicle is changing gear
+        bool bIsDrowning : 1;           // is vehicle occupants taking damage in water (i.e. vehicle is dead in water)
+
+        bool bTyresDontBurst : 1;       // if this is set the tyres are invincible
+        bool bCreatedAsPoliceVehicle : 1;// true if this guy was created as a police vehicle (enforcer, policecar, miamivice car etc)
+        bool bRestingOnPhysical : 1;    // don't go static cause car is sitting on a physical object that might get removed
+        bool bParking : 1;
+        bool bCanPark : 1;
+        bool bFireGun : 1;              // does the AI of this vehicle want to fire it's gun?
+        bool bDriverLastFrame : 1;      // was there a driver present last frame?
+        bool bNeverUseSmallerRemovalRange : 1;// some vehicles (like planes) we don't want to remove just behind the camera
+        bool bIsRCVehicle : 1;          // is this a remote controlled (small) vehicle. True whether the player or AI controls it
+
+        bool bAlwaysSkidMarks : 1;      // this vehicle leaves skidmarks regardless of the wheels' states
+        bool bEngineBroken : 1;         // engine doesn't work. Player can get in but the vehicle won't drive
+        bool bVehicleCanBeTargetted : 1;// the ped driving this vehicle can be targetted, (for Torenos plane mission)
+        bool bPartOfAttackWave : 1;     // this car is used in an attack during a gang war
+        bool bWinchCanPickMeUp : 1;     // this car cannot be picked up by any ropes
+        bool bImpounded : 1;            // has this vehicle been in a police impounding garage
+        bool bVehicleCanBeTargettedByHS : 1;// heat seeking missiles will not target this vehicle
+
+        bool bSirenOrAlarm : 1;         // set to TRUE if siren or alarm active, else FALSE
+        bool bHasGangLeaningOn : 1;
+        bool bGangMembersForRoadBlock : 1;// will generate gang members if NumPedsForRoadBlock > 0
+        bool bDoesProvideCover : 1;     // if this is false this particular vehicle can not be used to take cover behind
+        bool bMadDriver : 1;            // this vehicle is driving like a lunatic
+        bool bUpgradedStereo : 1;       // this vehicle has an upgraded stereo
+        bool bConsideredByPlayer : 1;   // this vehicle is considered by the player to enter
+        bool bPetrolTankIsWeakPoint : 1;// if false shootong the petrol tank will NOT blow up the car
+
+        bool bDisableParticles : 1;     // disable particles from this car. Used in garage
+        bool bHasBeenResprayed : 1;     // has been resprayed in a respray garage. Reset after it has been checked
+        bool bUseCarCheats : 1;         // if this is true will set the car cheat stuff up in ProcessControl()
+        bool bDontSetColourWhenRemapping : 1;// if the texture gets remapped we don't want to change the colour with it
+        bool bUsedForReplay : 1;        // this car is controlled by replay and should be removed when replay is done
+    };
     
     union {
-        eVehicleHandlingFlags  m_nHandlingFlagsIntValue;
+        eVehicleHandlingFlags hFlagsLocal; // eVehicleHandlingFlags  m_nHandlingFlagsIntValue;
         struct {
             bool b1gBoost : 1;
             bool b2gBoost : 1;
@@ -138,177 +262,144 @@ public:
         } m_nHandlingFlags;
     };
     
-    CAutoPilot m_autoPilot;
-    
-    bool bIsLawEnforcer : 1;        // is this guy chasing the player at the moment
-    bool bIsAmbulanceOnDuty : 1;    // ambulance trying to get to an accident
-    bool bIsFireTruckOnDuty : 1;    // firetruck trying to get to a fire
-    bool bIsLocked : 1;             // is this guy locked by the script (cannot be removed)
-    bool bEngineOn : 1;             // for sound purposes. Parked cars have their engines switched off (so do destroyed cars)
-    bool bIsHandbrakeOn : 1;        // how's the handbrake doing?
-    bool bLightsOn : 1;             // are the lights switched on?
-    bool bFreebies : 1;             // any freebies left in this vehicle?
+    CAutoPilot    AutoPilot;
+    CVehicle::CVehicleFlags m_nVehicleFlags;
+    UInt32        m_TimeOfCreation;
 
-    bool bIsVan : 1;                // is this vehicle a van (doors at back of vehicle)
-    bool bIsBus : 1;                // is this vehicle a bus
-    bool bIsBig : 1;                // is this vehicle a bus
-    bool bLowVehicle : 1;           // need this for sporty type cars to use low getting-in/out anims
-    bool bComedyControls : 1;       // will make the car hard to control (hopefully in a funny way)
-    bool bWarnedPeds : 1;           // has scan and warn peds of danger been processed?
-    bool bCraneMessageDone : 1;     // a crane message has been printed for this car allready
-    bool bTakeLessDamage : 1;       // this vehicle is stronger (takes about 1/4 of damage)
+    uint8         m_colour1, m_colour2, m_colour3, m_colour4;
+    int8          m_comp1, m_comp2; //char          m_anExtras[2];
+    int16         m_upgrades[15];
+    float         m_wheelScale;
 
-    bool bIsDamaged : 1;            // this vehicle has been damaged and is displaying all its components
-    bool bHasBeenOwnedByPlayer : 1; // to work out whether stealing it is a crime
-    bool bFadeOut : 1;              // fade vehicle out
-    bool bIsBeingCarJacked : 1;     // fade vehicle out
-    bool bCreateRoadBlockPeds : 1;  // if this vehicle gets close enough we will create peds (coppers or gang members) round it
-    bool bCanBeDamaged : 1;         // set to FALSE during cut scenes to avoid explosions
-    bool bOccupantsHaveBeenGenerated : 1; // is true if the occupants have already been generated (shouldn't happen again)
-    bool bGunSwitchedOff : 1;       // level designers can use this to switch off guns on boats
+    UInt16        CarAlarmState;
+    UInt16        ForcedRandomSeed; // if this is non-zero the random wander gets deterministic
 
-    bool bVehicleColProcessed : 1;  // has ProcessEntityCollision been processed for this car?
-    bool bIsCarParkVehicle : 1;     // car has been created using the special CAR_PARK script command
-    bool bHasAlreadyBeenRecorded : 1; // used for replays
-    bool bPartOfConvoy : 1;
-    bool bHeliMinimumTilt : 1;      // this heli should have almost no tilt really
-    bool bAudioChangingGear : 1;    // sounds like vehicle is changing gear
-    bool bIsDrowning : 1;           // is vehicle occupants taking damage in water (i.e. vehicle is dead in water)
-    bool bTyresDontBurst : 1;       // if this is set the tyres are invincible
+    CPed*         pDriver;
+    CPed*         pPassengers[8];
+    uint8         m_nNumPassengers;
+    uint8         m_nNumGettingIn;
+    uint8         m_nGettingInFlags;
+    uint8         m_nGettingOutFlags;
+    uint8         m_nMaxPassengers;
+    uint8         m_windowsOpenFlags; // initialised, but not used?
+    int8          m_nNitroBoosts;
 
-    bool bCreatedAsPoliceVehicle : 1;// true if this guy was created as a police vehicle (enforcer, policecar, miamivice car etc)
-    bool bRestingOnPhysical : 1;    // don't go static cause car is sitting on a physical object that might get removed
-    bool bParking : 1;
-    bool bCanPark : 1;
-    bool bFireGun : 1;              // does the AI of this vehicle want to fire it's gun?
-    bool bDriverLastFrame : 1;      // was there a driver present last frame?
-    bool bNeverUseSmallerRemovalRange : 1;// some vehicles (like planes) we don't want to remove just behind the camera
-    bool bIsRCVehicle : 1;          // is this a remote controlled (small) vehicle. True whether the player or AI controls it
-
-    bool bAlwaysSkidMarks : 1;      // this vehicle leaves skidmarks regardless of the wheels' states
-    bool bEngineBroken : 1;         // engine doesn't work. Player can get in but the vehicle won't drive
-    bool bVehicleCanBeTargetted : 1;// the ped driving this vehicle can be targetted, (for Torenos plane mission)
-    bool bPartOfAttackWave : 1;     // this car is used in an attack during a gang war
-    bool bWinchCanPickMeUp : 1;     // this car cannot be picked up by any ropes
-    bool bImpounded : 1;            // has this vehicle been in a police impounding garage
-    bool bVehicleCanBeTargettedByHS : 1;// heat seeking missiles will not target this vehicle
-    bool bSirenOrAlarm : 1;         // set to TRUE if siren or alarm active, else FALSE
-
-    bool bHasGangLeaningOn : 1;
-    bool bGangMembersForRoadBlock : 1;// will generate gang members if NumPedsForRoadBlock > 0
-    bool bDoesProvideCover : 1;     // if this is false this particular vehicle can not be used to take cover behind
-    bool bMadDriver : 1;            // this vehicle is driving like a lunatic
-    bool bUpgradedStereo : 1;       // this vehicle has an upgraded stereo
-    bool bConsideredByPlayer : 1;   // this vehicle is considered by the player to enter
-    bool bPetrolTankIsWeakPoint : 1;// if false shootong the petrol tank will NOT blow up the car
-    bool bDisableParticles : 1;     // disable particles from this car. Used in garage
-
-    bool bHasBeenResprayed : 1;     // has been resprayed in a respray garage. Reset after it has been checked
-    bool bUseCarCheats : 1;         // if this is true will set the car cheat stuff up in ProcessControl()
-    bool bDontSetColourWhenRemapping : 1;// if the texture gets remapped we don't want to change the colour with it
-    bool bUsedForReplay : 1;        // this car is controlled by replay and should be removed when replay is done
-
-    unsigned int  m_nCreationTime;
-    unsigned char m_nPrimaryColor;
-    unsigned char m_nSecondaryColor;
-    unsigned char m_nTertiaryColor;
-    unsigned char m_nQuaternaryColor;
-    char          m_anExtras[2];
-    short         m_anUpgrades[15];
-    float         m_fWheelScale;
-    unsigned short m_nAlarmState;
-    short         m_nForcedRandomRouteSeed; // if this is non-zero the random wander gets deterministic
-    CPed*         m_pDriver;
-    CPed*         m_apPassengers[8];
-    unsigned char m_nNumPassengers;
-    unsigned char m_nNumGettingIn;
-    unsigned char m_nGettingInFlags;
-    unsigned char m_nGettingOutFlags;
-    unsigned char m_nMaxPassengers;
-    unsigned char m_nWindowsOpenFlags; // initialised, but not used?
-    unsigned char m_nNitroBoosts;
-    unsigned char m_nSpecialColModel;
-    CEntity*      m_pEntityWeAreOn; // entity under us, only static entities (buildings or roads)
+    int8          m_nSpecialColModel;
+    CEntity*      pEntityWeAreOnForVisibilityCheck; // entity under us, only static entities (buildings or roads)
     CFire*        m_pFire;
+
     float         m_fSteerAngle;
     float         m_f2ndSteerAngle; // used for steering 2nd set of wheels or elevators etc..
     float         m_fGasPedal;
     float         m_fBreakPedal;
-    unsigned char m_nCreatedBy; // see eVehicleCreatedBy
-    short         m_nExtendedRemovalRange; // when game wants to delete a vehicle, it gets min(m_wExtendedRemovalRange, 170.0)
-    unsigned char m_nBombOnBoard : 3; // 0 = None
+
+    UInt8         VehicleCreatedBy; // see eVehicleCreatedBy
+    Int16         ExtendedRemovalRange; // when game wants to delete a vehicle, it gets min(m_wExtendedRemovalRange, 170.0)
+    UInt8         BombOnBoard : 3; // 0 = None
     // 1 = Timed
     // 2 = On ignition
     // 3 = remotely set ?
     // 4 = Timed Bomb has been activated
     // 5 = On ignition has been activated
-    unsigned char m_nOverrideLights : 2; // uses enum NO_CAR_LIGHT_OVERRIDE, FORCE_CAR_LIGHTS_OFF, FORCE_CAR_LIGHTS_ON
-    unsigned char m_nWinchType : 2; // Does this vehicle use a winch?
-    unsigned char m_nGunsCycleIndex : 2; // Cycle through alternate gun hardpoints on planes/helis
-    unsigned char m_nOrdnanceCycleIndex : 2; // Cycle through alternate ordnance hardpoints on planes/helis
-    unsigned char m_nUsedForCover; // Has n number of cops hiding/attempting to hid behind it
-    unsigned char m_nAmmoInClip; // Used to make the guns on boat do a reload (20 by default).
-    unsigned char m_nPacMansCollected; // initialised, but not used?
-    unsigned char m_nPedsPositionForRoadBlock; // 0, 1 or 2
-    unsigned char m_nNumCopsForRoadBlock;
-    float         m_fDirtLevel; // Dirt level of vehicle body texture: 0.0f=fully clean, 15.0f=maximum dirt visible
-    unsigned char m_nCurrentGear;
+    UInt8 OverrideLights : 2; // uses enum NO_CAR_LIGHT_OVERRIDE, FORCE_CAR_LIGHTS_OFF, FORCE_CAR_LIGHTS_ON
+    UInt8 WinchType : 2; // Does this vehicle use a winch?
+    UInt8 m_GunsCycleIndex : 2; // Cycle through alternate gun hardpoints on planes/helis
+    UInt8 m_OrdnanceCycleIndex : 2; // Cycle through alternate ordnance hardpoints on planes/helis
+
+    UInt8 nUsedForCover; // Has n number of cops hiding/attempting to hid behind it
+    UInt8 AmmoInClip; // Used to make the guns on boat do a reload (20 by default).
+    UInt8 PacMansCollected; // initialised, but not used?
+    UInt8 PedsPositionForRoadBlock; // 0, 1 or 2
+    UInt8 NumPedsForRoadBlock;
+
+    float         nBodyDirtLevel; // Dirt level of vehicle body texture: 0.0f=fully clean, 15.0f=maximum dirt visible
+
+    uint8         m_nCurrentGear;
     float         m_fGearChangeCount; // used as parameter for cTransmission::CalculateDriveAcceleration, but doesn't change
+
     float         m_fWheelSpinForAudio;
-    float         m_fHealth; // 1000.0f = full health. 0 -> explode
-    CVehicle*     m_pTractor;
-    CVehicle*     m_pTrailer;
-    CPed*         m_pWhoInstalledBombOnMe;
-    unsigned int  m_nTimeTillWeNeedThisCar; // game won't try to delete this car while this time won't reach
-    unsigned int  m_nGunFiringTime; // last time when gun on vehicle was fired (used on boats)
-    unsigned int  m_nTimeWhenBlowedUp; // game will delete vehicle when 60 seconds after this time will expire
-    short         m_nCopsInCarTimer; // timer for police car (which is following player) occupants to stay in car. If this timer reachs 
+
+    float         m_nHealth; // 1000.0f = full health. 0 -> explode
+
+
+    CVehicle* m_pTowingVehicle;
+    CVehicle* m_pVehicleBeingTowed;
+
+
+    CEntity* pBombOwner;
+
+    UInt32 DontUseSmallerRemovalRange; // game won't try to delete this car while this time won't reach
+
+
+    UInt32 TimeOfLastShotFired; // last time when gun on vehicle was fired (used on boats)
+    uint32 m_nTimeOfDeath; // game will delete vehicle when 60 seconds after this time will expire
+
+    UInt16 GetOutOfCarTimer; // timer for police car (which is following player) occupants to stay in car. If this timer reachs 
     // some value, they will leave a car. The timer increases each frame if player is stopped in car, 
     // otherway it resets
-    short         m_wBombTimer;     // goes down with each frame
-    CPed*         m_pWhoDetonatedMe; // if vehicle was detonated, game copies m_pWhoInstalledBombOnMe here
-    float         m_fVehicleFrontGroundZ; // we get these values from CCollision::IsStoredPolyStillValidVerticalLine
-    float         m_fVehicleRearGroundZ;  // or CWorld::ProcessVerticalLine
-    char field_4EC; // initialised, but not used?
-    char field_4ED[11]; // possibly non-used data?
-    eDoorLock     m_eDoorLock;
-    unsigned int  m_nProjectileWeaponFiringTime; // manual-aimed projectiles for hunter, lock-on projectile for hydra
-    unsigned int  m_nAdditionalProjectileWeaponFiringTime; // manual-aimed projectiles for hydra
-    unsigned int  m_nTimeForMinigunFiring; // minigun on hunter
-    unsigned char m_nLastWeaponDamageType; // see eWeaponType, -1 if no damage
-    CEntity*      m_pLastDamageEntity;
-    char field_510; // not used?
-    char field_511; // initialised, but not used?
-    char field_512; // initialised, but not used?
-    char          m_nVehicleWeaponInUse; // see enum eCarWeapon
-    unsigned int  m_nHornCounter;
-    char          m_HornPattern;
-    char          m_nCarHornTimer; // car horn related
-    eComedyControlState m_comedyControlState;
-    char          m_nHasslePosId;
-    CStoredCollPoly m_FrontCollPoly; // poly which is under front part of car
-    CStoredCollPoly m_RearCollPoly; // poly which is under rear part of car
-    unsigned char m_anCollisionLighting[4]; // left front, left rear, right front, right rear
-    FxSystem_c*   m_pOverheatParticle;
-    FxSystem_c*   m_pFireParticle;
-    FxSystem_c*   m_pDustParticle;
+
+
+    UInt16 DelayedExplosion;     // goes down with each frame
+    CEntity* pDelayedExplosionInflictor; // if vehicle was detonated, game copies m_pWhoInstalledBombOnMe here
+
+    float         LastFrontHeight, LastRearHeight; // we get these values from CCollision::IsStoredPolyStillValidVerticalLine or CWorld::ProcessVerticalLine 
+
+    UInt8 NumOilSpillsToDo;    //char field_4EC; // initialised, but not used?
+    float OilSpillLastX, OilSpillLastY;    //char field_4ED[11]; // possibly non-used data?
+
+    eCarLockState     m_eDoorLockState;
+
+    uint32  m_LastTimePrimaryFired; // manual-aimed projectiles for hunter, lock-on projectile for hydra
+    uint32  m_LastTimeSecondaryFired; // manual-aimed projectiles for hydra
+
+    UInt32  m_LastTimeGunFired; // minigun on hunter
+
+    int8 LastDamagedWeaponType; // see eWeaponType, -1 if no damage
+    CEntity* pLastDamageEntity;
+
+    UInt8 m_nRadioStation;    //char field_510; // not used?
+    UInt8 m_nRainHitCount;    //char field_511; // initialised, but not used?
+    UInt8 m_nSoundIndex;    //char field_512; // initialised, but not used?
+
+    UInt8 m_SelectedWeapon; // see enum eCarWeapon
+
+    UInt32 m_cHorn;
+    UInt8 m_nHornPattern;
+    UInt8 m_NoHornCount; // car horn related
+
+    eComedyControlState ComedyControlsState;
+
+    uint8          m_hassleStatus;
+
+    //CStoredCollPoly m_FrontCollPoly; // poly which is under front part of car
+    //CStoredCollPoly m_RearCollPoly; // poly which is under rear part of car
+    CStoredCollPoly StoredCollPolys[2];
+
+    //unsigned char m_anCollisionLighting[4]; // left front, left rear, right front, right rear
+    uint8 m_storedCollisionLighting[4];
+
+
+    FxSystem_c* m_fxSysEngOverheat;
+    FxSystem_c* m_fxSysEngFire;
+    FxSystem_c* m_fxSysHeliDust;
 	
     union {
         unsigned char m_nRenderLightsFlags;
         struct {
-            bool m_bRightFront : 1;
-            bool m_bLeftFront : 1;
-            bool m_bRightRear : 1;
-            bool m_bLeftRear : 1;
+            uint8 m_bLightOnFR : 1;
+            uint8 m_bLightOnFL : 1;
+            uint8 m_bLightOnRR : 1;
+            uint8 m_bLightOnRL : 1;
         } m_renderLights;
     };
 	
-    RwTexture*    m_pCustomCarPlate;
-    float         m_fRawSteerAngle; // AKA m_fSteeringLeftRight or fSteer
-    eVehicleType  m_nVehicleClass; // m_nVehicleType
-    eVehicleType  m_nVehicleSubClass; // m_nVehicleSubType
-    short         m_nPreviousRemapTxd;
-    short         m_nRemapTxd;
+    RwTexture* pCustomPlateTexture;
+
+    float         fSteer; // AKA m_fSteeringLeftRight or fSteer
+    VehicleType   m_baseVehicleType; // m_nVehicleType
+    VehicleType   m_vehicleType; // m_nVehicleSubType
+    short         m_remapTxdName;
+    short         m_newRemapTxdName;
     RwTexture*    m_pRemapTexture;
 
     static float& WHEELSPIN_TARGET_RATE; // 1.0
@@ -536,6 +627,11 @@ public:
 
     static void* operator new(unsigned int size);
     static void operator delete(void* data);
+
+    // inlines
+    int32 GetVehicleType() const { return m_vehicleType; }
+    int32 GetBaseVehicleType() const { return m_baseVehicleType; }
+    eVehicleAppearance GetVehicleAppearance() const {}
 };
 
 VALIDATE_SIZE(CVehicle, 0x5A0);

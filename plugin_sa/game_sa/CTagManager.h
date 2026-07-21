@@ -26,6 +26,8 @@ public:
     static int32_t& ms_numTagged;
     static RxPipeline*& ms_pPipeline;
 
+    static void UpdateNumTagged();
+
     static void     Save();
     static void     Load();
 };

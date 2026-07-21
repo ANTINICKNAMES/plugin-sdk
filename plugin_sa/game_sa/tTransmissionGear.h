@@ -10,9 +10,9 @@
 
 struct PLUGIN_API tTransmissionGear
 {
-	float m_fMaxVelocity;
-	float m_fChangeUpVelocity;
-	float m_fChangeDownVelocity;
+    float fMaxVelocity;
+    float fChangeUpVelocity;
+    float fChangeDownVelocity;
 };
 
 VALIDATE_SIZE(tTransmissionGear, 0xC);

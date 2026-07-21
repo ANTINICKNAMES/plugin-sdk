@@ -95,10 +95,14 @@ void CEntity::PreRender()
 	((void (__thiscall *)(CEntity *))(*(void ***)this)[17])(this);
 }
 
+void CEntity::Render_VMT()
+{
+	((void (__thiscall *)(CEntity *))(*(void ***)this)[18])(this);
+}
+
 void CEntity::Render()
 {
-	//((void (__thiscall *)(CEntity *))(*(void ***)this)[18])(this);
-	((void(__thiscall*)(CEntity*))plugin::GetVMT(this, 18))(this);
+	plugin::CallMethod<0x534310, CEntity*>(this);
 }
 
 bool CEntity::SetupLighting()

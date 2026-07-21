@@ -66,6 +66,9 @@ public:
     static float &LEG_SWING_DAMP_FRAC;    // 0.98
 
     CTaskSimpleJetPack(const CVector *pVecTargetPos = NULL, float fCruiseHeight = 10.0f, int nHoverTime = 0);
+
+    void RenderJetPack(CPed* pPed);
+    void DropJetPack(CPed* pPed);
 };
 
 extern CVector &JETPACK_POS_OFFSET; // { 0.1, 0.08, 0.0 }

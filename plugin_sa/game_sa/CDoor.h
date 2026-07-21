@@ -24,9 +24,9 @@ class PLUGIN_API CDoor {
 public:
     float         m_fOpenAngle;
     float         m_fClosedAngle;
-    short         m_nDirn;
-    unsigned char m_nAxis;
-    eDoorState m_nDoorState;
+    uint16        m_nDirn;
+    uint8         m_nAxis;
+    eDoorState    m_nDoorState;
     float         m_fAngle;
     float         m_fPrevAngle;
     float         m_fAngVel;

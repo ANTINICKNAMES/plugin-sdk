@@ -291,7 +291,7 @@ public:
     CPedFlags m_nPedFlags;
 
     CPedIntelligence*   m_pPedIntelligence;
-    CPlayerData*        m_pPlayerData; // CPlayerPedData*
+    CPlayerPedData*        m_pPlayerData; // CPlayerPedData*
 
 
     uint8_t             CharCreatedBy;
@@ -343,7 +343,7 @@ public:
     float               m_fCurrentHeading; // m_fCurrentRotation
     float               m_fDesiredHeading; // m_fAimingRotation
     float               m_fHeadingChangeRate; // m_fHeadingChangeRate
-    int                 m_fMoveAnim; // f32 m_fHeadingChangeRateAccel; // ???
+    float               m_fHeadingChangeRateAccel; // f32 m_fHeadingChangeRateAccel; // ???
 
     CPhysical*          m_pGroundPhysical; // CEntity*            m_standingOnEntity
     CVector             m_vecGroundOffset;
@@ -621,7 +621,7 @@ public:
     bool PedIsReadyForConversation(bool arg0);
     bool PedCanPickUpPickUp();
 
-    void ShoulderBoneRotation(RpClump* clump);
+    static void ShoulderBoneRotation(RpClump* clump);
 
     bool IsAlive();
 
@@ -722,7 +722,7 @@ public:
     }
 
 public:
-    inline CPlayerData* GetPlayerData() {
+    inline CPlayerPedData* GetPlayerData() {
         return m_pPlayerData;
     }
 
@@ -774,6 +774,10 @@ public:
     inline float GetArmour() {
         return m_nArmour;
     }
+
+    CWeapon& GetWeaponInSlot(uint8 slot)        { return m_WeaponSlots[slot]; }
+    CWeapon& GetActiveWeapon()                  { return GetWeaponInSlot(m_nCurrentWeapon); }
+    CWeapon& GetWeapon(eWeaponType WeaponType)  { return GetWeaponInSlot(GetWeaponSlot(WeaponType)); }
 };
 
 VALIDATE_SIZE(CPed, 0x79C);

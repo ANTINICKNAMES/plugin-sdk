@@ -29,13 +29,14 @@ class CColModel;
 class PLUGIN_API CWeapon {
 public:
     eWeaponType m_eWeaponType;
-    eWeaponState m_nState;
-    int32_t m_nAmmoInClip;
-    int32_t m_nAmmoTotal;
-    uint32_t m_nTimeForNextShot;
+    eWeaponState m_eState;
+    int32 m_nAmmoInClip;
+    int32 m_nAmmoTotal;
+    uint32 m_nTimer;
     bool m_bFirstPersonWeaponModeSelected;
     bool m_bDontPlaceInHand;
-    FxSystem_c *m_pFxSystem; // flamethrower, spraycan, extinguisher particle
+
+    FxSystem_c* m_pWeaponFxSys; // flamethrower, spraycan, extinguisher particle
 
     static bool &ms_bPhotographHasBeenTaken; 
     static bool &ms_bTakePhoto; 
@@ -46,48 +47,71 @@ public:
 
     CWeapon(eWeaponType weaponType, int ammo);
     void Shutdown();
-    void AddGunshell(CEntity* creator, CVector const& position, CVector2D const& direction, float size);
-    bool LaserScopeDot(CVector* outCoord, float* outSize);
-    bool FireSniper(CPed* creator, CEntity* victim, CVector* target);
-    void Reload(CPed* owner);
+    void AddGunshell(CEntity* pEntity, const CVector& posGunshell, const CVector2D& dirGunshell, float fGunshellSize);
+    bool LaserScopeDot(CVector* ScreenCoords, float* fScale);
+    bool FireSniper(CPed* pEntity, CEntity* pTargetEnt, CVector* pTargetPosn);
+    void Reload(CPed* pOwnerPed);
     bool IsTypeMelee();
     bool IsType2Handed();
     bool IsTypeProjectile();
     bool HasWeaponAmmoToBeUsed();
     void StopWeaponEffect();
-    void Initialise(eWeaponType weaponType, int ammo, CPed* owner);
-    void DoBulletImpact(CEntity* owner, CEntity* victim, CVector* startPoint, CVector* endPoint, CColPoint* colPoint, int arg5);
-    bool TakePhotograph(CEntity* owner, CVector* point);
-    void SetUpPelletCol(int numPellets, CEntity* owner, CEntity* victim, CVector& point, CColPoint& colPoint, CMatrix& outMatrix);
-    void FireInstantHitFromCar2(CVector startPoint, CVector endPoint, CVehicle* vehicle, CEntity* owner);
-    void Update(CPed* owner);
+    void Initialise(eWeaponType WeaponType, int32 nAmmoTotal, CPed* pOwnerPed);
+    void DoBulletImpact(CEntity* pEntity, CEntity* pHitEntity, CVector* pShotOrigin, CVector* pShotTarget, CColPoint* pColPoint, int nIncrementalHit);
+    bool TakePhotograph(CEntity* pEntity, CVector* cameraPos);
+    void SetUpPelletCol(int nNumPellets, CEntity* pEntity, CEntity* pHitEntity, CVector& vecStart, CColPoint& colPoint, CMatrix& testMat);
+    void FireInstantHitFromCar2(CVector vecShotOrigin, CVector vecShotTarget, CVehicle* pVehicle, CEntity* pShotOwner);
+    void Update(CPed* pOwnerPed);
     bool CanBeUsedFor2Player();
     // outX and outY will be placed in [-1;1] ranges
-    void DoWeaponEffect(CVector origin, CVector target);
-    bool FireAreaEffect(CEntity* firingEntity, CVector* origin, CEntity* targetEntity, CVector* target);
-    bool FireInstantHitFromCar(CVehicle* vehicle, bool leftSide, bool rightSide);
-    void FireFromCar(CVehicle* vehicle, bool leftSide, bool rightSide);
-    bool FireInstantHit(CEntity* firingEntity, CVector* origin, CVector* muzzlePosn, CEntity* targetEntity, CVector* target, CVector* originForDriveBy, bool arg6, bool muzzle);
-    bool FireProjectile(CEntity* firingEntity, CVector* origin, CEntity* targetEntity, CVector* target, float force);
-    bool FireM16_1stPerson(CEntity* owner);
-    bool Fire(CEntity* firingEntity, CVector* origin, CVector* muzzlePosn, CEntity* targetEntity, CVector* target, CVector* originForDriveBy);
+    void DoWeaponEffect(CVector shotOrigin, CVector shotVector);
+    bool FireAreaEffect(CEntity* pEntity, CVector* pPosn, CEntity* pTargetEnt, CVector* pTargetPosn);
+    bool FireInstantHitFromCar(CVehicle* pVehicle, bool LeftIsTrue_FalseIsRight, bool RightIsTrue_ForceForBikes);
+    void FireFromCar(CVehicle* pVehicle, bool LeftIsTrue_FalseIsRight, bool RightIsTrue_ForceForBikes);
+    bool FireInstantHit(CEntity* pEntity, CVector* pStartPosn, CVector* pBarrelPosn, CEntity* pTargetEnt, CVector* pTargetPosn, CVector* pAltPosn, bool bCrossHairGun, bool bCreateGunFx);
+    bool FireProjectile(CEntity* pEntity, CVector* pPosn, CEntity* pTargetEnt, CVector* pTargetPosn, float fThrowForce);
+    bool FireM16_1stPerson(CPed* pEntity);
+    bool Fire(CEntity* pEntity, CVector* pStartPosn, CVector* pBarrelPosn, CEntity* pTargetEnt, CVector* pTargetPosn, CVector* pAltPosn);
 
     static void InitialiseWeapons();
     static void ShutdownWeapons();
     static void UpdateWeapons();
-    static void GenerateDamageEvent(CPed* victim, CEntity* creator, eWeaponType weaponType, int damageFactor, ePedPieceTypes pedPiece, int direction);
-    static bool CanBeUsedFor2Player(eWeaponType weaponType);
-    static float TargetWeaponRangeMultiplier(CEntity* victim, CEntity* weaponOwner);
-    static void DoDoomAiming(CEntity* owner, CVector* start, CVector* end);
-    static void DoTankDoomAiming(CEntity* vehicle, CEntity* owner, CVector* startPoint, CVector* endPoint);
-    static void DoDriveByAutoAiming(CEntity* owner, CVehicle* vehicle, CVector* startPoint, CVector* endPoint, bool canAimVehicles);
-    static void FindNearestTargetEntityWithScreenCoors(float screenX, float screenY, float range, CVector point, float* outX, float* outY);
-    static float EvaluateTargetForHeatSeekingMissile(CEntity* entity, CVector& posn, CVector& direction, float distanceMultiplier, bool fromVehicle, CEntity* lastEntity);
-    static bool CheckForShootingVehicleOccupant(CEntity** pCarEntity, CColPoint* colPoint, eWeaponType weaponType, CVector const& origin, CVector const& target);
-    static CEntity* PickTargetForHeatSeekingMissile(CVector origin, CVector direction, float distanceMultiplier, CEntity* ignoreEntity, bool fromVehicle, CEntity* lastEntity);
-    static bool ProcessLineOfSight(CVector const& startPoint, CVector const& endPoint, CColPoint& outColPoint, CEntity*& outEntity, eWeaponType weaponType, CEntity* arg5, bool buildings, bool vehicles, bool peds, bool objects, bool dummies, bool arg11, bool doIgnoreCameraCheck);
+    static void GenerateDamageEvent(CPed* pHitPed, CEntity* pEntity, eWeaponType WeaponType, Int32 WeaponDamage, ePedPieceTypes PieceType, Int32 dir);
+    static bool CanBeUsedFor2Player(eWeaponType WeaponType);
+    static float TargetWeaponRangeMultiplier(CEntity* pTarget, CEntity* pOwner);
+    static void DoDoomAiming(CEntity* pEntity, CVector* pShotOrigin, CVector* pShotTarget);
+    static void DoTankDoomAiming(CEntity* pTankEntity, CEntity* pDriverEntity, CVector* pShotOrigin, CVector* pShotTarget);
+    static void DoDriveByAutoAiming(CEntity* pEntity, CVehicle* pVehicle, CVector* pShotOrigin, CVector* pShotTarget, bool bDoVehicles);
+    static void FindNearestTargetEntityWithScreenCoors(float ScreenX, float ScreenY, float fRange, CVector vecSource, float* pTargetScreenX, float* pTargetScreenY);
+    static float EvaluateTargetForHeatSeekingMissile(CEntity* pPotentialTarget, CVector& vOrigin, CVector& vAimingVector, float fTolerance, bool bPlanesPriority, 
+        CEntity* pPreferredExistingTarget);
+    static bool CheckForShootingVehicleOccupant(CEntity** ppHitEntity, CColPoint* pColPoint, eWeaponType nWeaponType, const CVector& vecShotStart, const CVector& vecShotEnd);
+    static CEntity* PickTargetForHeatSeekingMissile(CVector Origin, CVector AimingVector, float Tolerance, CEntity* pException, bool bPlanesPriority, CEntity* pPreferredExistingTarget);
+    static bool ProcessLineOfSight(const CVector& vecShotOrigin, const CVector& vecShotVector, CColPoint& colPoint, CEntity*& pHitEntity, eWeaponType WeaponType, 
+        CEntity* pOwner, bool bCheckBuildings, bool bCheckVehicles, bool bCheckPeds, bool bCheckObjects, bool bCheckDummies, bool bSeeThroughStuff, bool bIgnoreSomeObjectsForCamera);
 
+    // inline
+    static bool WeaponGroupSharesAmmo(Int32 slot);
+    
     CWeapon(plugin::dummy_func_t) {}
+
+    // inlines
+    eWeaponType GetWeaponType()                 { return m_eWeaponType; }
+
+    void SetWeaponState(eWeaponState nState)    { m_eState = nState; }
+    eWeaponState GetWeaponState()               { return m_eState; }
+
+    void SetWeaponAmmoInClip(int32 nAmmoInClip) { m_nAmmoInClip = nAmmoInClip; }
+    int32 GetWeaponAmmoInClip()                 { return m_nAmmoInClip; }
+
+    void SetWeaponAmmoTotal(int32 nAmmoTotal)   { m_nAmmoInClip = nAmmoTotal; }
+    int32 GetWeaponAmmoTotal()                  { return m_nAmmoTotal; }
+
+    void SetTimer(uint32 nTimer)                { m_nTimer = nTimer; }
+    uint32 GetTimer()                           { return m_nTimer; }
+
+    void SetFirstPersonWeaponMode(bool b)       { m_bFirstPersonWeaponModeSelected = b; }
+    bool GetFirstPersonWeaponMode()             { return m_bFirstPersonWeaponModeSelected; }
 };
 
 VALIDATE_SIZE(CWeapon, 0x1C);

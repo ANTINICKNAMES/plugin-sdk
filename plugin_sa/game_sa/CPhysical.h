@@ -7,6 +7,7 @@
 #pragma once
 #include "PluginBase.h"
 #include "CEntity.h"
+#include "CEntryInfo.h"
 #include "CColPoint.h"
 #include "CVector.h"
 #include "CQuaternion.h"
@@ -56,46 +57,62 @@ public:
         bool bCarriedByRope : 1;
     };
 
-    int field_38;
-    unsigned int m_nLastCollisionTime;
+    float            m_fPrevDistFromCam;
+
+    UInt32           m_LastCollisionTime;
 
     CPhysical::CPhysicalFlags m_nPhysicalFlags;
 
-    CVector          m_vecMoveSpeed;
-    CVector          m_vecTurnSpeed;
-    CVector          m_vecFrictionMoveSpeed;
-    CVector          m_vecFrictionTurnSpeed;
-    CVector          m_vecForce;
-    CVector          m_vecTorque;
-    float            m_fMass;
-    float            m_fTurnMass;
-    float            m_fVelocityFrequency;
-    float            m_fAirResistance;
-    float            m_fElasticity;
-    float            m_fBuoyancyConstant;
-    CVector          m_vecCentreOfMass;
-    void*            m_pCollisionList;
-    void*            m_pMovingList;
-    char             m_nFakePhysics;
-    unsigned char    m_nNumEntitiesCollided;
-    unsigned char    m_nContactSurface;
+    CVector m_vecMoveSpeed;
+    CVector m_vecTurnSpeed;
+
+    CVector m_vecMoveFriction;
+    CVector m_vecTurnFriction;
+
+    CVector m_vecAverageMoveSpeed;
+    CVector m_vecAverageTurnSpeed;
+    
+    float m_fMass;
+    float m_fTurnMass;
+    float m_fMassMultiplier;
+    float m_fAirResistance;
+    float m_fElasticity;
+    float m_fBuoyancyConstant;
+    CVector m_vecCOM; // CenterOfMass
+
+    CEntryInfoList m_listEntryInfo;
+    CPtrNodeDoubleLink* m_pMovingListNode;
+
+    uint8 m_nNoOfStaticFrames;
+    uint8 m_nNoOfCollisionRecords;
+    UInt8 m_LastMaterialToHaveBeenStandingOn;
+
     char field_BB;   // padding
-    CEntity*         m_apCollidedEntities[6];
-    float            m_fMovingSpeed; // ref @ CTheScripts::IsVehicleStopped
-    float            m_fDamageIntensity;
-    CEntity*         m_pDamageEntity;
-    CVector          m_vecLastCollisionImpactVelocity;
-    CVector          m_vecLastCollisionPosn;
-    unsigned short   m_nPieceType;
+
+
+    CEntity* m_aCollisionRecordPtrs[6];
+
+    float m_fTrueDistanceTravelled;
+    float m_fDamageImpulseMagnitude;
+    CEntity* m_pDamageEntity;
+    CVector m_vecDamageNormal;
+    CVector m_vecDamagePos;
+    uint16 m_nDamagedPieceType;
+
     short field_FA;  // padding
-    class CPhysical* m_pAttachedTo;
-    CVector          m_vecAttachOffset;
-    CVector          m_vecAttachedEntityPosn;
-    CQuaternion      m_qAttachedEntityRotation;
-    CEntity*         m_pEntityIgnoredCollision;
-    float            m_fContactSurfaceBrightness;
-    float            m_fDynamicLighting;
-    CRealTimeShadow* m_pShadowData;
+
+    CEntity* m_pAttachToEntity;
+    CVector m_vecAttachPosnOffset;
+    CVector m_vecAttachTiltOffset;
+    RtQuat m_AttachQuat;
+
+    CEntity* m_pNOCollisionVehicle;
+
+
+    float m_lightingFromCollision;
+    float m_lightingFromPointLights;
+
+    CRealTimeShadow* m_pRealTimeShadow;
     
     // originally virtual functions
     void ProcessEntityCollision(CEntity *entity, CColPoint *point);
@@ -145,7 +162,7 @@ public:
     bool ProcessShiftSectorList(int sectorX, int sectorY);
     static void PlacePhysicalRelativeToOtherPhysical(CPhysical* physical1, CPhysical* physical2, CVector offset);
 	
-    float ApplyScriptCollision(CVector arg0, float arg1, float arg2, CVector* arg3);
+    float ApplyScriptCollision(CVector vecColNormal, float fElasticity, float fAdhesiveLimit, CVector* pVecColPos);
     void PositionAttachedEntity();
     void ApplySpeed();
     void UnsetIsInSafePosition();
@@ -159,6 +176,43 @@ public:
     void AttachEntityToEntity(CEntity* entity, CVector* offset, RtQuat* rotation);
     bool CheckCollision();
     bool CheckCollision_SimpleCar();
+
+    // inlines
+    void SetMoveSpeed(float x, float y, float z)    { m_vecMoveSpeed.x = x; m_vecMoveSpeed.y = y; m_vecMoveSpeed.z = z; }
+    void SetMoveSpeed(const CVector& fMoveSpeed)    { m_vecMoveSpeed = fMoveSpeed; }
+    const CVector& GetMoveSpeed()                   { return m_vecMoveSpeed; }
+
+    void SetTurnSpeed(float x, float y, float z)    { m_vecTurnSpeed.x = x; m_vecTurnSpeed.y = y; m_vecTurnSpeed.z = z; }
+    void SetTurnSpeed(const CVector& fTurnSpeed)    { m_vecTurnSpeed = fTurnSpeed; }
+    const CVector& GetTurnSpeed()                   const { return m_vecTurnSpeed; }
+
+    void SetMass(float fMass)                           { m_fMass = fMass; }
+    float GetMass()                                     { return m_fMass; }
+    void SetTurnMass(float fTurnMass)                   { m_fTurnMass = fTurnMass; }
+    float GetTurnMass()                                 { return m_fTurnMass; }
+    void SetAirResistance(float fAirResistance)         { m_fAirResistance = fAirResistance; }
+    float GetAirResistance()                            { return m_fAirResistance; }
+    void SetElasticity(float fElasticity)               { m_fElasticity = fElasticity; }
+    float GetElasticity()                               { return m_fElasticity; }
+    void SetBuoyancyConstant(float fBuoyancy)           { m_fBuoyancyConstant = fBuoyancy; }
+    float GetBuoyancyConstant()                         { return m_fBuoyancyConstant; }
+    void SetCentreOfMass(float x, float y, float z)     { m_vecCOM.x = x; m_vecCOM.y = y; m_vecCOM.z = z; }
+    void SetCentreOfMass(const CVector& pCenterOfMass)  { m_vecCOM = pCenterOfMass; }
+
+    void SetIgnoresExplosions(bool b)       { m_nPhysicalFlags.bIgnoresExplosions = b; }
+    bool GetIgnoresExplosions() const       { return m_nPhysicalFlags.bIgnoresExplosions; }
+    void SetNeverGoStatic(bool b)           { m_nPhysicalFlags.bNeverGoStatic = b; }
+    bool GetNeverGoStatic() const           { return m_nPhysicalFlags.bNeverGoStatic; }
+    void SetUsesCollisionRecords(bool b)    { m_nPhysicalFlags.bUsesCollisionRecords = b; }
+    bool GetUsesCollisionRecords() const    { return m_nPhysicalFlags.bUsesCollisionRecords; }
+
+    CVector GetSpeed(float x, float y, float z) { return GetSpeed(CVector(x, y, z)); }
+
+    float GetDistanceTravelled() { return m_fTrueDistanceTravelled; }
+
+    uint16 GetDamagedPieceType() const { return m_nDamagedPieceType; }
+    float GetDamageImpulseMagnitude() const { return m_fDamageImpulseMagnitude; }
+    CEntity* GetDamageEntity() const { return m_pDamageEntity; }
 };
 
 VALIDATE_SIZE(CPhysical, 0x138);

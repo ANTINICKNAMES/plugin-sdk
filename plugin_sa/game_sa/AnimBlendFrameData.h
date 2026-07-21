@@ -9,12 +9,26 @@
 #include "PluginBase.h"
 #include "CVector.h"
 
+struct RpHAnimStdInterpFrame
+{
+    RpHAnimStdKeyFrame* keyFrame1;
+    RpHAnimStdKeyFrame* keyFrame2;
+    RtQuat           q;
+    RwV3d            t;
+};
+
 class PLUGIN_API AnimBlendFrameData {
 public:
-    unsigned int   m_nFlags;
+    RwInt8 Flags;
     CVector        m_vecOffset;
-    class IFrame  *m_pIFrame;
-    unsigned int   m_nNodeId;
+
+    //class IFrame  *m_pIFrame;
+    union {
+        RwFrame* frame;
+        RpHAnimStdInterpFrame* hanimFrame;
+    };
+
+    uint32 boneTag;
 };
 
 VALIDATE_SIZE(AnimBlendFrameData, 0x18);

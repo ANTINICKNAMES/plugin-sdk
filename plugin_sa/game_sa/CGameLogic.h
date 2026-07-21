@@ -11,15 +11,16 @@
 
 class PLUGIN_API CGameLogic {
 public:
-	static bool			&bFinishedByScript;
+	static bool			&SkipToBeFinishedByScript;
 	static CVehicle*	&SkipVehicle;
-	static unsigned int	&SkipTimer;
-	static int			&SkipState;
+	static UInt32		&SkipTimer;
+	static Int32		&SkipState;
 	static float		&fSkipAngle;
 	static bool			&bScriptCoopGameGoingOn;
 	static unsigned int	&TimeOfLastEvent;
 	static char			&GameState;
 	static char			&bPlayersCannotTargetEachother;
+	static bool			&bPlayersCanBeInSeparateCars;
 
 	static void InitAtStartOfGame();
 	static bool IsCoopGameGoingOn();

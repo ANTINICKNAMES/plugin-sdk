@@ -7,10 +7,12 @@ Do not delete this comment block. Respect others' work!
 #pragma once
 
 #include "PluginBase.h"
-#include "CVector.h"
+
+#include "CEntryExit.h"
 #include "CRGBA.h"
-#include "CVector2D.h"
 #include "CSprite2d.h"
+#include "CVector.h"
+#include "CVector2D.h"
 
 // Thanks to Wesser for radar-related things
 enum eBlipAppearance {

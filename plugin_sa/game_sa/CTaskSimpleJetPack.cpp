@@ -27,3 +27,13 @@ CTaskSimpleJetPack::CTaskSimpleJetPack(const CVector *pVecTargetPos, float fCrui
 {
     plugin::CallMethod<0x67B4E0, CTaskSimpleJetPack*, const CVector*, float,int>(this, pVecTargetPos, fCruiseHeight, nHoverTime);
 }
+
+void CTaskSimpleJetPack::RenderJetPack(CPed* pPed)
+{
+    plugin::CallMethod<0x67F6A0, CTaskSimpleJetPack*, CPed*>(this, pPed);
+}
+
+void CTaskSimpleJetPack::DropJetPack(CPed* pPed)
+{
+    plugin::CallMethod<0x67B660, CTaskSimpleJetPack*, CPed*>(this, pPed);
+}

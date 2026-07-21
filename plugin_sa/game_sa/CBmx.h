@@ -9,20 +9,6 @@
 #include "CBike.h"
 #include "CAnimBlendAssociation.h"
 
-enum eBmxNodes {
-    BMX_NODE_NONE = 0,
-    BMX_CHASSIS = 1,
-    BMX_FORKS_FRONT = 2,
-    BMX_FORKS_REAR = 3,
-    BMX_WHEEL_FRONT = 4,
-    BMX_WHEEL_REAR = 5,
-    BMX_HANDLEBARS = 6,
-    BMX_CHAINSET = 7,
-    BMX_PEDAL_R = 8,
-    BMX_PEDAL_L = 9,
-    BMX_NUM_NODES
-};
-
 class CBmx : public CBike {
 protected:
     CBmx(plugin::dummy_func_t) : CBike(plugin::dummy) {}

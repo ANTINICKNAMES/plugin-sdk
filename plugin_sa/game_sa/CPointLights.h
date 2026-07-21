@@ -11,16 +11,37 @@
 
 class CEntity;
 
-enum ePointLightType : unsigned char
+struct CRegisteredPointLight
 {
-    PLTYPE_POINTLIGHT = 0,
-    PLTYPE_SPOTLIGHT = 1,
-    PLTYPE_DARKLIGHT = 2,
+    CVector Coors;
+    CVector Dir;
+    float Range;
+    float Red, Green, Blue;
+    CEntity* pCastingEntity;
+    UInt8 Type;
+    UInt8 FogEffect;
+    bool bCastsShadowFromPlayerCarAndPed;
 };
 
 class CPointLight {
 public:
-	CVector m_vecPosn;
+    enum 
+    { 
+        PLTYPE_POINTLIGHT = 0, 
+        PLTYPE_DIRECTIONAL, 
+        PLTYPE_ANTILIGHT, 
+        PLTYPE_ONLYFOGEFFECT_ALWAYS, 
+        PLTYPE_ONLYFOGEFFECT, PLTYPE_SMOG 
+    };
+    enum 
+    { 
+        FOGEFF_OFF = 0, 
+        FOGEFF_ON, 
+        FOGEFF_ALWAYS 
+    };
+public:
+    // old PSDK code
+	/*CVector m_vecPosn;
 	CVector m_vecDirection;
     float m_fRange;
     float m_fColorRed;
@@ -29,7 +50,16 @@ public:
     CEntity *m_pEntityToLight;
     ePointLightType m_nType; // see ePointLightType
     unsigned char m_nFogType;
-    bool m_bGenerateShadows;
+    bool m_bGenerateShadows;*/
+
+    CVector Coors;
+    CVector Dir;
+    float Range;
+    float Red, Green, Blue;
+    CEntity* pCastingEntity;
+    UInt8 Type;
+    UInt8 FogEffect;
+    bool bCastsShadowFromPlayerCarAndPed;
 private:
     char _pad0;
 };

@@ -31,17 +31,27 @@ public:
     bool m_bChangePosition;
     bool m_bForceClimb;
     bool m_bInvalidClimb;
-    char m_nHeightForAnim;
-    char m_nHeightForPos;
-    unsigned char m_nSurfaceType;
-    char m_nFallAfterVault;
+    int8 m_nHeightForAnim;
+    int8 m_nHeightForPos;
+    uint8 m_nSurfaceType;
+    int8 m_nFallAfterVault;
     float m_fHandholdHeading;
     CVector m_vecHandholdPos;
-    CEntity *m_pClimbEnt;
-    short m_nGetToPosCounter;
+    CEntity* m_pClimbEnt;
+
+    int16 m_nGetToPosCounter;
     CAnimBlendAssociation* m_pAnim;
 
-    CTaskSimpleClimb(CEntity *pClimbEnt, const CVector &vecTarget, float fHeading, unsigned char nSurfaceType, eClimbHeights nHeight, bool bForceClimb);
+    CTaskSimpleClimb(CEntity* pClimbEnt, const CVector& vecTarget, float fHeading, uint8 nSurfaceType, int8 nHeight, const bool bForceClimb);
+
+    void GetCameraTargetPos(CPed* pPed, CVector& vecTarget);
+
+    static CEntity* TestForClimb(CPed* pPed, CVector& vecTargetPos, float& fGrabHeading, uint8& nSurfaceType, bool bLaunch);
+
+    static CEntity* ScanToGrab(CPed* pPed, CVector& vecTargetPos, float& fGrabHeading, uint8& nSurfaceType, bool bLaunch, 
+        bool bTestStandup, bool bTestDropOtherSide, CVector* pAbsPos);
+    static CEntity* ScanToGrabSectorList(CPtrList& list, CPed* pPed, CVector& vecTargetPos, float& fGrabHeading, uint8& nSurfaceType, 
+        bool bLaunch, bool bTestStandup, bool bTestDropOtherSide);
 };
 
 VALIDATE_SIZE(CTaskSimpleClimb, 0x30);

@@ -9,27 +9,7 @@
 #include "CVehicle.h"
 #include "CDoor.h"
 #include "CTrainNode.h"
-
-enum eTrainNodes {
-    TRAIN_NODE_NONE = 0,
-    TRAIN_DOOR_LF = 1,
-    TRAIN_DOOR_RF = 2,
-    TRAIN_WHEEL_RF1 = 3,
-    TRAIN_WHEEL_RF2 = 4,
-    TRAIN_WHEEL_RF3 = 5,
-    TRAIN_WHEEL_RB1 = 6,
-    TRAIN_WHEEL_RB2 = 7,
-    TRAIN_WHEEL_RB3 = 8,
-    TRAIN_WHEEL_LF1 = 9,
-    TRAIN_WHEEL_LF2 = 10,
-    TRAIN_WHEEL_LF3 = 11,
-    TRAIN_WHEEL_LB1 = 12,
-    TRAIN_WHEEL_LB2 = 13,
-    TRAIN_WHEEL_LB3 = 14,
-    TRAIN_BOGIE_FRONT = 15,
-    TRAIN_BOGIE_REAR = 16,
-    TRAIN_NUM_NODES
-};
+#include "eHierarchyIds.h"
 
 enum eTrainPassengersGenerationState {
     TRAIN_PASSENGERS_QUERY_NUM_PASSENGERS_TO_LEAVE = 0,
@@ -82,7 +62,7 @@ public:
     CTrain           *m_pPrevCarriage;
     CTrain           *m_pNextCarriage;
     CDoor             m_aDoors[6];
-    RwFrame          *m_aTrainNodes[TRAIN_NUM_NODES];
+    RwFrame          *m_aTrainNodes[MAX_TRAIN_NODES];
 
     static unsigned int& GenTrain_Track;
     static unsigned int& GenTrain_TrainConfig;

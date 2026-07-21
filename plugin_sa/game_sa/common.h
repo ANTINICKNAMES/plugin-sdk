@@ -38,12 +38,16 @@ float FindPlayerHeight();
 CPlayerPed * FindPlayerPed(int playerId = -1);
 // returns player vehicle
 CVehicle * FindPlayerVehicle(int playerId = -1, bool bIncludeRemote = false);
+// returns player train
+CVehicle* FindPlayerTrain(Int32 Player = -1);
 // 2 players are playing
 bool InTwoPlayersMode();
 // vectorsub
 CVector VectorSub(CVector const& from, CVector const& what);
 // matrix mul
 CVector Multiply3x3(CMatrix  const& matrix, CVector  const& vec);
+// vector mul
+CVector Multiply3x3(const CVector& v, const CMatrix& m);
 // returns player wanted
 CWanted * FindPlayerWanted(int playerId = -1);
 

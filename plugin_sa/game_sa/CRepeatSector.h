@@ -17,6 +17,11 @@ enum eRepeatSectorList {
 class PLUGIN_API CRepeatSector {
 public:
     CPtrListDoubleLink m_lists[3];
+
+    CPtrListDoubleLink* GetPtrListArray() { return m_lists; }
+    CPtrListDoubleLink& GetOverlapVehiclePtrList() { return m_lists[VEHICLE_SCAN]; }
+    CPtrListDoubleLink& GetOverlapPedPtrList() { return m_lists[PED_SCAN]; }
+    CPtrListDoubleLink& GetOverlapObjectPtrList() { return m_lists[OBJECT_SCAN]; }
 };
 
 VALIDATE_SIZE(CRepeatSector, 0xC);

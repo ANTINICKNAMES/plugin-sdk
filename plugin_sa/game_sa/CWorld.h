@@ -165,8 +165,8 @@ public:
 		return &ms_aSectors[y * NUMSECTORS_X + x];
 	}
 
-	static inline CRepeatSector* GetRepeatSector(int32_t x, int32_t y) {
-		return &ms_aRepeatSectors[y * NUMREPEATSECTORS_X + x];
+	static inline CRepeatSector& GetRepeatSector(int32_t x, int32_t y) {
+		return ms_aRepeatSectors[y * NUMREPEATSECTORS_X + x];
 	}
 
 	static inline CPtrListSingleLink* GetLodPtrList(int32_t x, int32_t y) {

@@ -230,9 +230,9 @@ void CPhysical::PlacePhysicalRelativeToOtherPhysical(CPhysical* physical1, CPhys
 }
 
 // Converted from thiscall float CPhysical::ApplyScriptCollision(CVector,float,float,CVector*) 0x546ED0
-float CPhysical::ApplyScriptCollision(CVector arg0, float arg1, float arg2, CVector* arg3)
+float CPhysical::ApplyScriptCollision(CVector vecColNormal, float fElasticity, float fAdhesiveLimit, CVector* pVecColPos)
 {
-	return ((float (__thiscall *)(CPhysical*, CVector, float, float, CVector*))0x546ED0)(this, arg0, arg1, arg2, arg3);
+	return ((float (__thiscall *)(CPhysical*, CVector, float, float, CVector*))0x546ED0)(this, vecColNormal, fElasticity, fAdhesiveLimit, pVecColPos);
 }
 
 // Converted from thiscall void CPhysical::PositionAttachedEntity(void) 0x546FF0

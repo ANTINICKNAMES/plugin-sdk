@@ -41,6 +41,11 @@ void* CVisibilityPlugins::AtomicDestructor(void* object) {
     return plugin::CallAndReturn<void*, 0x7321A0, void*>(object);
 }
 
+
+void CVisibilityPlugins::AddWeaponPedForPC(CPed* pPed) {
+    plugin::Call<0x5E46D0, CPed*>(pPed);
+}
+
 // Converted from cdecl int CVisibilityPlugins::CalculateFadingAtomicAlpha(CBaseModelInfo *pBaseModelInfo,CEntity *pEntity,float arg3)	0x732500
 int CVisibilityPlugins::CalculateFadingAtomicAlpha(CBaseModelInfo* pBaseModelInfo, CEntity* pEntity, float arg3) {
     return plugin::CallAndReturn<int, 0x732500, CBaseModelInfo*, CEntity*, float>(pBaseModelInfo, pEntity, arg3);

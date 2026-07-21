@@ -105,3 +105,8 @@ void CAudioEngine::SetMusicFaderScalingFactor(float value) {
 void CAudioEngine::SetEffectsFaderScalingFactor(float value) {
     plugin::CallMethod<0x506E50, CAudioEngine*, float>(this, value);
 }
+
+// 0x506EC0
+void CAudioEngine::ReportBulletHit(CEntity* pHitEntity, UInt8 HitSurface, CVector& vPosition, float fAngleOfIncidence) {
+    plugin::CallMethod<0x506EC0, CAudioEngine*, CEntity*, UInt8, CVector&, float>(this, pHitEntity, HitSurface, vPosition, fAngleOfIncidence);
+}

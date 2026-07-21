@@ -35,7 +35,7 @@ public:
     SUPPORTED_10US static int ComputeSlowJackedPed(CVehicle const *vehicle, int doorID);
     SUPPORTED_10US static signed int ComputeTargetDoorToEnterAsPassenger(CVehicle const *pVehicle, int nPassengerNum);
     SUPPORTED_10US static int ComputeTargetDoorToExit(CVehicle const *pVehicle, CPed const *pPed);
-    SUPPORTED_10US static bool GetNearestCarDoor(CPed const *pPed, CVehicle const *pVehicle, CVector *outPos, int doorID);
+    SUPPORTED_10US static bool GetNearestCarDoor(const CPed& ped, const CVehicle& vehicle, CVector& vDoorPos, int& iDoor);
     SUPPORTED_10US static bool GetNearestCarPassengerDoor(CPed const *ped, CVehicle const *vehicle, CVector *outVec, int *doorId, bool flag1, bool flag2, bool flag3);
     SUPPORTED_10US static CVector *GetPositionToOpenCarDoor(CVector *out, CVehicle const *vehicle, int doorId);
     SUPPORTED_10US static bool IsCarDoorInUse(CVehicle const *vehicle, int door1Id, int door2Id);

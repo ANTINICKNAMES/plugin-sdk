@@ -13,11 +13,12 @@ class CVehicle;
 
 class PLUGIN_API CBouncingPanel {
 public:
-    unsigned short m_nFrameId;
-    unsigned short m_nAxis;
-    float          m_fAngleLimit;
-    CVector        m_vecRotation;
-    CVector        m_vecPos;
+    int16 m_nComponentIndex;
+    int16 m_nBounceAxis;
+
+    float m_fBounceApplyMult;
+    CVector m_vecBounceAngle;
+    CVector m_vecBounceTurnSpeed;
 
     static float &BOUNCE_SPRING_DAMP_MULT; // 0.95
     static float &BOUNCE_SPRING_RETURN_MULT; // 0.1

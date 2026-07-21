@@ -10,6 +10,11 @@ CTagManager::TagDesc (&CTagManager::ms_tagDesc)[CTagManager::MAX_TAGS] = *(CTagM
 uint32 ms_numTags = *(uint32*)0xA9AD70;
 uint32 ms_numTagged = *(uint32*)0xA9AD74;
 
+void CTagManager::UpdateNumTagged()
+{
+	plugin::Call<0x49CDE0>();
+}
+
 // 0x5D3D60
 void CTagManager::Save() {
 	plugin::Call<0x5D3D60>();

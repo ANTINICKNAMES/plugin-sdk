@@ -11,24 +11,27 @@
 #include "CRGBA.h"
 
 enum eWeaponEffectsLockTexture {
-    WEAPONEFFECTS_LOCK_ON = 0,
-    WEAPONEFFECTS_LOCK_ON_FIRE = 1
+    TARGET_STANDARD = 0,
+    TARGET_FLIGHT = 1
 };
 
 class PLUGIN_API CWeaponEffects {
 public:
-    bool    m_bActive;
+    bool    m_bRender;
 private:
     char _pad01[3];
 public:
-    int     m_nTimeWhenToDeactivate; // -1 default
-    CVector m_vecPosn;
-    CRGBA   m_color;
-    float   m_fSize;
-    int field_1C;
-    int field_20;
-    float   m_fRotation;
-    char field_28;
+    uint32 clearTargetTimer; // -1 default
+    CVector m_vecTargetPos;
+    
+    //CRGBA   m_color;
+    uint8 m_red, m_green, m_blue, m_alpha;
+
+    float m_fScale;
+    int m_fRotate;
+    int m_fRadius;
+    float m_bLockedOn; // why the hell m_b marked as float???
+    uint8 m_type;
 private:
     char _pad29[3];
 public:

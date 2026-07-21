@@ -58,6 +58,10 @@ public:
 	void SetPathsNeededAtPosition(const CVector& pos);
 	void UpdateStreaming(bool bForceStreaming);
 
+	float CalcRoadDensity(float TestX, float TestY);
+	CNodeAddress FindNodeClosestToCoors(CVector SearchCoors, UInt8 GraphType, float CutoffDist, bool bIgnoreSwitchedOff, bool bIgnoreBetweenLevels, bool bIgnoreAlreadyFound, 
+		bool bBoatNodes, bool bIgnoreInteriors);
+
 	CPathNode *GetPathNode(CNodeAddress address);
 
 	bool Load();

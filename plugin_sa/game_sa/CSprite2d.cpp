@@ -11,7 +11,7 @@ unsigned int& CSprite2d::nextBufferIndex = *(unsigned int *)0xC80458;
 unsigned int& CSprite2d::nextBufferVertex = *(unsigned int *)0xC8045C;
 float& CSprite2d::NearScreenZ = *(float *)0xC80460;
 float& CSprite2d::RecipNearClip = *(float *)0xC80464;
-RwD3D9Vertex *CSprite2d::maVertices = (RwD3D9Vertex *)0xC80468;
+RwIm2DVertex* CSprite2d::maVertices = (RwIm2DVertex*)0xC80468;
 // class functions
 CSprite2d::CSprite2d()
 {

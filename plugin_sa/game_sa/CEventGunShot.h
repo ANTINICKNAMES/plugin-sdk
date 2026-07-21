@@ -18,7 +18,7 @@ public:
 	//static float ms_fGunShotSenseRangeForRiot2;
 
 	CEventGunShot(CEntity* pFiringEntity, CVector ShotOrigin, CVector ShotTarget, bool bSilent);
-	virtual ~CEventGunShot();
+	virtual ~CEventGunShot() {}
 
 	virtual eEventType GetEventType();
 	virtual int GetEventPriority();

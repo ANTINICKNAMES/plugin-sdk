@@ -12,103 +12,173 @@
 #include "CVector.h"
 #include "CPlayerPed.h"
 
-enum PLUGIN_API ePlayerState {
-    PLAYERSTATE_PLAYING,
-    PLAYERSTATE_HASDIED,
-    PLAYERSTATE_HASBEENARRESTED,
-    PLAYERSTATE_FAILEDMISSION,
-    PLAYERSTATE_LEFTGAME
-};
-
 class CPed;
 class CVehicle;
 
+class PLUGIN_API CPlayerCrossHair
+{
+
+public:
+    bool bActivated; // -1 ... 1 on screen
+    float TargetX, TargetY;
+
+    void SwitchCrossHairOn();
+    void SwitchCrossHairOff();
+    void Update(Int32 PlayerIndex, CPad* pPad);
+    void Render(Int32 PlayerIndex);
+};
+
+VALIDATE_SIZE(CPlayerCrossHair, 0xC);
+
 class PLUGIN_API CPlayerInfo {
 public:
-    CPlayerPed *m_pPed;                           // Pointer to the player ped (should always be set)
-    CPlayerData m_PlayerData;               // instance of player variables
-    CVehicle *m_pRemoteVehicle;             // Pointer to vehicle player is driving remotely at the moment.(NULL if on foot)
-    CVehicle *m_pSpecCar;                   // which car is using the special collision model
-    int m_nMoney;                           // Points for this player
-    int m_nDisplayMoney;                    // Points as they would be displayed
-    unsigned int m_nCollectablesPickedUp;   // How many bags of sugar do we have
-    unsigned int m_nTotalNumCollectables;   // How many bags of sugar are there to be had in the game
-    unsigned int m_nLastBumpPlayerCarTimer; // Keeps track of when the last ped bumped into the player car
-    unsigned int m_nTaxiTimer;              // Keeps track of how long the player has been in a taxi with a passenger (in msecs)
-    unsigned int m_nVehicleTimeCounter;     // keeps track of how long player has been in car for driving skill
-    bool m_bTaxiTimerScore;                 // If TRUE then add 1 to score for each second that the player is driving a taxi
+    enum
+    {
+        PLAYERSTATE_PLAYING = 0,
+        PLAYERSTATE_HASDIED,
+        PLAYERSTATE_HASBEENARRESTED,
+        PLAYERSTATE_FAILEDMISSION,
+        PLAYERSTATE_LEFTGAME
+    };
+public:
+    CPlayerPed *pPed;                           // Pointer to the player ped (should always be set)
+    CPlayerPedData PlayerPedData;               // instance of player variables
+    CVehicle* pRemoteVehicle;             // Pointer to vehicle player is driving remotely at the moment.(NULL if on foot)
+
+    CVehicle* pSpecCar;                   // which car is using the special collision model
+
+    Int32 Score;                           // Points for this player
+    Int32 DisplayScore;                    // Points as they would be displayed
+    Int32 CollectablesPickedUp;   // How many bags of sugar do we have
+    Int32 TotalNumCollectables;   // How many bags of sugar are there to be had in the game
+    
+    UInt32 nLastBumpPlayerCarTimer; // Keeps track of when the last ped bumped into the player car
+    
+    UInt32 TaxiTimer;              // Keeps track of how long the player has been in a taxi with a passenger (in msecs)
+    UInt32 vehicle_time_counter;     // keeps track of how long player has been in car for driving skill
+    bool bTaxiTimerScore;                 // If TRUE then add 1 to score for each second that the player is driving a taxi
     bool m_bTryingToExitCar;                // if player holds exit car button, want to trigger getout once car slowed enough with a passenger
 private:
     char _pad0[2];
 public:
-    CVehicle *m_pLastTargetVehicle;         // Last vehicle player tried to enter.
-    unsigned char m_nPlayerState;           // see ePlayerState
-    bool m_bAfterRemoteVehicleExplosion;
-    bool m_bCreateRemoteVehicleExplosion;
-    bool m_bFadeAfterRemoteVehicleExplosion;
-    unsigned int m_nTimeOfRemoteVehicleExplosion;
-    unsigned int m_nLastTimeEnergyLost;      // To make numbers flash on the HUD;
-    unsigned int m_nLastTimeArmourLost;
-    unsigned int m_nLastTimeBigGunFired;    // Tank guns etc
-    unsigned int m_nTimesUpsideDownInARow;  // Make car blow up if car upside down
-    unsigned int m_nTimesStuckInARow;       // Make car blow up if player cannot get out.
-    unsigned int m_nCarTwoWheelCounter;     // how long has player's car been on two wheels
-    float m_fCarTwoWheelDist;               // Make car blow up if player cannot get out.
-    unsigned int m_nCarLess3WheelCounter;   // how long has player's car been on less than 3 wheels
-    unsigned int m_nBikeRearWheelCounter;   // how long has player's bike been on rear wheel only
-    float m_fBikeRearWheelDist;
-    unsigned int m_nBikeFrontWheelCounter;  // how long has player's bike been on front wheel only
-    float m_fBikeFrontWheelDist;
-    unsigned int m_nTempBufferCounter;      // so wheels can leave the ground for a few frames without stopping above counters
-    unsigned int m_nBestCarTwoWheelsTimeMs;
-    float m_fBestCarTwoWheelsDistM;
-    unsigned int m_nBestBikeWheelieTimeMs;
-    float m_fBestBikeWheelieDistM;
-    unsigned int m_nBestBikeStoppieTimeMs;
-    float m_fBestBikeStoppieDistM;
-    unsigned short m_nCarDensityForCurrentZone;
+    CVehicle* pLastTargetVehicle;         // Last vehicle player tried to enter.
+
+    UInt8 PlayerState;           // see ePlayerState
+
+    bool bAfterRemoteVehicleExplosion;
+    bool bCreateRemoteVehicleExplosion;
+    bool bFadeAfterRemoteVehicleExplosion;
+    UInt32 TimeOfRemoteVehicleExplosion;
+    
+    UInt32 LastTimeEnergyLost;      // To make numbers flash on the HUD;
+    UInt32 LastTimeArmourLost;
+    
+    UInt32 LastTimeBigGunFired;    // Tank guns etc
+    UInt32 TimesUpsideDownInARow;  // Make car blow up if car upside down
+    UInt32 TimesStuckInARow;       // Make car blow up if player cannot get out.
+    
+    UInt32 nCarTwoWheelCounter;     // how long has player's car been on two wheels
+    float fCarTwoWheelDist;               // Make car blow up if player cannot get out.
+    UInt32 nCarLess3WheelCounter;   // how long has player's car been on less than 3 wheels
+    UInt32 nBikeRearWheelCounter;   // how long has player's bike been on rear wheel only
+    float fBikeRearWheelDist;
+    UInt32 nBikeFrontWheelCounter;  // how long has player's bike been on front wheel only
+    float fBikeFrontWheelDist;
+    UInt32 nTempBufferCounter;      // so wheels can leave the ground for a few frames without stopping above counters
+    
+    UInt32 nBestCarTwoWheelsTimeMs;
+    float fBestCarTwoWheelsDistM;
+    UInt32 nBestBikeWheelieTimeMs;
+    float fBestBikeWheelieDistM;
+    UInt32 nBestBikeStoppieTimeMs;
+    float fBestBikeStoppieDistM;
+    UInt16 CarDensityForCurrentZone;
 private:
     char _pad1[2];
 public:
-    float m_fRoadDensityAroundPlayer;       // 1.0f for an average city.
-    unsigned int m_nTimeOfLastCarExplosionCaused;
-    unsigned int m_nExplosionMultiplier;
-    unsigned int m_nHavocCaused;            // A counter going up when the player does bad stuff.
-    unsigned short m_nNumHoursDidntEat;
+    float RoadDensityAroundPlayer;       // 1.0f for an average city.
+
+    UInt32 TimeOfLastCarExplosionCaused;
+    Int32 ExplosionMultiplier;
+    Int32 HavocCaused;            // A counter going up when the player does bad stuff.
+    Int16 TimeLastEaten;
 private:
     char _pad2[2];
 public:
-    float m_fCurrentChaseValue;             // How 'ill' is the chase at the moment
-    bool m_bDoesNotGetTired;
-    bool m_bFastReload;
-    bool m_bFireProof;
-    unsigned char m_nMaxHealth;
-    unsigned char m_nMaxArmour;
-    bool m_bGetOutOfJailFree;               // Player doesn't lose money/weapons next time arrested
-    bool m_bGetOutOfHospitalFree;           // Player doesn't lose money next time patched up at hospital
-    bool m_bCanDoDriveBy;
-    unsigned char m_nBustedAudioStatus;
+    float CurrentChaseValue;             // How 'ill' is the chase at the moment
+
+    bool DoesNotGetTired;
+    bool FastReload;
+    bool FireProof;
+    UInt8 MaxHealth;
+    UInt8 MaxArmour;
+
+    bool bGetOutOfJailFree;               // Player doesn't lose money/weapons next time arrested
+    bool bFreeHealthCare;           // Player doesn't lose money next time patched up at hospital
+
+    bool bCanDoDriveBy;
+    UInt8 m_nBustedAudioStatus;
+
 private:
     char _pad3;
 public:
-    unsigned short m_nLastBustMessageNumber;
-    unsigned int m_nCrosshairActivated;
-    CVector2D m_vecCrosshairTarget;         // -1 ... 1 on screen
-    char m_szSkinName[32];
-    RwTexture *m_pSkinTexture;
+    UInt16 m_nLastBustMessageNumber;
+    
+    CPlayerCrossHair CrossHair;
+
+    char m_skinName[32];
+    RwTexture* m_pSkinTexture;
+
     bool m_bParachuteReferenced;
 private:
     char _pad4[3];
 public:
-    unsigned int m_nRequireParachuteTimer;
+    uint32 m_nRequireParachuteTimer;
 
 public:
     CPlayerInfo();
-    void MakePlayerSafe(bool safe, float radius);
+
+    void Clear();
+
+    void Process(Int32 PlayerNumber);
+
+    bool IsPlayerInRemoteMode();
+
+    void FindClosestCarSectorList(CPtrList& list, CPed* pPed, float MinX, float MinY, float MaxX, float MaxY, float* pCloseness, CVehicle** ppClosestVehicle);
+
+    void EvaluateCarPosition(CEntity* pEntity, CPed* pPed, float Distance, float* pCloseness, CVehicle** ppClosestVehicle);
+
+    CObject* FindObjectToSteal(CPed* pPed);
+
+    CVector GetSpeed();
+    CVector GetPos();
+
+    Bool8 IsRestartingAfterDeath();
+    Bool8 IsRestartingAfterArrest();
+    Bool8 IsRestartingAfterMissionFailed();
 
     bool Load();
     bool Save();
 
+    void KillPlayer();
+    void ArrestPlayer();
+    void WorkOutEnergyFromHunger();
+    void PlayerFailedCriticalMission();
+    void CancelPlayerEnteringCars(CVehicle* pSpecificCar);
+    void MakePlayerSafe(bool bSafeState, float ExtinguishRange);
+
+    void BlowUpRCBuggy(bool bCauseExplosion);
+    void SetPlayerSkin(const char* pSkinName);
+    void LoadPlayerSkin();
+    void DeletePlayerSkin();
+
+    void AddHealth(Int32 Amount);
+
+    void SetLastTargetVehicle(CVehicle* pTargetVehicle);
+    CVehicle* GetLastTargetVehicle() const { return pLastTargetVehicle; }
+
+    void StreamParachuteWeapon(bool bAllowParachute);
+    void GivePlayerParachute();
 };
 
 VALIDATE_SIZE(CPlayerInfo, 0x190);

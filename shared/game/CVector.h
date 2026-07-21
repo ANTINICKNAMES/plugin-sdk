@@ -50,6 +50,7 @@ public:
  #ifdef HAS_CMATRIX
     void FromMultiply(const CMatrix& matrix, const CVector& point); // store result of matrix and point multiplication
     void FromMultiply3x3(const CMatrix& matrix, const CVector& vector); // store result of matrix and vector multiplication
+    void FromMultiply3x3(const CVector& vector, const CMatrix& matrix); // store result of vector and matrix multiplication
 #endif
 
     // conversions
@@ -97,6 +98,7 @@ public:
 #ifdef HAS_CMATRIX
     static CVector Multiply(const CMatrix& matrix, const CVector& point); // result of matrix and point multiplication
     static CVector Multiply3x3(const CMatrix& matrix, const CVector& vector); // result of matrix and vector multiplication
+    static CVector Multiply3x3(const CVector& vector, const CMatrix& matrix); // result of vector and matrix multiplication
 #endif
 };
 VALIDATE_SIZE(CVector, 0xC);

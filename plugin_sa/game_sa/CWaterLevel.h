@@ -80,6 +80,8 @@ public:
     static void SetCameraRange();
     static void WaterLevelInitialise();
     static void Shutdown();
+
+    static bool TestLineAgainstWater(CVector StartCoors, CVector EndCoors, CVector* pPenetrationPoint);
 };
 
 extern RwTexture *TexWaterClear256;

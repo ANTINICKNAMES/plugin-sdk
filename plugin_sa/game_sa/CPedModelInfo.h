@@ -26,6 +26,11 @@ public:
     short m_nVoice1;
     short m_nVoice2;
     short m_nVoiceId;
+
+public:
+    void CreateHitColModelSkinned(RpClump* pClump);
+    CColModel* AnimatePedColModelSkinned(RpClump* pClump);
+    CColModel* AnimatePedColModelSkinnedWorld(RpClump* pClump);
 };
 
 VALIDATE_SIZE(CPedModelInfo, 0x44);

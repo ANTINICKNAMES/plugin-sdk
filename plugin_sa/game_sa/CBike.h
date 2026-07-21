@@ -7,8 +7,7 @@
 #pragma once
 #include "PluginBase.h"
 #include "CVehicle.h"
-
-struct tBikeHandlingData;
+#include "tBikeHandlingData.h"
 
 enum eBikeNodes {
     BIKE_NODE_NONE = 0,
@@ -25,61 +24,93 @@ enum eBikeNodes {
 };
 
 class CBike : public CVehicle {
+    struct CBikeFlags
+    {
+        UInt8 bShouldNotChangeColour : 1;
+        UInt8 bPanelsAreThougher : 1;
+        UInt8 bWaterTight : 1;
+        UInt8 bGettingPickedUp : 1;
+        UInt8 bOnSideStand : 1;
+        UInt8 bPlayerBoost : 1;
+        UInt8 bEngineOnFire : 1;
+        UInt8 bWheelieForCamera : 1;
+    };
 protected:
-    CBike(plugin::dummy_func_t) : CVehicle(plugin::dummy), m_mLeanMatrix(plugin::dummy) {}
+    CBike(plugin::dummy_func_t) : CVehicle(plugin::dummy), m_LeanMatrix(plugin::dummy) {}
 public:
-    RwFrame       *m_aBikeNodes[BIKE_NUM_NODES];
-    bool           m_bLeanMatrixCalculated;
-    char _pad0[3];
-    CMatrix        m_mLeanMatrix;
-    unsigned char  m_nDamageFlags;
-    char field_615[27];
-    CVector field_630;
-    void          *m_pBikeHandlingData;
-    CRideAnimData  m_rideAnimData;
-    unsigned char  m_anWheelDamageState[2];
-    char field_65E;
-    char field_65F;
-    CColPoint      m_anWheelColPoint[4];
-    float field_710[4];
-    float field_720[4];
-    float field_730[4];
-    float field_740;
-    int            m_anWheelSurfaceType[2];
-    char field_74C[2];
-    char field_74E[2];
-    float          m_afWheelRotationX[2];
-    float m_fWheelSpeed[2];
-    float field_760;
-    float field_764;
-    float field_768;
-    float field_76C;
-    float field_770[4];
-    float field_780[4];
-    float          m_fHeightAboveRoad;
-    float          m_fCarTraction;
-    float field_798;
-    float field_79C;
-    float field_7A0;
-    float field_7A4;
-    short field_7A8;
-    char field_7AA[2];
-    int field_7AC;
-    int field_7B0;
-    bool           m_bPedLeftHandFixed;
-    bool           m_bPedRightHandFixed;
-    char field_7B6[2];
-    int field_7B8;
-    float m_fBurningTimer; // starts when vehicle health is lower than 250.0, bike blows up when it hits 5000.0
-    CEntity       *m_apWheelCollisionEntity[4];
-    CVector        m_avTouchPointsLocalSpace[4];
-    CEntity       *m_pDamager;
-    unsigned char  m_nNumContactWheels;
-    unsigned char  m_nNumWheelsOnGround;
-    char field_806;
-    char field_807;
-    int field_808;
-    unsigned int   m_anWheelState[2]; // enum tWheelState
+    RwFrame*       m_aBikeNodes[BIKE_NUM_NODES];
+
+
+    bool           m_bLeanMatrix;
+    char _pad0[3]; // padding
+    CMatrix        m_LeanMatrix;
+
+    //unsigned char  m_nDamageFlags;
+    //char field_615[27];
+    //CVector field_630;
+    
+    CBike::CBikeFlags m_nBikeFlags;
+
+    CVector m_vecAveGroundNormal;
+    CVector m_vecGroundRight;
+    CVector m_vecOldSpeedForPlayback;
+    
+    tBikeHandlingData*  pBikeHandling;
+    CRideAnimData       m_rideAnimData;
+
+    uint8 m_nWheelStatus[2];
+
+    char field_65E; // padding
+    char field_65F; // padding
+
+    CColPoint m_aWheelColPoints[4];
+    float m_aWheelRatios[4];
+    float m_aRatioHistory[4];
+
+    float m_aWheelCounts[4];
+    float fBrakeCount;
+
+    eSkidmarkType aWheelSkidmarkType[2];
+    bool bWheelBloody[2];
+    bool bMoreSkidMarks[2];
+
+    float m_aWheelPitchAngles[2];
+    float m_aWheelAngularVelocity[2];
+
+    float m_aWheelSuspensionHeights[2];
+    float m_aWheelOrigHeights[2];
+
+    float m_fSuspensionLength[4];
+    float m_fLineLength[4];
+    float m_fHeightAboveRoad;
+    float m_fExtraTractionMult;
+    float m_fSwingArmLength;
+    float m_fForkYOffset;
+    float m_fForkZOffset;
+    float m_fSteerAngleTan;
+
+    UInt16 nBrakesOn;
+    float m_fTyreTemp;
+    float m_fBrakingSlide;
+
+    uint8 m_nFixLeftHand;
+    uint8 m_nFixRightHand;
+    uint8 m_nTestPedCollision;
+
+    float fPrevSpeed;
+
+    float m_BlowUpTimer; // starts when vehicle health is lower than 250.0, bike blows up when it hits 5000.0
+
+    CPhysical* m_aGroundPhysicalPtrs[4];
+    CVector m_aGroundOffsets[4];
+
+    CEntity* pEntityThatSetUsOnFire;
+
+    UInt8 nNoOfContactWheels;
+    UInt8 m_nDriveWheelsOnGround;
+    UInt8 m_nDriveWheelsOnGroundLastFrame;
+    float m_fGasPedalAudioRevs;
+    tWheelState m_aWheelState[2]; // enum tWheelState
 
     //vtable
 

@@ -27,30 +27,39 @@ class PLUGIN_API CTaskSimpleSwim : public CTaskSimple {
 protected:
     CTaskSimpleSwim(plugin::dummy_func_t a) : CTaskSimple(a) {}
 public:
-    bool m_bFinishedBlending;
-    bool m_bAnimBlockRefAdded;
-    eSwimState m_nSwimState;
-    int m_AnimID;
-    float m_fAnimSpeed;
-    CVector m_vecPos;
-    CPed *m_pPed;
-    float flt_24; // initialized with 0.0f
-    float flt_28; // and used 
-    float flt_2C; // for
-    float flt_30; // internal
-    float flt_34; //calculations
-    CEntity *m_pEntity;
-    CVector m_pClimbPos;
-    float m_fAngle;
-    unsigned char m_nSurfaceType;
+    bool m_bAddedIdleAnim;
+    bool m_bAnimsReferenced;
+
+    int16 m_nSwimState;
+    AnimationId m_nSwimAnim;
+    float m_fControlSpeed;
+    CVector m_vecTargetPos;
+    CPed* m_pTargetPed;
+
+    float m_fDiveAngle;
+    float m_fRollAngle;
+
+    float m_fPitchTorso;
+    float m_fRollTorso;
+
+    float m_fDiveSurfaceSpeed;
+
+    CEntity* m_pClimbEnt;
+    CVector m_vecEdge;
+    float m_fEdgeHeading;
+    uint8 m_nEdgeSurfaceType;
+
 private:
     char _pad[3];
 public:
-    float flt_50; // initialized with 0.0f
-    float flt_54; // and used  for internal calculations
-    int m_nProcessTimeCounter;
-    FxSystem_c *m_pFxSystem;
-    bool m_bTriggerWaterSplash;
+    float fDistanceOffset; // initialized with 0.0f
+    
+    float m_fStopTimer; // and used  for internal calculations
+    uint32 m_nSwimTimer;
+
+    FxSystem_c* m_pFxSys;
+    bool8 m_playedDiveSplash;
+    
     char pad2[3];
     
     CTaskSimpleSwim(CVector const* pPosn, CPed* pPed);

@@ -8,32 +8,53 @@
 #include "PluginBase.h"
 #include "CPlaceable.h"
 #include "CReference.h"
-#include "eEntityType.h"
-#include "eEntityStatus.h"
+//#include "eEntityType.h"
+//#include "eEntityStatus.h"
 #include "CRect.h"
 #include "CColModel.h"
 #include "C2dEffect.h"
 #include "CColModel.h"
 #include "CModelInfo.h"
 
-// Handly macros to ease the annoying calls to CleanUpOldReference/RegisterReference
-#define TIDYREF(entityPtr, refPtr)                                                 \
-    do                                                                             \
-    {                                                                              \
-        if (entityPtr)                                                             \
-        {                                                                          \
-            (entityPtr)->CleanUpOldReference(reinterpret_cast<CEntity**>(refPtr)); \
-        }                                                                          \
-    } while (false)
+enum
+{
+    STATUS_PLAYER = 0,
+    STATUS_PLAYER_PLAYBACKFROMBUFFER,
+    STATUS_SIMPLE,
+    STATUS_PHYSICS,
+    STATUS_ABANDONED,
+    STATUS_WRECKED,
+    STATUS_TRAIN_MOVING,
+    STATUS_TRAIN_NOT_MOVING,
+    STATUS_PLAYER_REMOTE,
+    STATUS_PLAYER_DISABLED,
+    STATUS_TRAILER,
+    STATUS_SIMPLE_TRAILER,
+    STATUS_GHOST
+};
 
-#define TIDYREF_NOTINWORLD(entityPtr, refPtr) TIDYREF(entityPtr, refPtr)
-
-#define REGREF(entityPtr, refPtr) (entityPtr)->RegisterReference(reinterpret_cast<CEntity**>(refPtr))
+enum
+{
+    ENTITY_TYPE_NOTHING = 0,
+    ENTITY_TYPE_BUILDING,
+    ENTITY_TYPE_VEHICLE,
+    ENTITY_TYPE_PED,
+    ENTITY_TYPE_OBJECT,
+    ENTITY_TYPE_DUMMY,
+    ENTITY_TYPE_NOTINPOOLS
+};
 
 class PLUGIN_API CEntity : public CPlaceable {
 protected:
     CEntity(plugin::dummy_func_t) : CPlaceable(plugin::dummy) {}
 public:
+
+    struct CEntityInfo
+    {
+        uint8 nType : 3;
+        uint8 nStatus : 5;
+    };
+
     union {
         struct RwObject *m_pRwObject;
         struct RpClump *m_pRwClump;
@@ -89,8 +110,10 @@ public:
     };
     unsigned char m_nNumLodChildren;
     unsigned char m_nNumLodChildrenRendered;
-    eEntityType m_nType : 3;
-    eEntityStatus m_nStatus : 5;
+
+    //eEntityType m_nType : 3;
+    //eEntityStatus m_nStatus : 5;
+    CEntity::CEntityInfo m_info;
     
     // originally virtual functions
     void Add(CRect &rect);
@@ -110,7 +133,8 @@ public:
     void SpecialEntityPreCollisionStuff(class CEntity *colEntity, bool unk1, unsigned char *unk2, unsigned char *unk3, unsigned char *unk4, unsigned char *unk5);
     void SpecialEntityCalcCollisionSteps(unsigned char *unk1, unsigned char *unk2);
     void PreRender();
-    virtual void Render();
+    virtual void Render_VMT();
+    void Render();
     bool SetupLighting();
     void RemoveLighting();
     void FlagToDestroyWhenNextProcessed();
@@ -166,6 +190,24 @@ public:
     inline float GetBoundRadius() {
         return CModelInfo::GetColModel(m_nModelIndex)->m_boundSphere.m_fRadius;
     }
+
+    void SetTypeBuilding() { m_info.nType = ENTITY_TYPE_BUILDING; }
+    void SetTypeVehicle() { m_info.nType = ENTITY_TYPE_VEHICLE; }
+    void SetTypePed() { m_info.nType = ENTITY_TYPE_PED; }
+    void SetTypeObject() { m_info.nType = ENTITY_TYPE_OBJECT; }
+    void SetTypeDummy() { m_info.nType = ENTITY_TYPE_DUMMY; }
+    bool GetIsTypeBuilding() const { return m_info.nType == ENTITY_TYPE_BUILDING; }
+    bool GetIsTypeVehicle() const { return m_info.nType == ENTITY_TYPE_VEHICLE; }
+    bool GetIsTypePed() const { return m_info.nType == ENTITY_TYPE_PED; }
+    bool GetIsTypeObject() const { return m_info.nType == ENTITY_TYPE_OBJECT; }
+    bool GetIsTypeDummy() const { return m_info.nType == ENTITY_TYPE_DUMMY; }
+    bool GetIsPhysical() const { return m_info.nType == ENTITY_TYPE_NOTINPOOLS; }
+
+    uint8 GetType() const { return m_info.nType; }
+    void SetType(int32 nType) { m_info.nType = nType; }
+
+    uint8 GetStatus() const { return m_info.nStatus; }
+    void SetStatus(int32 nStatus) { m_info.nStatus = nStatus; }
 };
 
 VALIDATE_SIZE(CEntity, 0x38);

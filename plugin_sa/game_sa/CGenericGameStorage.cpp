@@ -24,6 +24,9 @@ int &CGenericGameStorage::ms_FileSize = *reinterpret_cast<int *>(GLOBAL_ADDRESS_
 bool &CGenericGameStorage::ms_bFailed = *reinterpret_cast<bool *>(GLOBAL_ADDRESS_BY_VERSION(0xC16EFC, 0, 0, 0, 0, 0));
 bool &CGenericGameStorage::ms_bLoading = *reinterpret_cast<bool *>(GLOBAL_ADDRESS_BY_VERSION(0xC16EFD, 0, 0, 0, 0, 0));
 
+bool &JustLoadedDontFadeInYet = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xC16EDC, 0, 0, 0, 0, 0));
+bool &StillToFadeOut = *reinterpret_cast<bool*>(GLOBAL_ADDRESS_BY_VERSION(0xC16EDD, 0, 0, 0, 0, 0));
+
 int addrof(CGenericGameStorage::CheckDataNotCorrupt) = ADDRESS_BY_VERSION(0x5D1170, 0, 0, 0, 0, 0);
 int gaddrof(CGenericGameStorage::CheckDataNotCorrupt) = GLOBAL_ADDRESS_BY_VERSION(0x5D1170, 0, 0, 0, 0, 0);
 

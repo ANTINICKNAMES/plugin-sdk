@@ -67,6 +67,7 @@ public:
     CTaskComplexEnterCar(CVehicle* pTargetVehicle, bool bAsDriver, bool bQuitAfterOpeningDoor,
         bool bQuitAfterDraggingPedOut, bool bCarryOnAfterFallingOff = false); 
 
+    CVehicle* GetTargetVehicle() { return m_pTargetVehicle; }
 };
 
 VALIDATE_SIZE(CTaskComplexEnterCar, 0x50);

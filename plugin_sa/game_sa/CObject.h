@@ -132,6 +132,9 @@ public:
     static void DeleteAllTempObjects();
     static void DeleteAllMissionObjects();
     static void DeleteAllTempObjectsInArea(CVector point, float radius);
+
+    // inline
+    CDummyObject* GetRelatedDummy() { return m_pDummyObject; }
 };
 
 VALIDATE_SIZE(CObject, 0x17C);

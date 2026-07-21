@@ -7,8 +7,8 @@
 #include "SurfaceInfos_c.h"
 
 // 0x55D220
-SurfaceId SurfaceInfos_c::GetSurfaceIdFromName(const char* cName) {
-    return plugin::CallAndReturn<SurfaceId, 0x55D220, const char*>(cName);
+uint32 SurfaceInfos_c::GetSurfaceIdFromName(const char* cName) {
+    return plugin::CallAndReturn<uint32, 0x55D220, const char*>(cName);
 }
 
 // 0x55D0E0
@@ -32,223 +32,223 @@ void SurfaceInfos_c::Init() {
 }
 
 // 0x55E5C0
-eAdhesionGroup SurfaceInfos_c::GetAdhesionGroup(SurfaceId id) {
-    return plugin::CallMethodAndReturn<eAdhesionGroup, 0x55E5C0, SurfaceInfos_c*, SurfaceId>(this, id);
+eAdhesionGroup SurfaceInfos_c::GetAdhesionGroup(uint32 id) {
+    return plugin::CallMethodAndReturn<eAdhesionGroup, 0x55E5C0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E5E0
-float SurfaceInfos_c::GetTyreGrip(SurfaceId id) {
-    return plugin::CallMethodAndReturn<float, 0x55E5E0, SurfaceInfos_c*, SurfaceId>(this, id);
+float SurfaceInfos_c::GetTyreGrip(uint32 id) {
+    return plugin::CallMethodAndReturn<float, 0x55E5E0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E600
-float SurfaceInfos_c::GetWetMultiplier(SurfaceId id) {
-    return plugin::CallMethodAndReturn<float, 0x55E600, SurfaceInfos_c*, SurfaceId>(this, id);
+float SurfaceInfos_c::GetWetMultiplier(uint32 id) {
+    return plugin::CallMethodAndReturn<float, 0x55E600, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E630
-uint32_t SurfaceInfos_c::GetSkidmarkType(SurfaceId id) {
-    return plugin::CallMethodAndReturn<uint32_t, 0x55E630, SurfaceInfos_c*, SurfaceId>(this, id);
+uint32_t SurfaceInfos_c::GetSkidmarkType(uint32 id) {
+    return plugin::CallMethodAndReturn<uint32_t, 0x55E630, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E650
-eFrictionEffect SurfaceInfos_c::GetFrictionEffect(SurfaceId id) {
-    return plugin::CallMethodAndReturn<eFrictionEffect, 0x55E650, SurfaceInfos_c*, SurfaceId>(this, id);
+eFrictionEffect SurfaceInfos_c::GetFrictionEffect(uint32 id) {
+    return plugin::CallMethodAndReturn<eFrictionEffect, 0x55E650, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E670
-uint32_t SurfaceInfos_c::GetBulletFx(SurfaceId id) {
+uint32_t SurfaceInfos_c::GetBulletFx(uint32 id) {
     return plugin::CallMethodAndReturn<uint32_t, 0x55E670, SurfaceInfos_c*>(this, id);
 }
 
 // 0x55E690
-bool SurfaceInfos_c::IsSoftLanding(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E690, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsSoftLanding(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E690, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E6B0
-bool SurfaceInfos_c::IsSeeThrough(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E6B0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsSeeThrough(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E6B0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E6D0
-bool SurfaceInfos_c::IsShootThrough(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E6D0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsShootThrough(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E6D0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E6F0
-bool SurfaceInfos_c::IsSand(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E6F0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsSand(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E6F0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E710
-bool SurfaceInfos_c::IsWater(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E710, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsWater(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E710, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E730
-bool SurfaceInfos_c::IsShallowWater(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E730, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsShallowWater(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E730, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E750
-bool SurfaceInfos_c::IsBeach(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E750, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsBeach(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E750, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E770
-bool SurfaceInfos_c::IsSteepSlope(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E770, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsSteepSlope(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E770, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E790
-bool SurfaceInfos_c::IsGlass(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E790, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsGlass(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E790, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E7B0
-bool SurfaceInfos_c::IsStairs(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E7B0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsStairs(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E7B0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E7D0
-bool SurfaceInfos_c::IsSkateable(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E7D0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsSkateable(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E7D0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E7F0
-bool SurfaceInfos_c::IsPavement(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E7F0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsPavement(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E7F0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E810
-uint32_t SurfaceInfos_c::GetRoughness(SurfaceId id) {
-    return plugin::CallMethodAndReturn<uint32_t, 0x55E810, SurfaceInfos_c*, SurfaceId>(this, id);
+uint32_t SurfaceInfos_c::GetRoughness(uint32 id) {
+    return plugin::CallMethodAndReturn<uint32_t, 0x55E810, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E830
-uint32_t SurfaceInfos_c::GetFlammability(SurfaceId id) {
-    return plugin::CallMethodAndReturn<uint32_t, 0x55E830, SurfaceInfos_c*, SurfaceId>(this, id);
+uint32_t SurfaceInfos_c::GetFlammability(uint32 id) {
+    return plugin::CallMethodAndReturn<uint32_t, 0x55E830, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E850
-bool SurfaceInfos_c::CreatesSparks(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E850, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::CreatesSparks(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E850, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E870
-bool SurfaceInfos_c::CantSprintOn(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E870, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::CantSprintOn(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E870, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E890
-bool SurfaceInfos_c::LeavesFootsteps(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E890, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::LeavesFootsteps(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E890, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E8B0
-bool SurfaceInfos_c::ProducesFootDust(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E8B0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::ProducesFootDust(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E8B0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E8D0
-bool SurfaceInfos_c::MakesCarDirty(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E8D0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::MakesCarDirty(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E8D0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E8F0
-bool SurfaceInfos_c::MakesCarClean(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E8F0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::MakesCarClean(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E8F0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E910
-bool SurfaceInfos_c::CreatesWheelGrass(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E910, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::CreatesWheelGrass(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E910, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E930
-bool SurfaceInfos_c::CreatesWheelGravel(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E930, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::CreatesWheelGravel(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E930, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E950
-bool SurfaceInfos_c::CreatesWheelMud(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E950, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::CreatesWheelMud(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E950, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E970
-bool SurfaceInfos_c::CreatesWheelDust(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E970, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::CreatesWheelDust(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E970, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E990
-bool SurfaceInfos_c::CreatesWheelSand(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E990, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::CreatesWheelSand(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E990, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E9B0
-bool SurfaceInfos_c::CreatesWheelSpray(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E9B0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::CreatesWheelSpray(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E9B0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E9D0
-bool SurfaceInfos_c::CreatesPlants(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E9D0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::CreatesPlants(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E9D0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55E9F0
-bool SurfaceInfos_c::CreatesObjects(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55E9F0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::CreatesObjects(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55E9F0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55EA10
-bool SurfaceInfos_c::CanClimb(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55EA10, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::CanClimb(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55EA10, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55EA30
-bool SurfaceInfos_c::IsAudioConcrete(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55EA30, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsAudioConcrete(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55EA30, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55EA50
-bool SurfaceInfos_c::IsAudioGrass(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55EA50, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsAudioGrass(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55EA50, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55EA70
-bool SurfaceInfos_c::IsAudioSand(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55EA70, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsAudioSand(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55EA70, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55EA90
-bool SurfaceInfos_c::IsAudioGravel(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55EA90, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsAudioGravel(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55EA90, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55EAB0
-bool SurfaceInfos_c::IsAudioWood(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55EAB0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsAudioWood(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55EAB0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55EAD0
-bool SurfaceInfos_c::IsAudioWater(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55EAD0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsAudioWater(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55EAD0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55EAF0
-bool SurfaceInfos_c::IsAudioMetal(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55EAF0, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsAudioMetal(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55EAF0, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55EB10
-bool SurfaceInfos_c::IsAudioLongGrass(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55EB10, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsAudioLongGrass(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55EB10, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55EB30
-bool SurfaceInfos_c::IsAudioTile(SurfaceId id) {
-    return plugin::CallMethodAndReturn<bool, 0x55EB30, SurfaceInfos_c*, SurfaceId>(this, id);
+bool SurfaceInfos_c::IsAudioTile(uint32 id) {
+    return plugin::CallMethodAndReturn<bool, 0x55EB30, SurfaceInfos_c*, uint32>(this, id);
 }
 
 // 0x55EB50

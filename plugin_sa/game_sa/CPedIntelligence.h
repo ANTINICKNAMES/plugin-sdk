@@ -194,7 +194,7 @@ public:
     void ClearTasks(bool bClearMainTask, bool bClearSecondaryTask);
     void FlushImmediately(bool bRestartDefaultTasks);
 
-    inline CEvent* AddEvent(CEvent& rEvent, bool bForcePersistence) { GetEventGroup().Add(rEvent, bForcePersistence); }
+    inline CEvent* AddEvent(CEvent& rEvent, bool bForcePersistence) { return GetEventGroup().Add(rEvent, bForcePersistence); }
     inline void RemoveEvent(CEvent* pEvent) { GetEventGroup().Remove(pEvent); }
     inline bool HasEventOfType(CEvent* pEvent) { return GetEventGroup().HasEventOfType(pEvent); }
     inline CEvent* GetEventOfType(int iEventType) { return GetEventGroup().GetEventOfType(iEventType); }
@@ -220,9 +220,13 @@ public:
 
     inline CMentalState& GetMentalState() { return m_mentalState; }
 
-    inline int GetMaxNumPedsInRange() { return 16; }
-    // unknown
-    //int GetMaxNumVehiclesInRange();
+    // todo
+    CEntity** GetNearbyPeds() { return GetPedScanner().m_entities; }
+    int GetMaxNumPedsInRange() const { return 16; }
+    //CPed* GetClosestPedInRange() const;
+    //CEntity** GetNearbyVehicles();
+    //int GetMaxNumVehiclesInRange() const;
+    //CVehicle* GetClosestVehicleInRange() const;
 
     inline CCollisionEventScanner* GetCollisionScanner() { return &m_collisionEventScanner; }
     inline CEventScanner* GetEventScanner() { return &m_eventScanner;  }

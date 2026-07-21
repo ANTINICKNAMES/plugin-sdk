@@ -61,6 +61,11 @@ CVehicle * FindPlayerVehicle(int playerId, bool bIncludeRemote)
 	return ((CVehicle *(__cdecl *)(int, bool))0x56E0D0)(playerId, bIncludeRemote);
 }
 
+CVehicle* FindPlayerTrain(Int32 Player)
+{
+    return plugin::CallAndReturn<CVehicle*, 0x56E160, Int32>(Player);
+}
+
 bool InTwoPlayersMode()
 {
 	return ((bool (__cdecl *)())0x441390)();
@@ -74,6 +79,11 @@ CVector VectorSub(CVector const& from, CVector const& what)
 CVector Multiply3x3(CMatrix  const& matrix, CVector  const& vec)
 {
 	return ((CVector (__cdecl *)(CMatrix  const&, CVector  const&))0x59C790)(matrix, vec);
+}
+
+CVector Multiply3x3(const CVector& v, const CMatrix& m)
+{
+    return ((CVector(__cdecl*)(CVector  const&, CMatrix  const&))0x59C810)(v, m);
 }
 
 CWanted * FindPlayerWanted(int playerId)

@@ -52,6 +52,7 @@ public:
     static float &gVehicleAngleToCamera;
 
 public:
+    static void AddWeaponPedForPC(CPed* pPed);
     static void AtomicConstructor(void *object);
     static void AtomicCopyConstructor(void *object, void const *originalObject);
     static void *AtomicDestructor(void *object);

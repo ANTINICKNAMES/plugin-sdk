@@ -15,27 +15,36 @@
 #include "CAEVehicleAudioEntity.h"
 #include "eAudioEvents.h"
 
+struct
+{
+    int Time;
+    int Type;
+} typedef tBeatInfoBeat;
+
+struct
+{
+    tBeatInfoBeat BeatWindow[20];
+    int bBeatInfoPresent;
+    int BeatTypeThisFrame;
+    int BeatNumber;
+} typedef tBeatInfo;
+
 class PLUGIN_API CAudioEngine {
 public:
-    char field_0;
-    char field_1;
-    char m_nCurrentRadiostationId;
-    char field_3;
-    int field_4;
-    char field_8[152];
-    char field_A0;
-    char field_A1[15];
-    char field_B0;
-    char field_B1[3];
-    CAEFrontendAudioEntity m_FrontendAudio;
+    Bool8 m_bPlayingMissionCompleteTrack, m_bStoppingMissionCompleteTrack;
+    Int8 m_nActiveRadioStationBeforeCutscene;
+    char field_3; // padding?
+    int m_nAudioStreamClientHandle;
+    tBeatInfo m_BeatInfo;
+    CAEFrontendAudioEntity m_FrontendAudioEntity;
     CAETwinLoopSoundEntity field_150;
     CAETwinLoopSoundEntity field_1F8;
-    CAEScriptAudioEntity m_scriptAudio;
-    CAECollisionAudioEntity m_collisionAudio;
-    int m_pWeaponAudio;
-    CAEPedlessSpeechAudioEntity m_pedlessSpeechAudio;
+    CAEScriptAudioEntity m_ScriptAudioEntity;
+    CAECollisionAudioEntity m_CollisionAudioEntity;
+    int m_pGlobalWeaponAudioEntity; // CAEGlobalWeaponAudioEntity*
+    CAEPedlessSpeechAudioEntity m_PedlessSpeechAudioEntity;
     char field_1F38[24];
-    CAEDoorAudioEntity m_doorAudio;
+    CAEDoorAudioEntity m_GlobalDoorAudioEntity;
 
 public:
     void Initialise();
@@ -62,6 +71,7 @@ public:
     void InitialisePostLoading();
     void SetMusicFaderScalingFactor(float value);
     void SetEffectsFaderScalingFactor(float value);
+    void ReportBulletHit(CEntity* pHitEntity, UInt8 HitSurface, CVector& vPosition, float fAngleOfIncidence);
 };
 
 VALIDATE_SIZE(CAudioEngine, 0x1FD8);

@@ -83,10 +83,10 @@ enum PLUGIN_API eLights {
 
 class PLUGIN_API CDamageManager {
 public:
-    float m_fWheelDamageEffect;
-    unsigned char m_nEngineStatus;
+    float fWheelDamageEffect;
+    uint8 m_Engine;
     union {
-        unsigned char m_anWheelsStatus[4];
+        uint8 m_Wheel[4];
         struct {
             unsigned char m_nRightRearWheelsStatus;
             unsigned char m_nRightFrontWheelsStatus;
@@ -95,7 +95,7 @@ public:
         };
     };
     union {
-        unsigned char m_anDoorsStatus[6];
+        uint8 m_Door[6];
         struct {
             unsigned char m_nBonnetStatus;
             unsigned char m_nBootStatus;
@@ -106,7 +106,7 @@ public:
         };
     };
     union {
-        unsigned int m_nLightsStatus;
+        uint32 m_Lights;
         struct {
             unsigned int m_nLeftFrontLightStatus : 2;
             unsigned int m_nRightFrontLightStatus : 2;
@@ -114,7 +114,7 @@ public:
             unsigned int m_nLeftRearLightStatus : 2;
         };
     };
-    unsigned int m_nPanelsStatus;
+    uint32 m_Panels;
 
     //funcs
 

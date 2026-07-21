@@ -10,13 +10,15 @@
 
 class PLUGIN_API CRideAnimData {
 public:
-    unsigned int m_nAnimGroup;
-    float m_fSteerAngle;
-    float        m_fAnimLean;
-    int dwordC;
-    float dword10;
-    float        m_fHandlebarsAngle;
-    float        m_fAnimPercentageState;
+    AssocGroupId m_animGroup;
+    
+    float m_fBarSteerAngle;
+    float m_fLeanAngle;
+    float m_fDesiredLeanAngle;
+    float m_fLeanFwd;
+
+    float m_fAnimLeanLeft;
+    float m_fAnimLeanFwd;
 };
 
 VALIDATE_SIZE(CRideAnimData, 0x1C);

@@ -301,3 +301,60 @@ void CPad::UpdatePads() {
 void CPad::ClearMouseHistory() {
     plugin::Call<0x541BD0>();
 }
+
+Int16 CPad::LookAroundLeftRight()
+{
+    return plugin::CallMethodAndReturn<Int16, 0x540E80, CPad*>(this);
+}
+
+Int16 CPad::LookAroundUpDown()
+{
+    return plugin::CallMethodAndReturn<Int16, 0x540F80, CPad*>(this);
+}
+
+// 0x5406B0
+bool CPad::TargetJustDown()
+{
+    return plugin::CallMethodAndReturn<bool, 0x5406B0, CPad*>(this);
+}
+
+// 0x540530
+bool CPad::CycleCameraModeJustDown()
+{
+    return plugin::CallMethodAndReturn<bool, 0x540530, CPad*>(this);
+}
+
+// 0x5404A0
+bool CPad::CycleCameraModeUpJustDown()
+{
+    return plugin::CallMethodAndReturn<bool, 0x5404A0, CPad*>(this);
+}
+
+// 0x5404F0
+bool CPad::CycleCameraModeDownJustDown()
+{
+    return plugin::CallMethodAndReturn<bool, 0x5404F0, CPad*>(this);
+}
+
+
+// inlines
+
+RwV2d CPad::GetAmountMouseMoved()
+{
+    return { NewMouseControllerState.x, NewMouseControllerState.y };
+}
+
+bool CPad::IsDisabled()
+{
+    return DisablePlayerControls;
+}
+
+void CPad::DisableControlsCamera()
+{
+    DisablePlayerControls |= 1;
+}
+
+void CPad::EnableControlsCamera()
+{
+    DisablePlayerControls &= ~1;
+}

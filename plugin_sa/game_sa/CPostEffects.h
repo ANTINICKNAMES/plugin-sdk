@@ -68,6 +68,9 @@ public:
 
     static void Render();
 
+    // inline
+    static void SpeedFXDisableForThisFrame();
+
     static bool& m_bDisableAllPostEffect;
     static bool& m_bSavePhotoFromScript;
     static bool& m_bInCutscene;

@@ -14,37 +14,51 @@
 class CPed;
 class CCopPed;
 
+enum eWantedLevel
+{
+    WANTED_CLEAN = 0,
+    WANTED_LEVEL1,
+    WANTED_LEVEL2,
+    WANTED_LEVEL3,
+    WANTED_LEVEL4,
+    WANTED_LEVEL5,
+    WANTED_LEVEL6
+};
+
 class PLUGIN_API CWanted {
 public:
-	unsigned int    m_nChaosLevel;
-	unsigned int    m_nChaosLevelBeforeParole;
-	unsigned int    m_nLastTimeWantedDecreased;
-	unsigned int    m_nLastTimeWantedLevelChanged;
-	unsigned int    m_nTimeOfParole;
-	float           m_fMultiplier; // New crimes have their wanted level contribution multiplied by this
-	unsigned char   m_nCopsInPursuit;
-	unsigned char   m_nMaxCopsInPursuit;
-	unsigned char   m_nMaxCopCarsInPursuit;
-	unsigned char   m_nCopsBeatingSuspect;
-	unsigned short  m_nChanceOnRoadBlock;
-	unsigned char   m_bPoliceBackOff : 1;       // If this is set the police will leave player alone (for cut-scenes)
-    unsigned char   m_bPoliceBackOffGarage : 1; // If this is set the police will leave player alone (for garages)
-    unsigned char   m_bEverybodyBackOff : 1;    // If this is set then everybody (including police) will leave the player alone (for cut-scenes)
-    unsigned char   m_bSwatRequired : 1;        // These three booleans are needed so that the
-    unsigned char   m_bFbiRequired : 1;         // streaming required vehicle stuff can be overrided
-    unsigned char   m_bArmyRequired : 1;
+    int32           m_nWantedLevel; // IMPORTANT: m_nWantedLevel returns chase value from 0 to 1000, m_WantedLevel returns number of stars!!!
+    int32           m_nWantedLevelBeforeParole;
+    uint32          m_LastTimeWantedDecreased;
+    uint32          m_LastTimeWantedLevelChanged;
+    UInt32          m_TimeOfParole;
+    float           m_fMultiplier; // New crimes have their wanted level contribution multiplied by this
+    uint8           m_nCopsInPursuit;
+    uint8           m_nMaxCopsInPursuit;
+    uint8           m_nMaxCopCarsInPursuit;
+
+    uint8           m_nCopsBeatingSuspect;
+    uint16          m_nChanceOnRoadBlock;
+    uint8           m_PoliceBackOff : 1;       // If this is set the police will leave player alone (for cut-scenes)
+    uint8           m_PoliceBackOffGarage : 1; // If this is set the police will leave player alone (for garages)
+    uint8           m_EverybodyBackOff : 1;    // If this is set then everybody (including police) will leave the player alone (for cut-scenes)
+    uint8           m_swatRequired : 1;        // These three booleans are needed so that the
+    uint8           m_fbiRequired : 1;         // streaming required vehicle stuff can be overrided
+    uint8           m_armyRequired : 1;
 private:
 	char _pad1F;
 public:
-	unsigned int    m_nCurrentChaseTime;
-	unsigned int    m_nCurrentChaseTimeCounter;
-	unsigned int    m_nTimeCounting;
-	unsigned int    m_nWantedLevel;
-	unsigned int    m_nWantedLevelBeforeParole;
-	CCrimeBeingQd   m_CrimesBeingQd[16];
-	CCopPed        *m_pCopsInPursuit[10];
-    CAEPoliceScannerAudioEntity m_PoliceScannerAudio;
-    bool            m_bLeavePlayerAlone;
+    uint32          current_chase_time;
+    uint32          current_chase_time_counter;
+    bool8           m_bTimeCounting;
+
+    eWantedLevel    m_WantedLevel; // IMPORTANT: m_nWantedLevel returns chase value from 0 to 1000, m_WantedLevel returns number of stars!!!
+    eWantedLevel    m_WantedLevelBeforeParole; // stored wanted level stars when flashing
+
+	CCrimeBeingQd   CrimesBeingQd[16];
+	CCopPed*        m_pCopsInPursuit[10];
+    CAEPoliceScannerAudioEntity m_PoliceScannerAudioEntity;
+    bool            m_bStoredPoliceBackOff;
 private:
     char _pad299[3];
 public:
@@ -87,6 +101,9 @@ public:
     static bool CanCopJoinPursuit(CCopPed* cop, unsigned char maxCopsCount, CCopPed** copsArray, unsigned char& copsCounter);
     bool CanCopJoinPursuit(CCopPed* cop);
     bool SetPursuitCop(CCopPed* cop);
+
+    int32 GetWantedLevel() { return m_WantedLevel; }
+    bool PoliceBackOff() const { return m_PoliceBackOff || m_PoliceBackOffGarage || m_EverybodyBackOff; };
 };
 
 VALIDATE_SIZE(CWanted, 0x29C);

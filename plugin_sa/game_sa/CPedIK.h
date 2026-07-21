@@ -12,10 +12,19 @@
 
 class CPed;
 
+enum
+{
+    PEDIK_GUN_REACHED_TARGET = 1,
+    PEDIK_TORSO_USED,
+    PEDIK_USE_ARM = 4,
+    PEDIK_SLOPE_PITCH = 8,
+    PEDIK_EVERYTHING_USED = 16
+};
+
 // Return flags from MoveLimb() function
 enum MoveLimbResult
 {
-    CANT_REACH_TARGET,
+    CANT_REACH_TARGET = 0,
     HAVENT_REACHED_TARGET,
     REACHED_TARGET
 };
@@ -41,6 +50,12 @@ VALIDATE_SIZE(LimbMovementInfo, 0x18);
 
 class PLUGIN_API CPedIK {
 public:
+    enum {
+        GUN_POINTED_SUCCESSFULLY = 1,
+        LOOKAROUND_HEAD_ONLY = 2,
+        AIMS_WITH_ARM = 4,
+    };
+
     CPed *m_pPed;
     LimbOrientation m_TorsoOrien;
     float m_fSlopePitch;
