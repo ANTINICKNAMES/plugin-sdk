@@ -29,8 +29,8 @@ unsigned int &CCutsceneMgr::ms_numAppendObjectNames = *(unsigned int *)0xB5F858;
 bool &CCutsceneMgr::restoreEverythingAfterCutscene = *(bool *)0xB5F85C;
 float &CCutsceneMgr::m_fPrevCarDensity = *(float *)0xBC1D68;
 float &CCutsceneMgr::m_fPrevPedDensity = *(float *)0xBC1D6C;
-tCutsceneParticleEffect *CCutsceneMgr::ms_pParticleEffects = (tCutsceneParticleEffect *)0xBC1D70;
-tCutsceneRemoval *CCutsceneMgr::ms_crToHideItems = (tCutsceneRemoval *)0xBC20D0;
+CutscenePEffect* CCutsceneMgr::ms_pParticleEffects = (CutscenePEffect*)0xBC1D70;
+CutsceneRemove* CCutsceneMgr::ms_crToHideItems = (CutsceneRemove*)0xBC20D0;
 CEntity **CCutsceneMgr::ms_pHiddenEntities = (CEntity **)0xBC2968;
 unsigned int &CCutsceneMgr::ms_numAttachObjectToBones = *(unsigned int *)0xBC2A30;
 bool *CCutsceneMgr::ms_bRepeatObject = (bool *)0xBC2A34;
@@ -44,7 +44,7 @@ char (*CCutsceneMgr::ms_cLoadAnimName)[32] = (char(*)[32])0xBC3288;
 char (*CCutsceneMgr::ms_cLoadObjectName)[32] = (char(*)[32])0xBC38C8;
 float &CCutsceneMgr::ms_cutsceneTimer = *(float *)0xBC3F08;
 char *CCutsceneMgr::ms_cutsceneName = (char *)0xBC3F0C;
-CCutsceneObject **CCutsceneMgr::ms_pCutsceneObjects = (CCutsceneObject **)0xBC3F18;
+CObject **CCutsceneMgr::ms_pCutsceneObjects = (CObject **)0xBC3F18;
 unsigned int &CCutsceneMgr::ms_cutscenePlayStatus = *(unsigned int *)0xBC3FE0;
 unsigned int &CCutsceneMgr::ms_numCutsceneObjs = *(unsigned int *)0xBC3FE4;
 unsigned int &CCutsceneMgr::ms_numLoadObjectNames = *(unsigned int *)0xBC3FE8;
@@ -60,28 +60,28 @@ CAnimBlendAssocGroup &CCutsceneMgr::ms_cutsceneAssociations = *(CAnimBlendAssocG
 CVector &CCutsceneMgr::ms_cutsceneOffset = *(CVector *)0xBC4034;
 
 // Converted from cdecl int CCutsceneMgr::AddCutsceneHead(CObject *object,int) 0x5B0380
-int CCutsceneMgr::AddCutsceneHead(CObject* object, int arg1) {
-    return plugin::CallAndReturn<int, 0x5B0380, CObject*, int>(object, arg1);
+int CCutsceneMgr::AddCutsceneHead(CObject* pPed, int32 headId) {
+    return plugin::CallAndReturn<int, 0x5B0380, CObject*, int32>(pPed, headId);
 }
 
 // Converted from cdecl void CCutsceneMgr::AppendToNextCutscene(char const*objectName,char const*animName) 0x4D5DB0
-void CCutsceneMgr::AppendToNextCutscene(char const* objectName, char const* animName) {
-    plugin::Call<0x4D5DB0, char const*, char const*>(objectName, animName);
+void CCutsceneMgr::AppendToNextCutscene(const char* pModelName, const char* pAnimName) {
+    plugin::Call<0x4D5DB0, const char*, const char*>(pModelName, pAnimName);
 }
 
 // Converted from cdecl void CCutsceneMgr::AttachObjectToBone(CObject *attachment,CObject *object,int boneId) 0x5B0450
-void CCutsceneMgr::AttachObjectToBone(CObject* attachment, CObject* object, int boneId) {
-    plugin::Call<0x5B0450, CObject*, CObject*, int>(attachment, object, boneId);
+void CCutsceneMgr::AttachObjectToBone(CObject* pObject, CObject* pParent, int32 boneId) {
+    plugin::Call<0x5B0450, CObject*, CObject*, int32>(pObject, pParent, boneId);
 }
 
 // Converted from cdecl void CCutsceneMgr::AttachObjectToFrame(CObject *attachment,CEntity *object,char const*frameName) 0x5B0480
-void CCutsceneMgr::AttachObjectToFrame(CObject* attachment, CEntity* object, char const* frameName) {
-    plugin::Call<0x5B0480, CObject*, CEntity*, char const*>(attachment, object, frameName);
+void CCutsceneMgr::AttachObjectToFrame(CObject* pObject, CEntity* pParent, const char* pName) {
+    plugin::Call<0x5B0480, CObject*, CEntity*, const char*>(pObject, pParent, pName);
 }
 
 // Converted from cdecl void CCutsceneMgr::AttachObjectToParent(CObject *attachment,CEntity *object) 0x5B04B0
-void CCutsceneMgr::AttachObjectToParent(CObject* attachment, CEntity* object) {
-    plugin::Call<0x5B04B0, CObject*, CEntity*>(attachment, object);
+void CCutsceneMgr::AttachObjectToParent(CObject* pObject, CEntity* pParent) {
+    plugin::Call<0x5B04B0, CObject*, CEntity*>(pObject, pParent);
 }
 
 // Converted from cdecl void CCutsceneMgr::BuildCutscenePlayer(void) 0x4D5E20
@@ -90,8 +90,8 @@ void CCutsceneMgr::BuildCutscenePlayer() {
 }
 
 // Converted from cdecl CCutsceneObject* CCutsceneMgr::CreateCutsceneObject(int modelId) 0x5B02A0
-CCutsceneObject* CCutsceneMgr::CreateCutsceneObject(int modelId) {
-    return plugin::CallAndReturn<CCutsceneObject*, 0x5B02A0, int>(modelId);
+CCutsceneObject* CCutsceneMgr::CreateCutsceneObject(int32 id) {
+    return plugin::CallAndReturn<CCutsceneObject*, 0x5B02A0, int32>(id);
 }
 
 // Converted from cdecl void CCutsceneMgr::DeleteCutsceneData(void) 0x4D5ED0
@@ -110,8 +110,8 @@ void CCutsceneMgr::FinishCutscene() {
 }
 
 // Converted from cdecl uint CCutsceneMgr::GetCutsceneTimeInMilleseconds(void) 0x5B0550
-long long CCutsceneMgr::GetCutsceneTimeInMilleseconds() {
-    return plugin::CallAndReturn<long long, 0x5B0550>();
+uint32 CCutsceneMgr::GetCutsceneTimeInMilleseconds() {
+    return plugin::CallAndReturn<uint32, 0x5B0550>();
 }
 
 // Converted from cdecl bool CCutsceneMgr::HasCutsceneFinished(void) 0x5B0570
@@ -135,13 +135,13 @@ void CCutsceneMgr::IsCutsceneSkipButtonBeingPressed() {
 }
 
 // Converted from cdecl void CCutsceneMgr::LoadAnimationUncompressed(char const*animName) 0x4D5AB0
-void CCutsceneMgr::LoadAnimationUncompressed(char const* animName) {
-    plugin::Call<0x4D5AB0, char const*>(animName);
+void CCutsceneMgr::LoadAnimationUncompressed(const char* pAnimName) {
+    plugin::Call<0x4D5AB0, const char*>(pAnimName);
 }
 
 // Converted from cdecl void CCutsceneMgr::LoadCutsceneData(char const*cutsceneName) 0x4D5E80
-void CCutsceneMgr::LoadCutsceneData(char const* cutsceneName) {
-    plugin::Call<0x4D5E80, char const*>(cutsceneName);
+void CCutsceneMgr::LoadCutsceneData(const char* pName) {
+    plugin::Call<0x4D5E80, const char*>(pName);
 }
 
 // Converted from cdecl void CCutsceneMgr::LoadCutsceneData_loading(void) 0x5B11C0
@@ -150,8 +150,8 @@ void CCutsceneMgr::LoadCutsceneData_loading() {
 }
 
 // Converted from cdecl void CCutsceneMgr::LoadCutsceneData_overlay(char const*cutsceneName) 0x5B13F0
-void CCutsceneMgr::LoadCutsceneData_overlay(char const* cutsceneName) {
-    plugin::Call<0x5B13F0, char const*>(cutsceneName);
+void CCutsceneMgr::LoadCutsceneData_overlay(const char* pName) {
+    plugin::Call<0x5B13F0, const char*>(pName);
 }
 
 // Converted from cdecl void CCutsceneMgr::LoadCutsceneData_postload(void) 0x5AFBC0
@@ -180,18 +180,18 @@ void CCutsceneMgr::RemoveEverythingBecauseCutsceneDoesntFitInMemory() {
 }
 
 // Converted from cdecl void CCutsceneMgr::SetCutsceneAnim(char const*animName,CObject *object) 0x5B0390
-void CCutsceneMgr::SetCutsceneAnim(char const* animName, CObject* object) {
-    plugin::Call<0x5B0390, char const*, CObject*>(animName, object);
+void CCutsceneMgr::SetCutsceneAnim(const char* pName, CObject* pObject) {
+    plugin::Call<0x5B0390, const char*, CObject*>(pName, pObject);
 }
 
 // Converted from cdecl void CCutsceneMgr::SetCutsceneAnimToLoop(char const*animName) 0x5B0420
-void CCutsceneMgr::SetCutsceneAnimToLoop(char const* animName) {
-    plugin::Call<0x5B0420, char const*>(animName);
+void CCutsceneMgr::SetCutsceneAnimToLoop(const char* pName) {
+    plugin::Call<0x5B0420, const char*>(pName);
 }
 
 // Converted from cdecl void CCutsceneMgr::SetHeadAnim(char const*animName,CObject *headObject) 0x5B0440
-void CCutsceneMgr::SetHeadAnim(char const* animName, CObject* headObject) {
-    plugin::Call<0x5B0440, char const*, CObject*>(animName, headObject);
+void CCutsceneMgr::SetHeadAnim(const char* pName, CObject* pObject) {
+    plugin::Call<0x5B0440, const char*, CObject*>(pName, pObject);
 }
 
 // Converted from cdecl void CCutsceneMgr::SetupCutsceneToStart(void) 0x5B14D0
@@ -222,6 +222,11 @@ void CCutsceneMgr::Update() {
 // Converted from cdecl void CCutsceneMgr::Update_overlay(void) 0x5B1720
 void CCutsceneMgr::Update_overlay() {
     plugin::Call<0x5B1720>();
+}
+
+void CCutsceneMgr::SetCutsceneOffset(const CVector& pOffset)
+{
+    plugin::Call<0x47E070, const CVector&>(pOffset);
 }
 
 // Converted from cdecl short FindCutsceneAudioTrackId(char const*cutsceneName) 0x5AFA50

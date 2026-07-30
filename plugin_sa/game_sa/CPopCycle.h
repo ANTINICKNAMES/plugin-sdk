@@ -6,7 +6,7 @@
 */
 #pragma once
 #include "PluginBase.h"
-#include "ePedType.h"
+#include "CPedType.h" // #include "ePedType.h"
 #include "CZoneInfo.h"
 #include "CZone.h"
 

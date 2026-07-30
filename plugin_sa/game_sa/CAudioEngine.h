@@ -15,6 +15,8 @@
 #include "CAEVehicleAudioEntity.h"
 #include "eAudioEvents.h"
 
+#include "GameAudioEvents.h"
+
 struct
 {
     int Time;

@@ -7,7 +7,7 @@
 #pragma once
 
 #include "PluginBase.h"
-#include "ePedType.h"
+#include "CPedType.h" //#include "ePedType.h"
 #include "CGangInfo.h"
 
 class PLUGIN_API CGangs {

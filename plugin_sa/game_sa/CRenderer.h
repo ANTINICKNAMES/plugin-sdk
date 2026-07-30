@@ -20,12 +20,22 @@ struct tScanLists {
 
 VALIDATE_SIZE(tScanLists, 0x14);
 
+struct EntityInfo
+{
+    CEntity* pEntity;
+    float dist;
+};
+
+VALIDATE_SIZE(EntityInfo, 0x8);
+
+/*
 struct tRenderListEntry {
     CEntity *pEntity;
     float distance;
 };
 
 VALIDATE_SIZE(tRenderListEntry, 8);
+*/
 
 extern unsigned int MAX_INVISIBLE_ENTITY_PTRS; // default 150
 extern unsigned int MAX_VISIBLE_ENTITY_PTRS; // default 1000
@@ -34,10 +44,18 @@ extern unsigned int MAX_VISIBLE_SUPERLOD_PTRS; // default 50
 
 class PLUGIN_API CRenderer {
 public:
+    enum VisibilityState
+    {
+        ENTITY_INVISIBLE = 0,
+        ENTITY_VISIBLE,
+        ENTITY_OFFSCREEN,
+        ENTITY_STREAM_MODEL
+    };
+public:
     static bool &ms_bRenderTunnels;
     static bool &ms_bRenderOutsideTunnels;
-    static tRenderListEntry *&ms_pLodDontRenderList;
-    static tRenderListEntry *&ms_pLodRenderList;
+    static EntityInfo *&ms_pLodDontRenderList; // tRenderListEntry
+    static EntityInfo *&ms_pLodRenderList; // tRenderListEntry
     static CVehicle *&m_pFirstPersonVehicle;
     static CEntity **ms_aInVisibleEntityPtrs; // static CEntity *ms_aInVisibleEntityPtrs[MAX_INVISIBLE_ENTITY_PTRS];
     static CEntity **ms_aVisibleSuperLodPtrs; // static CEntity *ms_aVisibleSuperLodPtrs[MAX_VISIBLE_SUPERLOD_PTRS];
@@ -67,8 +85,8 @@ public:
     static void AddEntityToRenderList(CEntity* entity, float distance);
     static void ScanSectorList_ListModels(int sector_x, int sector_y);
     static void ScanSectorList_ListModelsVisible(int sector_x, int sector_y);
-    static tRenderListEntry* GetLodRenderListBase();
-    static tRenderListEntry* GetLodDontRenderListBase();
+    static EntityInfo* GetLodRenderListBase(); // tRenderListEntry*
+    static EntityInfo* GetLodDontRenderListBase(); // tRenderListEntry*
     static void ResetLodRenderLists();
     static void AddToLodRenderList(CEntity* entity, float distance);
     static void AddToLodDontRenderList(CEntity* entity, float distance);
@@ -93,6 +111,13 @@ public:
     static void RequestObjectsInFrustum(RwMatrixTag* transformMat, int modelRequesFlags);
     static void RequestObjectsInDirection(CVector const& posn, float angle, int modelRequesFlags);
     static void SetupScanLists(int sector_x, int sector_y);
+
+    static void SetLodDistanceScale(float scale) { ms_lodDistScale = scale; }
+    static float GetLodDistanceScale() { return ms_lodDistScale; }
+    static float GetLowLodDistanceScale() { return ms_lowLodDistScale; }
+
+    // unknown
+    static float GetFadeDistance(CEntity* pEntity, CBaseModelInfo* pModel);
 };
 
 extern unsigned int &gnRendererModelRequestFlags;

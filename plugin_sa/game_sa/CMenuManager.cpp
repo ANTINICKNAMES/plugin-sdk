@@ -23,6 +23,8 @@ bool& bBriefHistoryAllowedToUpdate = *(bool*)0x8CDFF9;
 
 CMenuScreen* aScreens = (CMenuScreen*)0x8CE008;
 
+bool& gbModelViewer = *(bool*)0xBA6728;
+
 CMenuManager::CMenuManager() {
     plugin::CallMethod<0x574350, CMenuManager*>(this);
 }

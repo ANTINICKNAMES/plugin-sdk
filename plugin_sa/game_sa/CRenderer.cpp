@@ -12,8 +12,8 @@ unsigned int MAX_VISIBLE_LOD_PTRS = 1000;
 unsigned int MAX_VISIBLE_SUPERLOD_PTRS = 50;
 bool &CRenderer::ms_bRenderTunnels = *(bool *)0xB745C0;
 bool &CRenderer::ms_bRenderOutsideTunnels = *(bool *)0xB745C1;
-tRenderListEntry *&CRenderer::ms_pLodDontRenderList = *(tRenderListEntry **)0xB745CC;
-tRenderListEntry *&CRenderer::ms_pLodRenderList = *(tRenderListEntry **)0xB745D0;
+EntityInfo *&CRenderer::ms_pLodDontRenderList = *(EntityInfo**)0xB745CC; // tRenderListEntry
+EntityInfo *&CRenderer::ms_pLodRenderList = *(EntityInfo**)0xB745D0; // tRenderListEntry
 CVehicle *&CRenderer::m_pFirstPersonVehicle = *(CVehicle **)0xB745D4;
 CEntity **CRenderer::ms_aInVisibleEntityPtrs = (CEntity **)0xB745D8;
 CEntity **CRenderer::ms_aVisibleSuperLodPtrs = (CEntity **)0xB74830;
@@ -84,13 +84,13 @@ void CRenderer::ScanSectorList_ListModelsVisible(int sector_x, int sector_y) {
 }
 
 // Converted from cdecl tRenderListEntry* CRenderer::GetLodRenderListBase(void) 0x5536D0
-tRenderListEntry* CRenderer::GetLodRenderListBase() {
-    return plugin::CallAndReturn<tRenderListEntry*, 0x5536D0>();
+EntityInfo* CRenderer::GetLodRenderListBase() {
+    return plugin::CallAndReturn<EntityInfo*, 0x5536D0>();
 }
 
 // Converted from cdecl tRenderListEntry* CRenderer::GetLodDontRenderListBase(void) 0x5536E0
-tRenderListEntry* CRenderer::GetLodDontRenderListBase() {
-    return plugin::CallAndReturn<tRenderListEntry*, 0x5536E0>();
+EntityInfo* CRenderer::GetLodDontRenderListBase() {
+    return plugin::CallAndReturn<EntityInfo*, 0x5536E0>();
 }
 
 // Converted from cdecl void CRenderer::ResetLodRenderLists(void) 0x5536F0

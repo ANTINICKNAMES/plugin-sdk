@@ -97,8 +97,8 @@ void CAnimBlendAssociation::SetBlendTo(float blendAmount, float blendDelta) {
 int addrof(CAnimBlendAssociation::SetCurrentTime) = ADDRESS_BY_VERSION(0x4CEA80, 0, 0, 0, 0, 0);
 int gaddrof(CAnimBlendAssociation::SetCurrentTime) = GLOBAL_ADDRESS_BY_VERSION(0x4CEA80, 0, 0, 0, 0, 0);
 
-void CAnimBlendAssociation::SetCurrentTime(float currentTime) {
-    plugin::CallMethodDynGlobal<CAnimBlendAssociation *, float>(gaddrof(CAnimBlendAssociation::SetCurrentTime), this, currentTime);
+void CAnimBlendAssociation::SetCurrentTime(float fCurrentTime) {
+    plugin::CallMethodDynGlobal<CAnimBlendAssociation *, float>(gaddrof(CAnimBlendAssociation::SetCurrentTime), this, fCurrentTime);
 }
 
 int addrof(CAnimBlendAssociation::SetDeleteCallback) = ADDRESS_BY_VERSION(0x4CEBC0, 0, 0, 0, 0, 0);
@@ -125,8 +125,8 @@ void CAnimBlendAssociation::Start(float currentTime) {
 int addrof(CAnimBlendAssociation::SyncAnimation) = ADDRESS_BY_VERSION(0x4CEB40, 0, 0, 0, 0, 0);
 int gaddrof(CAnimBlendAssociation::SyncAnimation) = GLOBAL_ADDRESS_BY_VERSION(0x4CEB40, 0, 0, 0, 0, 0);
 
-void CAnimBlendAssociation::SyncAnimation(CAnimBlendAssociation *syncWith) {
-    plugin::CallMethodDynGlobal<CAnimBlendAssociation *, CAnimBlendAssociation *>(gaddrof(CAnimBlendAssociation::SyncAnimation), this, syncWith);
+void CAnimBlendAssociation::SyncAnimation(CAnimBlendAssociation * pAssociation) {
+    plugin::CallMethodDynGlobal<CAnimBlendAssociation *, CAnimBlendAssociation *>(gaddrof(CAnimBlendAssociation::SyncAnimation), this, pAssociation);
 }
 
 int addrof(CAnimBlendAssociation::UpdateBlend) = ADDRESS_BY_VERSION(0x4D1490, 0, 0, 0, 0, 0);

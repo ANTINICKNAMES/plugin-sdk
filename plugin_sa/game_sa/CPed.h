@@ -443,7 +443,7 @@ public:
     // Process applied anim
     void    SetMoveAnim();
 
-    // virtual void ProcessControl();
+    void ProcessControl();
     // virtual void PreRender();
     // virtual void Render();
     // virtual void SpecialEntityPreCollisionStuff(CPhysical* pPhysical, bool bDoingShift, bool& bSkipTestEntirely, bool& bSkipCol, bool& bForceBuildingCol, bool& bForceSoftCol);
@@ -642,25 +642,14 @@ public:
     // virtual int32_t ProcessEntityCollision(CEntity* pEntity, CColPoint* aColPoints);
 
 public:
-    inline uint8_t GetCharCreatedBy() {
-        return CharCreatedBy;
-    }
+    inline uint8_t GetCharCreatedBy() { return CharCreatedBy; }
+    inline CWeapon* GetWeapon() { return &m_WeaponSlots[m_nCurrentWeapon]; }
 
-    inline CWeapon* GetWeapon() {
-        return &m_WeaponSlots[m_nCurrentWeapon];
-    }
+    inline CWeapon& GetWeapon(uint8_t slot) { return m_WeaponSlots[slot]; }
 
-    inline CWeapon& GetWeapon(uint8_t slot) {
-        return m_WeaponSlots[slot];
-    }
+    inline void SetShootingAccuracy(uint8_t nShootingAccuracy) { m_nShootingAccuracy = nShootingAccuracy; }
 
-    inline void SetShootingAccuracy(uint8_t nShootingAccuracy) {
-        m_nShootingAccuracy = nShootingAccuracy;
-    }
-
-    inline void SetWeaponLockOnTarget(CEntity* pEntLockOnTarget) {
-        m_pEntLockOnTarget = pEntLockOnTarget;
-    }
+    inline void SetWeaponLockOnTarget(CEntity* pEntLockOnTarget) { m_pEntLockOnTarget = pEntLockOnTarget; }
 
     inline CEntity* GetWeaponLockOnTarget() {
         return m_pEntLockOnTarget;

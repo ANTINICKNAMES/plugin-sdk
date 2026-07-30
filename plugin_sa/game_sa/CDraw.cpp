@@ -11,14 +11,14 @@ float &CDraw::ms_fLODDistance = *(float *)0xC3EF98;
 float &CDraw::ms_fFarClipZ = *(float *)0xC3EF9C;
 float &CDraw::ms_fNearClipZ = *(float *)0xC3EFA0;
 float &CDraw::ms_fAspectRatio = *(float *)0xC3EFA4;
-unsigned char &CDraw::FadeRed = *(unsigned char *)0xC3EFA8;
-unsigned char &CDraw::FadeGreen = *(unsigned char *)0xC3EFA9;
-unsigned char &CDraw::FadeBlue = *(unsigned char *)0xC3EFAA;
-unsigned char &CDraw::FadeValue = *(unsigned char *)0xC3EFAB;
+UInt8 &CDraw::FadeRed = *(UInt8*)0xC3EFA8;
+UInt8 &CDraw::FadeGreen = *(UInt8*)0xC3EFA9;
+UInt8 &CDraw::FadeBlue = *(UInt8*)0xC3EFAA;
+UInt8 &CDraw::FadeValue = *(UInt8*)0xC3EFAB;
 
 // Converted from cdecl void CDraw::SetFOV(float fovValue) 0x6FF410
-void CDraw::SetFOV(float fovValue) {
-    plugin::Call<0x6FF410, float>(fovValue);
+void CDraw::SetFOV(float fFOV) {
+    plugin::Call<0x6FF410, float>(fFOV);
 }
 
 // Converted from cdecl float CDraw::CalculateAspectRatio(void) 0x6FF420

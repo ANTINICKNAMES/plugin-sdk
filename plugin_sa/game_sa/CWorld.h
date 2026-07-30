@@ -154,7 +154,11 @@ public:
 	static void TriggerExplosion(CVector const& point, float radius, float visibleDistance, CEntity* victim, CEntity* creator, bool processVehicleBombTimer, float damage);
 	static void SetWorldOnFire(float x, float y, float z, float radius, CEntity* fireCreator);
 	static void RepositionCertainDynamicObjects();
-	static bool ProcessLineOfSight(CVector const& origin, CVector const& target, CColPoint& outColPoint, CEntity*& outEntity, bool buildings, bool vehicles, bool peds, bool objects, bool dummies, bool doSeeThroughCheck, bool doCameraIgnoreCheck, bool doShootThroughCheck);
+
+	//static bool ProcessLineOfSight(CVector const& origin, CVector const& target, CColPoint& outColPoint, CEntity*& outEntity, bool buildings, bool vehicles, bool peds, bool objects, bool dummies, bool doSeeThroughCheck, bool doCameraIgnoreCheck, bool doShootThroughCheck);
+	static bool ProcessLineOfSight(const CVector& vecStart, const CVector& vecEnd, CColPoint& colPoint, CEntity*& refEntityPtr, 
+		bool bCheckBuildings = false, bool bCheckVehicles = false, bool bCheckPeds = false, bool bCheckObjects = false, 
+		bool bCheckDummies = false, bool bSeeThroughStuff = false, bool bIgnoreSomeObjectsForCamera = false, bool bShootThroughStuff = false);
 
 public:
 	static inline uint16_t GetCurrentScanCode() {

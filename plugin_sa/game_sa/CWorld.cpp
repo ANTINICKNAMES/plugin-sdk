@@ -432,9 +432,20 @@ void CWorld::RepositionCertainDynamicObjects() {
 	plugin::Call<0x56B9C0>();
 }
 
+/*
 // Converted from cdecl bool CWorld::ProcessLineOfSight(CVector const&origin,CVector const&target,CColPoint &outColPoint,CEntity *&outEntity,bool buildings, bool vehicles, bool peds, bool objects, bool dummies,bool doSeeThroughCheck,bool doCameraIgnoreCheck,bool doShootThroughCheck) 0x56BA00
 bool CWorld::ProcessLineOfSight(CVector const& origin, CVector const& target, CColPoint& outColPoint, CEntity*& outEntity, bool buildings, bool vehicles, bool peds, bool objects, bool dummies, bool doSeeThroughCheck, bool doCameraIgnoreCheck, bool doShootThroughCheck) {
 	return plugin::CallAndReturn<bool, 0x56BA00, CVector const&, CVector const&, CColPoint&, CEntity*&, bool, bool, bool, bool, bool, bool, bool, bool>(origin, target, outColPoint, outEntity, buildings, vehicles, peds, objects, dummies, doSeeThroughCheck, doCameraIgnoreCheck, doShootThroughCheck);
+}
+*/
+
+bool CWorld::ProcessLineOfSight(const CVector& vecStart, const CVector& vecEnd, CColPoint& colPoint, CEntity*& refEntityPtr,
+	bool bCheckBuildings, bool bCheckVehicles, bool bCheckPeds, bool bCheckObjects, bool bCheckDummies, bool bSeeThroughStuff,
+	bool bIgnoreSomeObjectsForCamera, bool bShootThroughStuff)
+{
+	return plugin::CallAndReturn<bool, 0x56BA00, const CVector&, const CVector&, CColPoint&, CEntity*&, bool, bool, bool, bool, bool, bool, bool, bool>
+		(vecStart, vecEnd, colPoint, refEntityPtr, bCheckBuildings, bCheckVehicles, bCheckPeds, bCheckObjects, bCheckDummies, bSeeThroughStuff,
+			bIgnoreSomeObjectsForCamera, bShootThroughStuff);
 }
 
 // Converted from cdecl short GetCurrentScanCode() 0x407250

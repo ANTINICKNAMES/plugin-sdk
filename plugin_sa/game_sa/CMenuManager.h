@@ -458,3 +458,5 @@ extern char** frontend3TexNames;
 extern char** frontend4TexNames;
 extern bool& bBriefHistoryAllowedToUpdate;
 extern CMenuScreen* aScreens;
+
+extern bool& gbModelViewer;

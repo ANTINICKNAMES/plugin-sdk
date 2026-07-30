@@ -6,6 +6,7 @@
 */
 #pragma once
 #include "PluginBase.h"
+//#include "CGame.h"
 #include "CPlaceable.h"
 #include "CReference.h"
 //#include "eEntityType.h"
@@ -55,12 +56,53 @@ public:
         uint8 nStatus : 5;
     };
 
+    struct CFlags
+    {
+        uint32 bUsesCollision : 1;
+        uint32 bCollisionProcessed : 1;
+        uint32 bIsStatic : 1;
+        uint32 bHasContacted : 1;
+        uint32 bIsStuck : 1;
+        uint32 bIsInSafePosition : 1;
+        uint32 bWasPostponed : 1;
+        uint32 bIsVisible : 1;
+        uint32 bIsBIGBuilding : 1;
+        uint32 bRenderDamaged : 1;
+        uint32 bStreamingDontDelete : 1;
+        uint32 bRemoveFromWorld : 1;
+        uint32 bHasHitWall : 1;
+        uint32 bImBeingRendered : 1;
+        uint32 bDrawLast : 1;
+        uint32 bDistanceFade : 1;
+        uint32 bDontCastShadowsOn : 1;
+        uint32 bOffscreen : 1;
+        uint32 bIsStaticWaitingForCollision : 1;
+        uint32 bDontStream : 1;
+        uint32 bUnderwater : 1;
+        uint32 bHasPreRenderEffects : 1;
+        uint32 bIsTempBuilding : 1;
+        uint32 bDontUpdateHierarchy : 1;
+        uint32 bHasRoadsignText : 1;
+        uint32 bDisplayedSuperLowLOD : 1;
+        uint32 bIsProcObject : 1;
+        uint32 bBackfaceCulled : 1;
+        uint32 bLightObject : 1;
+        uint32 bUnimportantStream : 1;
+        uint32 bTunnel : 1;
+        uint32 bTunnelTransition : 1;
+
+
+        //uint32 bdummy;
+    };
+
     union {
         struct RwObject *m_pRwObject;
         struct RpClump *m_pRwClump;
         struct RpAtomic *m_pRwAtomic;
     };
+
     /* https://code.google.com/p/mtasa-blue/source/browse/trunk/MTA10/game_sa/CEntitySA.h */
+    /*
     bool bUsesCollision : 1;       // does entity use collision
     bool bCollisionProcessed : 1;  // has object been processed by a ProcessEntityCollision function
     bool bIsStatic : 1;            // is entity static
@@ -96,23 +138,39 @@ public:
     bool bUnimportantStream : 1;   // set that this object is unimportant, if streaming is having problems
     bool bTunnel : 1;              // is this model part of a tunnel
     bool bTunnelTransition : 1;    // this model should be rendered from within and outside of the tunnel
+    */
+
+    CEntity::CFlags m_nFlags;
     
-    unsigned short m_nRandomSeed;
-    unsigned short m_nModelIndex;
-    CReference *m_pReferences;
-    void *m_pStreamingLink;
-    short m_nScanCode;
-    char m_nIplIndex;
+    uint16 m_nRandomSeed;
+
+    int16 m_nModelIndex;
+
+    CReference* pReferences;
+
+    CLink<CEntity*>* m_pLastRenderedLink; //void *m_pStreamingLink;
+
+    uint16 m_nScanCode;
+    uint8 m_iplIndex;
+    uint8 m_areaCode;
+
+    /*
     unsigned char m_nAreaCode;
     union {
         int m_nLodIndex; // -1 - without LOD model
         CEntity *m_pLod;
     };
-    unsigned char m_nNumLodChildren;
-    unsigned char m_nNumLodChildrenRendered;
+    */
+
+    CEntity* m_pLod;
+
+    uint8 numLodChildren;
+
+    int8 numLodChildrenRendered;
 
     //eEntityType m_nType : 3;
     //eEntityStatus m_nStatus : 5;
+
     CEntity::CEntityInfo m_info;
     
     // originally virtual functions
@@ -120,8 +178,8 @@ public:
     void Add(); // similar to previous, but with entity bound rect
     void Remove();
     void SetIsStatic(bool isStatic);
-    void SetModelIndex(unsigned int index);
-    void SetModelIndexNoCreate(unsigned int index);
+    void SetModelIndex(uint32 index);
+    void SetModelIndexNoCreate(uint32 index);
     void CreateRwObject();
     void DeleteRwObject();
     CRect GetBoundRect();
@@ -183,31 +241,66 @@ public:
     void RemoveEscalatorsForEntity();
     bool IsEntityOccluded();
 
-    inline int GetModelIndex() {
-        return m_nModelIndex;
-    }
+    inline float GetBoundRadius()       { return CModelInfo::GetColModel(m_nModelIndex)->m_boundSphere.m_fRadius; }
 
-    inline float GetBoundRadius() {
-        return CModelInfo::GetColModel(m_nModelIndex)->m_boundSphere.m_fRadius;
-    }
+    void SetTypeBuilding()              { m_info.nType = ENTITY_TYPE_BUILDING; }
+    void SetTypeVehicle()               { m_info.nType = ENTITY_TYPE_VEHICLE; }
+    void SetTypePed()                   { m_info.nType = ENTITY_TYPE_PED; }
+    void SetTypeObject()                { m_info.nType = ENTITY_TYPE_OBJECT; }
+    void SetTypeDummy()                 { m_info.nType = ENTITY_TYPE_DUMMY; }
+    bool GetIsTypeBuilding() const      { return m_info.nType == ENTITY_TYPE_BUILDING; }
+    bool GetIsTypeVehicle() const       { return m_info.nType == ENTITY_TYPE_VEHICLE; }
+    bool GetIsTypePed() const           { return m_info.nType == ENTITY_TYPE_PED; }
+    bool GetIsTypeObject() const        { return m_info.nType == ENTITY_TYPE_OBJECT; }
+    bool GetIsTypeDummy() const         { return m_info.nType == ENTITY_TYPE_DUMMY; }
+    bool GetIsPhysical() const          { return m_info.nType == ENTITY_TYPE_NOTINPOOLS; }
 
-    void SetTypeBuilding() { m_info.nType = ENTITY_TYPE_BUILDING; }
-    void SetTypeVehicle() { m_info.nType = ENTITY_TYPE_VEHICLE; }
-    void SetTypePed() { m_info.nType = ENTITY_TYPE_PED; }
-    void SetTypeObject() { m_info.nType = ENTITY_TYPE_OBJECT; }
-    void SetTypeDummy() { m_info.nType = ENTITY_TYPE_DUMMY; }
-    bool GetIsTypeBuilding() const { return m_info.nType == ENTITY_TYPE_BUILDING; }
-    bool GetIsTypeVehicle() const { return m_info.nType == ENTITY_TYPE_VEHICLE; }
-    bool GetIsTypePed() const { return m_info.nType == ENTITY_TYPE_PED; }
-    bool GetIsTypeObject() const { return m_info.nType == ENTITY_TYPE_OBJECT; }
-    bool GetIsTypeDummy() const { return m_info.nType == ENTITY_TYPE_DUMMY; }
-    bool GetIsPhysical() const { return m_info.nType == ENTITY_TYPE_NOTINPOOLS; }
+    uint8 GetType() const               { return m_info.nType; }
+    void SetType(int32 nType)           { m_info.nType = nType; }
 
-    uint8 GetType() const { return m_info.nType; }
-    void SetType(int32 nType) { m_info.nType = nType; }
+    uint8 GetStatus() const             { return m_info.nStatus; }
+    void SetStatus(int32 nStatus)       { m_info.nStatus = nStatus; }
+    bool TreatAsPlayerForCollisions();
 
-    uint8 GetStatus() const { return m_info.nStatus; }
-    void SetStatus(int32 nStatus) { m_info.nStatus = nStatus; }
+    void SetUsesCollision(bool b)       { m_nFlags.bUsesCollision = b; }
+    bool GetUsesCollision() const       { return m_nFlags.bUsesCollision; }
+    void SetCollisionProcessed(bool b)  { m_nFlags.bCollisionProcessed = b; }
+    bool GetCollisionProcessed() const  { return m_nFlags.bCollisionProcessed; }
+    bool GetIsStatic() const            { return m_nFlags.bIsStatic; }
+    void SetHasContacted(bool b)        { m_nFlags.bHasContacted = b; }
+    bool GetHasContacted() const        { return m_nFlags.bHasContacted; }
+
+
+    void SetIsStuck(bool b)             { m_nFlags.bIsStuck = b; }
+    bool GetIsStuck() const             { return m_nFlags.bIsStuck; }
+    void SetIsInSafePosition(bool b)    { m_nFlags.bIsInSafePosition = b; }
+    bool GetIsInSafePosition() const    { return m_nFlags.bIsInSafePosition; }
+    void SetWasPostponed(bool b)        { m_nFlags.bWasPostponed = b; }
+    bool GetWasPostponed() const        { return m_nFlags.bWasPostponed; }
+    void SetIsVisible(bool b)           { m_nFlags.bIsVisible = b; }
+    bool GetIsVisible() const           { return m_nFlags.bIsVisible; }
+    void SetHasHitWall(bool b)          { m_nFlags.bHasHitWall = b; }
+    bool GetHasHitWall() const          { return m_nFlags.bHasHitWall; }
+    void SetIsBackfaceCulled(bool b)    { m_nFlags.bBackfaceCulled = b; }
+    bool GetIsBackfaceCulled() const    { return m_nFlags.bBackfaceCulled; }
+    void SetIsUnimportantStream(bool b) { m_nFlags.bUnimportantStream = b; }
+
+    void SetScanCode(uint16 ScanCode)   { m_nScanCode = ScanCode; }
+    uint16 GetScanCode() const          { return m_nScanCode; }
+    void SetAreaCode(uint8 AreaCode)    { m_areaCode = AreaCode; }
+    uint8 GetAreaCode() const           { return m_areaCode; }
+    void SetIplIndex(uint8 IplIndex)    { m_iplIndex = IplIndex; }
+    uint8 GetIplIndex()                 { return m_iplIndex; }
+
+    uint32 GetModelIndex()              { return m_nModelIndex; }
+    RwObject* GetRwObject() const       { m_pRwObject; }
+
+    RwMatrix* GetRwMatrix()             { return GetMatrix()->m_pRwMat; }
+
+    
+    bool IsInCurrentArea(); //{ return m_areaCode == CGame::currArea; }
+    bool IsInArea(int32 Area) { return m_areaCode == Area; }
+    //bool IsVisibleComplex() { return m_nFlags.bIsVisible; } // empty
 };
 
 VALIDATE_SIZE(CEntity, 0x38);

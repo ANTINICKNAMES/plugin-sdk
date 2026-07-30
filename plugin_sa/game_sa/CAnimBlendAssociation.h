@@ -7,12 +7,12 @@
 #pragma once
 
 #include "PluginBase.h"
+#include "CAnimBlendHierarchy.h"
 #include "AnimAssociationData.h"
 #include "eAnimBlendCallbackType.h"
 #include "RenderWare.h"
 
 class CAnimBlendNode;
-class CAnimBlendHierarchy;
 class CAnimBlendStaticAssociation;
 
 enum eAnimationFlags
@@ -40,17 +40,23 @@ class PLUGIN_API CAnimBlendAssociation {
 
 public:
     void *vtable;
-    RwLLLink m_link;
-    unsigned short m_nNumBlendNodes;
-    unsigned short m_nAnimGroup;
-    CAnimBlendNode *m_pNodeArray;
-    CAnimBlendHierarchy *m_pHierarchy;
+    RwLLLink m_link; // ListLink m_list;
+
+    int16 m_iNumAnimBlendNodes;
+    int16 m_animGrp;
+    CAnimBlendNode* m_pAnimBlendNodes;
+
+    CAnimBlendHierarchy* m_pAnimBlendHierarchy;
+
     float m_fBlendAmount;
     float m_fBlendDelta;
+
     float m_fCurrentTime;
     float m_fSpeed;
     float fTimeStep;
-    short m_nAnimId;
+
+    int16 m_animId;
+
     union {
         struct
         {
@@ -89,9 +95,11 @@ public:
         };
         unsigned short m_nFlags;
     };
-    eAnimBlendCallbackType m_nCallbackType;
-    void(*m_pCallbackFunc)(CAnimBlendAssociation *, void *);
-    void *m_pCallbackData;
+    // uint16 m_bitsFlag;
+
+    eAnimBlendCallbackType m_nCallbackType; // AnimBlendCallbackType m_cbType;
+    void(*m_pCallbackFunc)(CAnimBlendAssociation *, void *); // CAnimBlendAssocationCallback m_cb;
+    void *m_pCallbackData; // void* m_pCBData;
 
     // vtable function #0 (destructor)
     SUPPORTED_10US ~CAnimBlendAssociation();
@@ -104,14 +112,63 @@ public:
     SUPPORTED_10US void ReferenceAnimBlock();
     SUPPORTED_10US void SetBlend(float blendAmount, float blendDelta);
     SUPPORTED_10US void SetBlendTo(float blendAmount, float blendDelta);
-    SUPPORTED_10US void SetCurrentTime(float currentTime);
+    SUPPORTED_10US void SetCurrentTime(float fCurrentTime);
     SUPPORTED_10US void SetDeleteCallback(void(*callback)(CAnimBlendAssociation *, void *), void *data);
     SUPPORTED_10US void SetFinishCallback(void(*callback)(CAnimBlendAssociation *, void *), void *data);
     SUPPORTED_10US void Start(float currentTime);
-    SUPPORTED_10US void SyncAnimation(CAnimBlendAssociation *syncWith);
+    SUPPORTED_10US void SyncAnimation(CAnimBlendAssociation* pAssociation);
     SUPPORTED_10US bool UpdateBlend(float blendDeltaMult);
     SUPPORTED_10US bool UpdateTime(float unused1, float unused2);
     SUPPORTED_10US void UpdateTimeStep(float speedMult, float timeMult);
+
+    // TODO
+    void SetFlag(uint32 flag);
+    void ClearFlag(uint32 flag);
+    uint32 GetFlags();
+    void SetFlags(uint32 flags);
+    bool IsFlagSet(uint32 flags);
+
+    void SetBlendAmount(float f)            { m_fBlendAmount = f; }
+    float GetBlendAmount() const            { return m_fBlendAmount; }
+    void SetBlendDelta(float f)             { m_fBlendDelta = f; }
+    float GetBlendDelta() const             { return m_fBlendDelta; }
+    void SetSpeed(float f)                  { m_fSpeed = f; }
+    float GetSpeed() const                  { return m_fSpeed; }
+    float GetTimeStep() const               { return fTimeStep; }
+
+    float GetCurrentTime()                  { return m_fCurrentTime; }
+    float GetTotalTime()                    { return m_pAnimBlendHierarchy->m_fTotalTime; }
+
+    CAnimBlendHierarchy* GetAnimHierarchy(); // {}
+
+    int32 GetNumNodes() const               { return m_iNumAnimBlendNodes; }
+
+    RwLLLink* GetList() { return &m_link; } // ListLink*
+
+    uint32 GetAnimHashKey();
+
+
+    int32 GetAnimId();
+    int32 GetAnimGrp();
+
+    void SetAnimId(int32);
+    void SetAnimGrp(int32);
+
+    
+    //void SetFinishCallback(CAnimBlendAssocationCallback cb, void* pData);
+    //void SetDeleteCallback(CAnimBlendAssocationCallback cb, void* pData);
+
+
+
+    void ClearCallback();
+
+    //AnimBlendCallbackType GetCallbackType();
+    //CAnimBlendAssocationCallback GetCallbackFunction();
+
+    bool HasNoFinishCallback();
+
+    bool HasCallBackDataPtr() const;
+    void* GetCallBackDataPtr();
 };
 
 VTABLE_DESC(CAnimBlendAssociation, 0x85C6D0, 1);

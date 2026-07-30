@@ -53,19 +53,19 @@ void CTimer::Resume()
     ((void(__cdecl *)()) 0x561A00)();
 }
 
-int CTimer::GetCyclesPerMillisecond()
+uint32 CTimer::GetCyclesPerMillisecond()
 {
-    return ((int(__cdecl *)()) 0x561A40)();
+    return ((uint32(__cdecl *)()) 0x561A40)();
 }
 
-int CTimer::GetCyclesPerFrame()
+uint32 CTimer::GetCyclesPerFrame()
 {
-    return ((int(__cdecl *)()) 0x561A50)();
+    return ((uint32(__cdecl *)()) 0x561A50)();
 }
 
-unsigned int CTimer::GetCurrentTimeInCycles()
+uint32 CTimer::GetCurrentTimeInCycles()
 {
-    return ((unsigned int(__cdecl *)()) 0x561A80)();
+    return ((uint32(__cdecl *)()) 0x561A80)();
 }
 
 void CTimer::Stop()

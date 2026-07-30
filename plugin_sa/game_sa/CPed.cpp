@@ -202,11 +202,11 @@ void CPed::ProcessBuoyancy()
 	((void(__thiscall*)(CPed*))0x5E1FA0)(this);
 }
 
-// Virtual
-//void CPed::ProcessControl()
-//{
-	//
-//}
+// 0x5E8CD0
+void CPed::ProcessControl()
+{
+	plugin::CallMethod<0x5E8CD0, CPed*>(this);
+}
 
 // Virtual
 //int32_t CPed::ProcessEntityCollision(CEntity* pEntity, class CColPoint* aColPoints)

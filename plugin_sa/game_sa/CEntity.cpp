@@ -6,6 +6,8 @@
 */
 #include "CEntity.h"
 
+#include "CGame.h"
+
 // vtable functions
 
 void CEntity::Add(CRect &rect)
@@ -28,14 +30,14 @@ void CEntity::SetIsStatic(bool isStatic)
 	((void (__thiscall *)(CEntity *, bool))(*(void ***)this)[4])(this, isStatic);
 }
 
-void CEntity::SetModelIndex(unsigned int index)
+void CEntity::SetModelIndex(uint32 index)
 {
-	((void (__thiscall *)(CEntity *, unsigned int))(*(void ***)this)[5])(this, index);
+	((void (__thiscall *)(CEntity *, uint32))(*(void ***)this)[5])(this, index);
 }
 
-void CEntity::SetModelIndexNoCreate(unsigned int index)
+void CEntity::SetModelIndexNoCreate(uint32 index)
 {
-	((void (__thiscall *)(CEntity *, unsigned int))(*(void ***)this)[6])(this, index);
+	((void (__thiscall *)(CEntity *, uint32))(*(void ***)this)[6])(this, index);
 }
 
 void CEntity::CreateRwObject()
@@ -376,4 +378,16 @@ void CEntity::RemoveEscalatorsForEntity()
 bool CEntity::IsEntityOccluded()
 {
 	return ((bool (__thiscall *)(CEntity*))0x71FAE0)(this);
+}
+
+// 0x541F70
+bool CEntity::TreatAsPlayerForCollisions()
+{
+	return plugin::CallMethodAndReturn<bool, 0x541F70, CEntity*>(this);
+}
+
+// inline
+bool CEntity::IsInCurrentArea()
+{ 
+	return m_areaCode == CGame::currArea;
 }

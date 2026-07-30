@@ -218,12 +218,16 @@ private:
     char _pad[2];
 public:
     UInt32 m_uiFinishTime;
+
     int m_iDoCollisionChecksOnFrameNum;
     int m_iDoCollisionCheckEveryNumOfFrames;
     int m_iFrameNumWereAt;
+
     unsigned int  m_nRunningVectorArrayPos;
     unsigned int  m_nRunningVectorCounter;
-    unsigned int  m_nDirectionWasLooking;
+
+    int DirectionWasLooking;
+
     float         m_fMaxRoleAngle;
     float         m_fRoll;
     float         m_fRollSpeed;
@@ -323,8 +327,8 @@ public:
 
     void Process_AimWeapon(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired);
 
-    void Process_FollowPed_SA(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired, bool bScriptSetAngles);
-    void Process_FollowCar_SA(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired, bool bScriptSetAngles);
+    void Process_FollowPed_SA(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired, bool bScriptSetAngles = false);
+    void Process_FollowCar_SA(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired, bool bScriptSetAngles = false);
 
     void Process_1stPerson(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired);
     void Process_1rstPersonPedOnPC(const CVector& ThisCamsTarget, float TargetOrientation, float SpeedVar, float SpeedVarDesired);
@@ -931,6 +935,9 @@ public:
 
     static void WellBufferMe(float TheTarget, float* TheValueToChange, float* ValueSpeedSoFar, float TopSpeed, float SpeedStep, bool IsAnAngle);
 
+    // not part of CCamera
+    static void MakeAngleLessThan180(float& AngleToChange);
+
     //! unused
     SUPPORTED_10US static void DontProcessObbeCinemaCamera();
     SUPPORTED_10US static void SetCamCollisionVarDataSet(int index);
@@ -940,34 +947,6 @@ public:
 
     // inlines
     CCam& GetActiveCamera() { return Cams[ActiveCam]; }
-
-    // these ones originally don't belong to CCamera
-    static bool& gbFirstPersonRunThisFrame;
-    static bool& gPlayerPedVisible;
-    static int8& gbCineyCamMessageDisplayed;
-    static int32& DirectionIsLooking;
-    static int32& gLastCamMode;
-    static uint32& gLastTime2PlayerCameraWasOK;
-    static uint32& gLastTime2PlayerCameraCollided;
-    static CVector& gTargetCoordsForLookingBehind;
-    static bool& gAllowScriptedFixedCameraCollision;
-    static bool& bDidWeProcessAnyCinemaCam;
-    static float& fRangePlayerRadius;
-    static float& fCloseNearClipLimit;
-
-    static float& PLAYERPED_LEVEL_SMOOTHING_CONST_INV; // 0.60f;
-    static float& PLAYERPED_TREND_SMOOTHING_CONST_INV; // 0.80f;
-    static float& PLAYERFIGHT_LEVEL_SMOOTHING_CONST; // 0.90f;
-
-    static float& DrunkRotation;
-    static bool& JustGoneIntoObbeCamera;
-
-    static bool& gInitShakeCams;
-    static uint32& gbCineyCamProcessedOnFrame;
-
-    static float& gCurDistForCam;
-
-    static int& CamModeToRestore;
 };
 
 VTABLE_DESC(CCamera, 0x8630E8, 1);
@@ -977,6 +956,34 @@ VALIDATE_SIZE(CCamera, 0xD78);
 SUPPORTED_10US extern CCamera &TheCamera;
 
 #include "meta/meta.CCamera.h"
+
+// CCamera useful global vars
+SUPPORTED_10US extern bool& gbFirstPersonRunThisFrame;
+SUPPORTED_10US extern bool& gPlayerPedVisible;
+SUPPORTED_10US extern int8& gbCineyCamMessageDisplayed;
+SUPPORTED_10US extern int32& DirectionIsLooking;
+SUPPORTED_10US extern int32& gLastCamMode;
+SUPPORTED_10US extern uint32& gLastTime2PlayerCameraWasOK;
+SUPPORTED_10US extern uint32& gLastTime2PlayerCameraCollided;
+SUPPORTED_10US extern CVector& gTargetCoordsForLookingBehind;
+SUPPORTED_10US extern bool& gAllowScriptedFixedCameraCollision;
+SUPPORTED_10US extern bool& bDidWeProcessAnyCinemaCam;
+SUPPORTED_10US extern float& fRangePlayerRadius;
+SUPPORTED_10US extern float& fCloseNearClipLimit;
+
+SUPPORTED_10US extern float& PLAYERPED_LEVEL_SMOOTHING_CONST_INV; // 0.60f;
+SUPPORTED_10US extern float& PLAYERPED_TREND_SMOOTHING_CONST_INV; // 0.80f;
+SUPPORTED_10US extern float& PLAYERFIGHT_LEVEL_SMOOTHING_CONST; // 0.90f;
+
+SUPPORTED_10US extern float& DrunkRotation;
+SUPPORTED_10US extern bool& JustGoneIntoObbeCamera;
+
+SUPPORTED_10US extern bool& gInitShakeCams;
+SUPPORTED_10US extern uint32& gbCineyCamProcessedOnFrame;
+
+SUPPORTED_10US extern float& gCurDistForCam;
+
+SUPPORTED_10US extern int& CamModeToRestore;
 
 
 //

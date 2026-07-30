@@ -9,6 +9,7 @@
 #include "PluginBase.h"
 #include "RenderWare.h"
 
+/*
 class PLUGIN_API CScene
 {
 public:
@@ -19,3 +20,13 @@ public:
 VALIDATE_SIZE(CScene, 0x8);
 
 extern PLUGIN_API CScene &Scene;
+*/
+
+struct GlobalSceneTag
+{
+	RpWorld* world;
+	RwCamera* camera;
+};
+typedef GlobalSceneTag GlobalScene;
+
+extern PLUGIN_API GlobalScene& Scene;

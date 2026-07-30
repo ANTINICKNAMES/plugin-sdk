@@ -14,11 +14,22 @@ public:
     static float &ms_fFarClipZ;
     static float &ms_fNearClipZ;
     static float &ms_fAspectRatio;
-    static unsigned char &FadeRed;
-    static unsigned char &FadeGreen;
-    static unsigned char &FadeBlue;
-    static unsigned char &FadeValue;
+    static UInt8 &FadeRed, &FadeGreen, &FadeBlue;
+    static UInt8 &FadeValue;
 
-    static void SetFOV(float fovValue);
+    //static void SetFOV(float fovValue);
+    //static float CalculateAspectRatio();
+
+    static void SetNearClipZ(float f) { ms_fNearClipZ = f; }
+    static float GetNearClipZ() { return ms_fNearClipZ; }
+    static void SetFarClipZ(float f) { ms_fFarClipZ = f; }
+    static float GetFarClipZ() { return ms_fFarClipZ; }
+    static void SetLODDistance(float f) { ms_fLODDistance = f; }
+    static float GetLODDistance() { return ms_fLODDistance; }
+    static void SetFOV(float fFOV);
+    static float GetFOV() { return ms_fFOV; }
     static float CalculateAspectRatio();
+    static float GetAspectRatio() { return ms_fAspectRatio; }
+
+    //static void InitialiseFog();
 };

@@ -8,6 +8,7 @@
 
 #include "PluginBase.h"
 
+/*
 enum PLUGIN_API ePedType : unsigned int {
     PED_TYPE_PLAYER1,
     PED_TYPE_PLAYER2,
@@ -42,3 +43,4 @@ enum PLUGIN_API ePedType : unsigned int {
     PED_TYPE_MISSION7,
     PED_TYPE_MISSION8
 };
+*/
