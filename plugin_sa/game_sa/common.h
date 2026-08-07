@@ -18,6 +18,8 @@ extern char *gString; // char gString[200]
 
 extern float &GAME_GRAVITY; // default 0.0080000004
 
+extern int32& gDefaultTaskTime;
+
 // returns player coors
 CVector FindPlayerCoors(int playerId = -1);
 // returns player speed

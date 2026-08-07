@@ -295,7 +295,7 @@ public:
     uint32 GetModelIndex()              { return m_nModelIndex; }
     RwObject* GetRwObject() const       { m_pRwObject; }
 
-    RwMatrix* GetRwMatrix()             { return GetMatrix()->m_pRwMat; }
+    RwMatrix* GetRwMatrix()             { return GetMatrix()->m_pAttachMatrix; }
 
     
     bool IsInCurrentArea(); //{ return m_areaCode == CGame::currArea; }

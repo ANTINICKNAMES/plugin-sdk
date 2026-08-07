@@ -13,7 +13,7 @@
 #include "CAEScriptAudioEntity.h"
 #include "CAECollisionAudioEntity.h"
 #include "CAEVehicleAudioEntity.h"
-#include "eAudioEvents.h"
+//#include "eAudioEvents.h"
 
 #include "GameAudioEvents.h"
 
@@ -57,8 +57,13 @@ public:
     void SetBassEnhanceOnOff(bool on);
     void SetRadioAutoRetuneOnOff(bool on);
     void RetuneRadio(char stationId);
-    CReference* ReportFrontendAudioEvent(int id, float volume, float speed);
-    void ReportMissionAudioEvent(eAudioEvents audioEvent, CVector const* coords);
+    CReference* ReportFrontendAudioEvent(int id, float volume = 0.f, float speed = 1.f);
+    //void ReportMissionAudioEvent(eAudioEvents audioEvent, CVector const* coords);
+    void ReportMissionAudioEvent(UInt16 Event, CVector& vPosition);
+    void ReportMissionAudioEvent(UInt16 Event, CObject* pObject);
+    void ReportMissionAudioEvent(UInt16 Event, CPed* pPed);
+    void ReportMissionAudioEvent(UInt16 Event, CVehicle* pVehicle);
+    void ReportMissionAudioEvent(UInt16 Event, CPhysical* pPhysical, float fVolumeOffsetdB, float fFrequencyScaling);
     void Service();
     void ServiceLoadingTune(float fade);
     void StartRadio(int radioStation, char arg);

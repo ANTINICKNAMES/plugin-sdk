@@ -52,6 +52,7 @@ public:
 	void PlayCameraSound(CPhysical* entity, int AudioEventId, float audability);
 	void Initialise();
 
+	void AddAudioEvent(tAudioEvent event);
 };
 
 VALIDATE_SIZE(CAEWeaponAudioEntity, 0xA8);

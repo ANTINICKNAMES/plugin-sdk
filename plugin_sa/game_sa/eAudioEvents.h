@@ -6,7 +6,7 @@
 */
 #pragma once
 #include "PluginBase.h"
-
+/*
 enum PLUGIN_API eAudioEvents : uint16_t
 {
     AE_FRONTEND_START = 0x0,
@@ -7247,4 +7247,6 @@ enum PLUGIN_API eAudioEvents : uint16_t
     AE_ZER4_OG = 0x1C43,
     AE_BLIP_DETECTED = 0x1C44,
     AE_END_OF_EVENTS = 0x1C45,
+    
 };
+*/

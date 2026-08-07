@@ -158,7 +158,8 @@ AssocGroupId CEventDamage::GetAnimGroup() {
 }
 
 // inline, unknown address
-AnimationId CEventDamage::GetAnimId() {
+AnimationId CEventDamage::GetAnimId() 
+{
     return m_nAnimId;
 }
 

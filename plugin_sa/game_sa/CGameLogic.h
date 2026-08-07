@@ -22,6 +22,24 @@ public:
 	static char			&bPlayersCannotTargetEachother;
 	static bool			&bPlayersCanBeInSeparateCars;
 
+	enum {
+		GAMESTATE_PLAYING = 0,
+		GAMESTATE_DEATH,
+		GAMESTATE_ARREST,
+		GAMESTATE_FAILEDMISSION,
+		GAMESTATE_PASSEDMISSION
+	};
+
+	enum 
+	{ 
+		SK_INACTIVE = 0, 
+		SK_READY_TO_GO, 
+		SK_FADEOUT, 
+		SK_FADEIN, 
+		SK_READY_TO_GO_AFTER_MISSION, 
+		SK_WAITING_FOR_SCRIPT_TO_FADE_IN 
+	};
+
 	static void InitAtStartOfGame();
 	static bool IsCoopGameGoingOn();
 	static void Remove2ndPlayerIfPresent();
@@ -34,7 +52,8 @@ public:
 	static long double CalcDistanceToForbiddenTrainCrossing(float x1, float y1, float z1, float x2, float y2, float z2, char a7, CVector* a8);
 	static bool LaRiotsActiveHere();
 	static signed int RestorePedsWeapons(int a1);
-	static bool IsPlayerAllowedToGoInThisDirection(CPed *a1, float a2, float a3, float a4, float a5);
+	static bool IsPlayerAllowedToGoInThisDirection(CPlayerPed* pPlayerPed, CVector Dir, float fExtraDist);
+	static bool IsPlayerUse2PlayerControls(CPlayerPed* pPlayerPed);
 	static void RestorePlayerStuffDuringResurrection(CPlayerPed *player, float x, float y, float z, float fAngle);
 	static void UpdateSkip();
 	static void ResetStuffUponResurrection();

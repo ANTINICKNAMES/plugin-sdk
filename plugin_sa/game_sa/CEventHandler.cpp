@@ -48,13 +48,18 @@ bool CEventHandler::IsTemporaryEvent(CEvent& event) {
 
 // inline, perhaps 0x5FE9F0
 void CEventHandler::ResetResponse() {
-    m_history.ClearAllEvents();
+    m_pTaskPhysResponse  = nullptr;
+    m_pTaskEventResponse = nullptr;
+    m_pTaskSecondaryAim = nullptr;
+    m_pTaskSecondarySay = nullptr;
+    m_pTaskSecondaryPartialAnim = nullptr;
 }
 
 // inline, unknown address
-// #UNKNOWN_FUNCTIONALITY
-//void CEventHandler::ResetHistory() {
-//}
+void CEventHandler::ResetHistory() 
+{
+    m_history.ClearAllEvents();
+}
 
 // inline, unknown address
 // #UNKNOWN_FUNCTIONALITY

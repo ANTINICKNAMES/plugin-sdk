@@ -50,7 +50,7 @@ public:
 	void ResetResponse();
 
 
-	//void ResetHistory();
+	void ResetHistory();
 
 	//int CountTasks(SArray<CTask*>&) const;
 	//int CountEvents() const;

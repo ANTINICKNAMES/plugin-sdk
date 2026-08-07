@@ -32,18 +32,18 @@ void CWeaponEffects::Shutdown() {
 }
 
 // Converted from cdecl bool CWeaponEffects::IsLockedOn(int crosshairId) 0x742BD0
-bool CWeaponEffects::IsLockedOn(int crosshairId) {
-    return plugin::CallAndReturn<bool, 0x742BD0, int>(crosshairId);
+bool CWeaponEffects::IsLockedOn(Int32 Index) {
+    return plugin::CallAndReturn<bool, 0x742BD0, Int32>(Index);
 }
 
 // Converted from cdecl void CWeaponEffects::MarkTarget(int crosshairId,CVector posn,uchar red,uchar green,uchar blue,uchar alpha,float size,uchar) 0x742BF0
-void CWeaponEffects::MarkTarget(int crosshairId, CVector posn, unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha, float size, unsigned char arg7) {
-    plugin::Call<0x742BF0, int, CVector, unsigned char, unsigned char, unsigned char, unsigned char, float, unsigned char>(crosshairId, posn, red, green, blue, alpha, size, arg7);
+void CWeaponEffects::MarkTarget(Int32 Index, CVector vecTargetPos, uint8 red, uint8 green, uint8 blue, uint8 alpha, float fScale, uint8 type) {
+    plugin::Call<0x742BF0, Int32, CVector, uint8, uint8, uint8, uint8, float, uint8>(Index, vecTargetPos, red, green, blue, alpha, fScale, type);
 }
 
 // Converted from cdecl void CWeaponEffects::ClearCrossHair(int crosshairId) 0x742C60
-void CWeaponEffects::ClearCrossHair(int crosshairId) {
-    plugin::Call<0x742C60, int>(crosshairId);
+void CWeaponEffects::ClearCrossHair(Int32 Index) {
+    plugin::Call<0x742C60, Int32>(Index);
 }
 
 // Converted from cdecl void CWeaponEffects::ClearCrossHairs(void) 0x742C80
@@ -52,12 +52,12 @@ void CWeaponEffects::ClearCrossHairs() {
 }
 
 // Converted from cdecl void CWeaponEffects::ClearCrossHairImmediately(int crosshairId) 0x742CA0
-void CWeaponEffects::ClearCrossHairImmediately(int crosshairId) {
-    plugin::Call<0x742CA0, int>(crosshairId);
+void CWeaponEffects::ClearCrossHairImmediately(Int32 Index) {
+    plugin::Call<0x742CA0, Int32>(Index);
 }
 
 // Converted from cdecl void CWeaponEffects::ClearCrossHairsImmediately(void) 0x742CC0
-void CWeaponEffects::ClearCrossHairsImmediately() {
+void CWeaponEffects::ClearAllCrosshairs() {
     plugin::Call<0x742CC0>();
 }
 

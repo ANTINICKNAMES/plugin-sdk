@@ -12,8 +12,8 @@
 #include "CEventEditableResponse.h"
 
 #include "CPedDamageResponse.h"
-#include "eAnimations.h"
-#include "ePedPieceTypes.h"
+#include "AnimManagerData.h" //#include "eAnimations.h"
+#include "CPedModelInfo.h" //#include "ePedPieceTypes.h"
 
 class PLUGIN_API CEventDamage : public CEventEditableResponse
 {

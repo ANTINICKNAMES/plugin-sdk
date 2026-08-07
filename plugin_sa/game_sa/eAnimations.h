@@ -7,6 +7,7 @@
 
 #pragma once
 
+/*
 enum AnimationId
 {
     ANIM_STD_WALK = 0,
@@ -401,7 +402,8 @@ enum AnimationId
     ANIM_VEH_OPEN_OUTSIDE_LOCKED_LHS,
     ANIM_VEH_OPEN_OUTSIDE_LOCKED_RHS
 };
-
+*/
+/*
 enum AssocGroupId
 {
     ANIM_STD_PED = 0,
@@ -524,7 +526,7 @@ enum AssocGroupId
     ANIM_VEH_NEVADA,
     ANIM_NUM_ASSOCGROUPS
 };
-
+*/
 /*
 enum eAnimGroup
 {

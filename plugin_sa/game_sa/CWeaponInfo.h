@@ -11,7 +11,7 @@
 #include "eWeaponType.h"
 #include "eWeaponFire.h"
 #include "CVector.h"
-#include "eAnimations.h"
+#include "AnimManagerData.h" //#include "eAnimations.h"
 
 #define MAX_WEAPON_INFOS 80
 #define MAX_WEAPON_NAMES 50
@@ -221,12 +221,12 @@ public:
 	float GetWeaponLifeSpan()	{ return m_fLifeSpan; }
 	float GetWeaponSpread()		{ return m_fSpread; }
 
-	/*AnimationId GetAnimation() { return; }
-	AnimationId GetReloadAnim()			{ return ; }
-	AnimationId GetCrouchFireAnim()		{ return ; }
-	AnimationId GetCrouchReloadAnim()	{ return ; }
+	//AnimationId GetAnimation() { return; }
+	//AnimationId GetReloadAnim()			{ return ; }
+	//AnimationId GetCrouchFireAnim()		{ return ; }
+	AnimationId GetCrouchReloadAnim();
 
-	bool IsThrowWeapon()							{ return ; }
+	/*bool IsThrowWeapon()							{ return ; }
 	static bool IsWeaponAGift(eWeaponType Weapon)	{ return ; }*/
 
 	float GetAimOffsetX(bool bDuck) 

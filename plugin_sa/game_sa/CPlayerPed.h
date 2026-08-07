@@ -27,7 +27,7 @@ public:
 
     // Thanks to Silent
     inline CWanted *GetWanted() {
-        return m_pPlayerData ? m_pPlayerData->m_pWanted : nullptr;
+        return m_pPlayerData ? m_pPlayerData->m_Wanted : nullptr;
     }
 
     CPad* GetPadFromPlayer();

@@ -7,6 +7,7 @@
 #pragma once
 
 #include "PluginBase.h"
+#include "CEvent.h"
 #include "eTaskType.h"
 
 enum eAbortPriority
@@ -31,8 +32,8 @@ public:
 	virtual class CTask *GetSubTask();//=0
 	virtual bool IsSimple();//=0
 	virtual eTaskType GetId();//=0
-	virtual void StopTimer(class CEvent *_event);
-	virtual bool MakeAbortable(class CPed *ped, eAbortPriority priority, class CEvent *_event);//=0
+	virtual void StopTimer(CEvent* pEvent);
+	virtual bool MakeAbortable(class CPed *ped, eAbortPriority priority = ABORT_PRIORITY_URGENT, CEvent* pEvent = nullptr);//=0
 
 	static bool IsTaskPtr(void* pData);
 

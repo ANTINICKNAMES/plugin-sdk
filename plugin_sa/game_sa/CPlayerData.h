@@ -19,22 +19,29 @@ class CCopPed;
 
 class PLUGIN_API CPlayerPedData {
 public:
-    CWanted * m_pWanted;
-    CPedClothesDesc *m_pPedClothesDesc;
-    CCopPed *m_pArrestingCop;
+    CWanted* m_Wanted;
+    CPedClothesDesc* m_pClothes;
+
+    CCopPed* m_ArrestingOfficer;
+
     CVector2D m_vecFightMovement;
-    float m_fMoveBlendRatio;
-    float m_fTimeCanRun;
-    float m_fMoveSpeed;
-    unsigned char m_nChosenWeapon;
-    unsigned char m_nCarDangerCounter;
+    float m_moveBlendRatio;
+    float m_fSprintEnergy;
+    float m_fSprintControlCounter;
+
+    int8 m_nChosenWeapon;
+    uint8 m_nCarDangerCounter;
+
 private:
     char _pad0[2];
+
 public:
-    unsigned int m_nStandStillTimer;
-    unsigned int m_nHitAnimDelayTimer;
+    int32 m_nStandStillTimer;
+    uint32 m_nHitAnimDelayTimer;
     float m_fAttackButtonCounter;
-    void *m_pDangerCar;
+    CAutomobile* m_pDangerCar;
+
+    /*
     unsigned int m_bStoppedMoving : 1;
     unsigned int m_bAdrenaline : 1;
     unsigned int m_bHaveTargetSelected : 1;             // Needed to work out whether we lost target this frame
@@ -48,48 +55,84 @@ public:
     unsigned int m_bGroupNeverFollow : 1;               // The group is told to always follow the player (used for girlfriend missions)
     unsigned int m_bInVehicleDontAllowWeaponChange : 1; // stop weapon change once driveby weapon has been given
     unsigned int m_bRenderWeapon : 1;                   // set to false during cutscenes so that knuckledusters are not rendered
-    unsigned int m_nPlayerGroup;
-    unsigned int m_nAdrenalineEndTime;
-    unsigned char m_nDrunkenness;
-    unsigned char m_nFadeDrunkenness;
-    unsigned char m_nDrugLevel;
-    unsigned char m_nScriptLimitToGangSize;
+    */
+    
+    uint32 m_bStoppedMoving : 1;
+    uint32 m_bAdrenaline : 1;
+    uint32 m_bHaveTargetSelected : 1;
+    uint32 m_bFreeAiming : 1;
+    uint32 bCanBeDamaged : 1;
+    uint32 bAllMeleeAttackPtsBlocked : 1;
+    uint32 m_JustBeenSnacking : 1;
+    uint32 m_bRequireHandleBreath : 1;
+
+
+    uint32 m_GroupStuffDisabled : 1;
+    uint32 m_GroupAlwaysFollow : 1;
+    uint32 m_GroupNeverFollow : 1;
+    uint32 m_bInVehicleDontAllowWeaponChange : 1;
+    uint32 m_bRenderWeapon : 1;
+    
+    Int32 m_PlayerGroup;
+
+    UInt32 m_AdrenalineEndTime;
+    UInt8 m_nDrunkenness;
+    Bool8 m_bFadeDrunkenness;
+    UInt8 m_nDrugLevel;
+    UInt8 m_nScriptLimitToGangSize;
+
     float m_fBreath;
-    unsigned int m_nMeleeWeaponAnimReferenced;
-    unsigned int m_nMeleeWeaponAnimReferencedExtra;
+
+
+    AssocGroupId m_MeleeWeaponAnimReferenced;
+
+    AssocGroupId m_MeleeWeaponAnimReferencedExtra;
+
     float m_fFPSMoveHeading;
     float m_fLookPitch;
     float m_fSkateBoardSpeed;
     float m_fSkateBoardLean;
-    RpAtomic *m_pSpecialAtomic;
+
+    RpAtomic* m_pSpecialAtomic;
     float m_fGunSpinSpeed;
     float m_fGunSpinAngle;
-    unsigned int m_nLastTimeFiring;
-    unsigned int m_nTargetBone;
+
+    UInt32 m_LastTimeFiring;
+    uint32 m_nTargetBone;
     CVector m_vecTargetBoneOffset;
-    unsigned int m_nBusFaresCollected;
+
+    UInt32 m_busFaresCollected;
     bool m_bPlayerSprintDisabled;
     bool m_bDontAllowWeaponChange;
     bool m_bForceInteriorLighting;
+
 private:
     char _pad1;
+
 public:
-    unsigned short m_nPadDownPressedInMilliseconds;
-    unsigned short m_nPadUpPressedInMilliseconds;
-    unsigned char m_nWetness;
-    bool m_bPlayersGangActive;
-    unsigned char m_nWaterCoverPerc;
+    UInt16 m_DPadDownPressedInMilliseconds;
+    UInt16 m_DPadUpPressedInMilliseconds;
+
+    int8 m_wetness;
+    bool8 m_playersGangActive;
+    uint8 m_waterCoverPerc;
+
 private:
     char _pad2;
+
 public:
-    float m_fWaterHeight;
-    unsigned int m_nFireHSMissilePressedTime;
-    CEntity *m_LastHSMissileTarget;
-    unsigned int m_nModelIndexOfLastBuildingShot;
-    unsigned int m_nLastHSMissileLOSTime : 31;
-    unsigned int m_bLastHSMissileLOS : 1;
-    CPed *m_pCurrentProstitutePed;
-    CPed *m_pLastProstituteShagged;
+    float m_waterHeight;
+
+    uint32 m_FireHSMissilePressedTime;
+    CEntity* m_LastHSMissileTarget;
+
+    Int32 m_nModelIndexOfLastBuildingShot;
+
+    uint32 m_LastHSMissileLOSTime : 31;
+    uint32 m_bLastHSMissileLOS : 1;
+
+    CPed* m_pCurrentProstitutePed;
+    CPed* m_pLastProstituteShagged;
 };
 
 VALIDATE_SIZE(CPlayerPedData, 0xAC);

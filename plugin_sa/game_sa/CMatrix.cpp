@@ -128,19 +128,10 @@ void CMatrix::SetRotate(float x, float y, float z)
 
 void CMatrix::Translate(float x, float y, float z)
 {
-	tx += x;
-	ty += y;
-	tz += z;
-}
-
-/*
-void CMatrix::Translate(float x, float y, float z)
-{
 	pos.x += x;
 	pos.y += y;
 	pos.z += z;
 }
-*/
 
 void CMatrix::RotateX(float angle)
 {

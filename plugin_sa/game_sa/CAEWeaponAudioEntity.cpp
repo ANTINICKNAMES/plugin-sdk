@@ -95,3 +95,8 @@ void CAEWeaponAudioEntity::PlayCameraSound(CPhysical* entity, int AudioEventId, 
 void CAEWeaponAudioEntity::Initialise() {
 	plugin::CallMethod<0x503450, CAEWeaponAudioEntity *>(this);
 }
+
+void CAEWeaponAudioEntity::AddAudioEvent(tAudioEvent event)
+{
+	plugin::CallMethod<0x4E69F0, CAEWeaponAudioEntity*, tAudioEvent>(this, event);
+}

@@ -38,6 +38,8 @@ public:
 
     CWeaponEffects();
     ~CWeaponEffects();
+
+    /*
     static void Init();
     static void Shutdown();
     static bool IsLockedOn(int crosshairId);
@@ -46,6 +48,21 @@ public:
     static void ClearCrossHairs();
     static void ClearCrossHairImmediately(int crosshairId);
     static void ClearCrossHairsImmediately();
+    static void Render();
+    */
+
+    static void Init();
+    static void Shutdown();
+    static bool IsLockedOn(Int32 Index);
+    static void MarkTarget(Int32 Index, CVector vecTargetPos, uint8 red, uint8 green, uint8 blue, uint8 alpha, float fScale, uint8 type = TARGET_STANDARD);
+
+    static void ClearCrossHair(Int32 Index);
+    static void ClearCrossHairs();
+
+
+    static void ClearCrossHairImmediately(Int32 Index);
+    static void ClearAllCrosshairs();
+
     static void Render();
 };
 

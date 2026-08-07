@@ -15,18 +15,27 @@ class PLUGIN_API CTaskSimpleThrowProjectile : public CTaskSimple {
 protected:
     CTaskSimpleThrowProjectile(plugin::dummy_func_t a) : CTaskSimple(a) {}
 public:
-    bool m_bIsAborting;
-    bool m_bFinished;
-    bool m_bStarted;
+    bool m_bIsFinished;
+    bool m_bStartThrowFinished;
+    bool m_bButtonReleased;
+
 private:
     char pad;
-public:
-    CAnimBlendAssociation *m_pAnim;
-    CEntity *m_pTarget;
-    CVector m_vecPosition;
-    unsigned int m_nStartTime;
 
-    CTaskSimpleThrowProjectile(CEntity* pTarget, CVector Posn);
+public:
+    CAnimBlendAssociation* m_pAnim;
+
+    CEntity* m_pTargetEntity;
+    CVector m_vecTargetPos;
+    int32 m_nButtonCounter;
+
+    CTaskSimpleThrowProjectile(CEntity* pTargetEntity, CVector vecTargetPos);
+
+    bool ControlThrow(bool bButtonReleased, CEntity* pEntity, CVector* pVecCoords);
+
+    static void FinishAnimThrowProjectileCB(CAnimBlendAssociation* pAnim, void* pData);
+
+    void StartAnim(CPed* pPed);
 };
 
 VALIDATE_SIZE(CTaskSimpleThrowProjectile, 0x24);

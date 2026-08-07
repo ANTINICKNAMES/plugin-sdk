@@ -8,6 +8,21 @@
 #include "PluginBase.h"
 #include "CClumpModelInfo.h"
 
+enum ePedPieceTypes
+{
+    PED_COL_SPHERE_LEG = 0,
+    PED_COL_SPHERE_MID,
+    PED_COL_SPHERE_HEAD,
+
+    PED_SPHERE_CHEST,
+    PED_SPHERE_MIDSECTION,
+    PED_SPHERE_UPPERARM_L,
+    PED_SPHERE_UPPERARM_R,
+    PED_SPHERE_LEG_L,
+    PED_SPHERE_LEG_R,
+    PED_SPHERE_HEAD
+};
+
 class PLUGIN_API CPedModelInfo : public CClumpModelInfo {
 public:
     int m_nAnimType;

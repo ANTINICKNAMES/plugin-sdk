@@ -36,14 +36,14 @@ eTaskType CTask::GetId()
 	return ((eTaskType (__thiscall *)(CTask *))plugin::GetVMT(this, 4))(this);
 }
 
-void CTask::StopTimer(class CEvent *_event)
+void CTask::StopTimer(CEvent* pEvent)
 {
-	((void (__thiscall *)(CTask *, class CEvent *))plugin::GetVMT(this, 5))(this, _event);
+	((void (__thiscall *)(CTask *, CEvent *))plugin::GetVMT(this, 5))(this, pEvent);
 }
 
-bool CTask::MakeAbortable(class CPed *ped, eAbortPriority priority, class CEvent *_event)
+bool CTask::MakeAbortable(class CPed *ped, eAbortPriority priority, CEvent* pEvent)
 {
-	return ((bool (__thiscall *)(CTask *, CPed *, int, class CEvent *))plugin::GetVMT(this, 6))(this, ped, priority, _event);
+	return ((bool (__thiscall *)(CTask *, CPed *, int, CEvent*))plugin::GetVMT(this, 6))(this, ped, priority, pEvent);
 }
 
 // 0x61A4B0

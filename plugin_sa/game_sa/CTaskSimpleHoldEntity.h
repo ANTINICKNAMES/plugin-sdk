@@ -9,7 +9,7 @@
 #include "PluginBase.h"
 #include "CTaskSimple.h"
 #include "CAnimBlock.h"
-#include "eAnimations.h"
+#include "AnimManagerData.h" //#include "eAnimations.h"
 
 class PLUGIN_API CTaskSimpleHoldEntity : public CTaskSimple {
 protected:

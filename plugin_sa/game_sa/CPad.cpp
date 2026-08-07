@@ -13,6 +13,42 @@ CMouseControllerState & CPad::OldMouseControllerState = *(CMouseControllerState 
 CKeyboardState &CPad::NewKeyState = *(CKeyboardState *)0xB73190;
 CKeyboardState &CPad::OldKeyState = *(CKeyboardState *)0xB72F20;
 
+// 0x53EF80
+void CControllerState::Clear()
+{
+    plugin::CallMethod<0x53EF80, CControllerState*>(this);
+}
+
+// 0x53EFF0
+bool CControllerState::CheckForInput()
+{
+    return plugin::CallMethodAndReturn<bool, 0x53EFF0, CControllerState*>(this);
+}
+
+// 0x53F220
+CMouseControllerState::CMouseControllerState()
+{
+    plugin::CallMethod<0x53F220, CMouseControllerState*>(this);
+}
+
+// 0x53F250
+void CMouseControllerState::Clear()
+{
+    plugin::CallMethod<0x53F250, CMouseControllerState*>(this);
+}
+
+// 0x53F270
+bool CMouseControllerState::CheckForInput()
+{
+    return plugin::CallMethodAndReturn<bool, 0x53F270, CMouseControllerState*>(this);
+}
+
+// 0x53F090
+void CKeyboardState::Clear()
+{
+    plugin::CallMethod<0x53F090, CKeyboardState*>(this);
+}
+
 CPad::CPad()
 {
     plugin::CallMethod<0x541D80, CPad*>(this);
@@ -119,23 +155,23 @@ bool CPad::GetHydraulicJump() {
 }
 
 // Converted from thiscall short CPad::GetCarGunFired(void) 0x53FF90
-short CPad::GetCarGunFired() {
-    return plugin::CallMethodAndReturn<short, 0x53FF90, CPad *>(this);
+int16 CPad::GetCarGunFired() {
+    return plugin::CallMethodAndReturn<int16, 0x53FF90, CPad *>(this);
 }
 
 // Converted from thiscall short CPad::CarGunJustDown(void) 0x53FFE0
-short CPad::CarGunJustDown() {
-    return plugin::CallMethodAndReturn<short, 0x53FFE0, CPad *>(this);
+int16 CPad::CarGunJustDown() {
+    return plugin::CallMethodAndReturn<int16, 0x53FFE0, CPad *>(this);
 }
 
 // Converted from thiscall short CPad::GetHandBrake(void) 0x540040
-short CPad::GetHandBrake() {
-    return plugin::CallMethodAndReturn<short, 0x540040, CPad *>(this);
+int16 CPad::GetHandBrake() {
+    return plugin::CallMethodAndReturn<int16, 0x540040, CPad *>(this);
 }
 
 // Converted from thiscall short CPad::GetBrake(void) 0x540080
-short CPad::GetBrake() {
-    return plugin::CallMethodAndReturn<short, 0x540080, CPad *>(this);
+int16 CPad::GetBrake() {
+    return plugin::CallMethodAndReturn<int16, 0x540080, CPad *>(this);
 }
 
 // Converted from thiscall bool CPad::GetExitVehicle(void) 0x5400D0
@@ -148,48 +184,80 @@ bool CPad::ExitVehicleJustDown() {
     return plugin::CallMethodAndReturn<bool, 0x540120, CPad *>(this);
 }
 
+// 0x540180
+Int32 CPad::GetWeapon(CPed* pPed) {
+    return plugin::CallMethodAndReturn<Int32, 0x540180, CPad*, CPed*>(this, pPed);
+}
+
+// 0x540250
+bool CPad::WeaponJustDown(CPed* pPed) {
+    return plugin::CallMethodAndReturn<bool, 0x540250, CPad*, CPed*>(this, pPed);
+}
+
 // Converted from thiscall uchar CPad::GetMeleeAttack(void) 0x540340
-unsigned char CPad::GetMeleeAttack() {
-    return plugin::CallMethodAndReturn<unsigned char, 0x540340, CPad *>(this, 0);
+Int8 CPad::GetMeleeAttack(bool bCheckButtonCircleStateOnly) 
+{
+    return plugin::CallMethodAndReturn<Int8, 0x540340, CPad*, bool>(this, bCheckButtonCircleStateOnly);
 }
 
 // Converted from thiscall uchar CPad::MeleeAttackJustDown(void) 0x540390
-unsigned char CPad::MeleeAttackJustDown() {
-    return plugin::CallMethodAndReturn<unsigned char, 0x540390, CPad *>(this);
+Int8 CPad::MeleeAttackJustDown(bool bCheckButtonCircleStateOnly) {
+    return plugin::CallMethodAndReturn<Int8, 0x540390, CPad*, bool>(this, bCheckButtonCircleStateOnly);
 }
 
 // Converted from thiscall short CPad::GetAccelerate(void) 0x5403F0
-short CPad::GetAccelerate() {
+short CPad::GetAccelerate() 
+{
     return plugin::CallMethodAndReturn<short, 0x5403F0, CPad *>(this);
 }
 
 // Converted from thiscall bool CPad::GetAccelerateJustDown(void) 0x540440
-bool CPad::GetAccelerateJustDown() {
+bool CPad::GetAccelerateJustDown() 
+{
     return plugin::CallMethodAndReturn<bool, 0x540440, CPad *>(this);
 }
 
 // Converted from thiscall bool CPad::NextStationJustUp(void) 0x5405B0
-bool CPad::NextStationJustUp() {
+bool CPad::NextStationJustUp() 
+{
     return plugin::CallMethodAndReturn<bool, 0x5405B0, CPad *>(this);
 }
 
 // Converted from thiscall bool CPad::LastStationJustUp(void) 0x5405E0
-bool CPad::LastStationJustUp() {
+bool CPad::LastStationJustUp() 
+{
     return plugin::CallMethodAndReturn<bool, 0x5405E0, CPad *>(this);
 }
 
 // Converted from thiscall bool CPad::CycleWeaponLeftJustDown(void) 0x540610
-bool CPad::CycleWeaponLeftJustDown() {
+bool CPad::CycleWeaponLeftJustDown() 
+{
     return plugin::CallMethodAndReturn<bool, 0x540610, CPad *>(this);
 }
 
 // Converted from thiscall bool CPad::CycleWeaponRightJustDown(void) 0x540640
-bool CPad::CycleWeaponRightJustDown() {
+bool CPad::CycleWeaponRightJustDown() 
+{
     return plugin::CallMethodAndReturn<bool, 0x540640, CPad *>(this);
 }
 
+// unknown (inlined?)
+int CPad::GetEnterTargeting()
+{
+    plugin::Error("CPad::GetEnterTargeting - UNKNOWN");
+    return 0;
+}
+
+// unknown (inlined?)
+bool CPad::GetExitTargeting()
+{
+    plugin::Error("CPad::GetExitTargeting - UNKNOWN");
+    return false;
+}
+
 // Converted from thiscall bool CPad::GetTarget(void) 0x540670
-bool CPad::GetTarget() {
+bool CPad::GetTarget() 
+{
     return plugin::CallMethodAndReturn<bool, 0x540670, CPad *>(this);
 }
 
@@ -312,6 +380,18 @@ Int16 CPad::LookAroundUpDown()
     return plugin::CallMethodAndReturn<Int16, 0x540F80, CPad*>(this);
 }
 
+// 0x541040
+float CPad::AimWeaponLeftRight(CPed* pPed)
+{
+    return plugin::CallMethodAndReturn<float, 0x541040, CPad*, CPed*>(this, pPed);
+}
+
+// 0x5410C0
+Int16 CPad::AimWeaponUpDown(CPed* pPed)
+{
+    return plugin::CallMethodAndReturn<Int16, 0x5410C0, CPad*, CPed*>(this, pPed);
+}
+
 // 0x5406B0
 bool CPad::TargetJustDown()
 {
@@ -341,7 +421,7 @@ bool CPad::CycleCameraModeDownJustDown()
 
 RwV2d CPad::GetAmountMouseMoved()
 {
-    return { NewMouseControllerState.x, NewMouseControllerState.y };
+    return NewMouseControllerState.m_AmountMoved; //{ NewMouseControllerState.x, NewMouseControllerState.y };
 }
 
 bool CPad::IsDisabled()

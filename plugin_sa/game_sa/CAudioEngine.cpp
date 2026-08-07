@@ -45,9 +45,40 @@ CReference* CAudioEngine::ReportFrontendAudioEvent(int id, float volume, float s
     return plugin::CallMethodAndReturn<CReference*, 0x506EA0, CAudioEngine*, int, float, float>(this, id, volume, speed);
 }
 
-
+/*
 void CAudioEngine::ReportMissionAudioEvent(eAudioEvents audioEvent, CVector const* coords) {
     plugin::CallMethod<0x507340, CAudioEngine*, eAudioEvents,CVector const*>(this,audioEvent,coords);
+}
+*/
+
+// 0x507340
+void CAudioEngine::ReportMissionAudioEvent(UInt16 Event, CVector& vPosition)
+{
+    plugin::CallMethod<0x507340, CAudioEngine*, UInt16, CVector&>(this, Event, vPosition);
+}
+
+// 0x507350
+void CAudioEngine::ReportMissionAudioEvent(UInt16 Event, CObject* pObject)
+{
+    plugin::CallMethod<0x507350, CAudioEngine*, UInt16, CObject*>(this, Event, pObject);
+}
+
+// 0x507370
+void CAudioEngine::ReportMissionAudioEvent(UInt16 Event, CPed* pPed)
+{
+    plugin::CallMethod<0x507370, CAudioEngine*, UInt16, CPed*>(this, Event, pPed);
+}
+
+// 0x507390
+void CAudioEngine::ReportMissionAudioEvent(UInt16 Event, CVehicle* pVehicle)
+{
+    plugin::CallMethod<0x507390, CAudioEngine*, UInt16, CVehicle*>(this, Event, pVehicle);
+}
+
+// 0x5073B0
+void CAudioEngine::ReportMissionAudioEvent(UInt16 Event, CPhysical* pPhysical, float fVolumeOffsetdB, float fFrequencyScaling)
+{
+    plugin::CallMethod<0x5073B0, CAudioEngine*, UInt16, CPhysical*, float, float>(this, Event, pPhysical, fVolumeOffsetdB, fFrequencyScaling);
 }
 
 void CAudioEngine::Service() {

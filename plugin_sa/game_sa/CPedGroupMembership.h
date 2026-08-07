@@ -15,8 +15,18 @@ class PLUGIN_API CPedGroupMembership {
     PLUGIN_NO_DEFAULT_CONSTRUCTION(CPedGroupMembership)
 
 public:
-    CPedGroup *m_pPedGroup;
-    CPed *m_apMembers[8]; //!< m_apMembers[7] is a leader
+    enum
+    {
+        MAX_NUM_MEMBERS = 8
+    };
+
+    enum
+    {
+        LEADER = 7
+    };
+
+    CPedGroup* m_pPedGroup;
+    CPed* m_pMembers[8]; //!< m_apMembers[7] is a leader
     float m_fMaxSeparation;
 
     SUPPORTED_10US static float const &ms_fMaxSeparation;
@@ -29,7 +39,7 @@ public:
     SUPPORTED_10US int CountMembersExcludingLeader();
     SUPPORTED_10US void Flush();
     //! copy constructor subfunction
-    SUPPORTED_10US void From(CPedGroupMembership const *obj);
+    SUPPORTED_10US void From(const CPedGroupMembership& src);
     SUPPORTED_10US CPed *GetLeader();
     SUPPORTED_10US CPed *GetMember(int memberId);
     SUPPORTED_10US bool IsFollower(CPed const *ped);
@@ -42,6 +52,9 @@ public:
     SUPPORTED_10US void SetLeader(CPed *ped);
 
     SUPPORTED_10US static signed int GetObjectForPedToHold();
+
+    void SetPedGroup(CPedGroup* pPedGroup)  { m_pPedGroup = pPedGroup; }
+    void SetMaxSeparation(float f)          { m_fMaxSeparation = f; }
 };
 
 VALIDATE_SIZE(CPedGroupMembership, 0x28);

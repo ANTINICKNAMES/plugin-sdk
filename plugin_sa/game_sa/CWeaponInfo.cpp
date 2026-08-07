@@ -70,6 +70,12 @@ int32 CWeaponInfo::GetWeaponReloadTime()
 	return plugin::CallMethodAndReturn<int32, 0x743D70, CWeaponInfo*>(this);
 }
 
+// 0x685700
+AnimationId CWeaponInfo::GetCrouchReloadAnim()
+{
+	return plugin::CallMethodAndReturn<AnimationId, 0x685700, CWeaponInfo*>(this);
+}
+
 // 0x73A280
 uint16 CWeaponInfo::GetReloadSampleTimeA(bool bDuck)
 {

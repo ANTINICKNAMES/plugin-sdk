@@ -8,6 +8,7 @@
 
 #include "PluginBase.h"
 #include "ePedType.h"
+#include "GlobalSpeechContexts.h"
 #include "CPhysical.h"
 #include "CAEPedAudioEntity.h"
 #include "CAEPedSpeechAudioEntity.h"
@@ -476,8 +477,8 @@ public:
     void    EnablePedSpeechForScriptSpeech();
     void    CanPedHoldConversation();
     // args: tAudioEvent ScriptID, Bool8 OverideSilence, Bool8 bForceAudible, Bool8 bFrontEnd
-    void    SayScript(int ScriptID, bool OverideSilence, bool bForceAudible, bool bFrontEnd);
-    int16_t Say(uint16_t Phrase, uint32_t StartTimeDelay, float Probability, bool bOverideSilence, bool bForceAudible, bool bFrontEnd);
+    void    SayScript(int ScriptID, bool OverideSilence = false, bool bForceAudible = false, bool bFrontEnd = false);
+    int16_t Say(uint16_t Phrase, uint32_t StartTimeDelay = 0, float Probability = 1.f, bool bOverideSilence = false, bool bForceAudible = false, bool bFrontEnd = false);
 
     static void Initialise();
 
@@ -555,7 +556,7 @@ public:
     void ClearAimFlag();
     bool CanUseTorsoWhenLooking();
 
-    void SetLookFlag(float fLookHeading, bool isPersistant, bool bOverride);
+    void SetLookFlag(float fLookHeading, bool isPersistant, bool bOverride = false);
     void SetLookFlag(CEntity* pLookEntity, bool bIsPersistant, bool bOverride);
     void ClearLookFlag();
 
@@ -716,7 +717,7 @@ public:
     }
 
     inline CWanted* GetPlayerWanted() {
-        return GetPlayerData()->m_pWanted;
+        return GetPlayerData()->m_Wanted;
     }
 
     inline CPedIntelligence* GetPedIntelligence() {

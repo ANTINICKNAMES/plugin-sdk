@@ -11,7 +11,6 @@
 
 class CMatrix {
 public:
-	/*
     // RwV3d-like:
     CVector      right;
     unsigned int flags;
@@ -28,20 +27,6 @@ public:
 	inline CMatrix() {
 		m_pAttachMatrix = nullptr;
 		m_bOwnsAttachedMatrix = false;
-	}
-    */
-
-	float xx, yx, zx, pad1; // right
-	float xy, yy, zy, pad2; // up
-	float xz, yz, zz, pad3; // front
-	float tx, ty, tz, pad4; // pos
-	RwMatrix* m_pRwMat;
-	uint32 m_owner;
-
-	inline CMatrix() 
-	{
-		m_pRwMat = nullptr;
-		m_owner = NULL;
 	}
 
     CMatrix(plugin::dummy_func_t) {}
@@ -82,7 +67,6 @@ public:
 	void operator+=(CMatrix const& right);
 	void operator*=(CMatrix const& right);
 
-	/*
 	CVector& GetRight() { return right; }
 	const CVector& GetRight() const { return right; }
 
@@ -94,19 +78,6 @@ public:
 
 	CVector& GetPosition() { return pos; }
 	const CVector& GetPosition() const { return pos; }
-	*/
-
-	CVector& GetRight() { return *reinterpret_cast<CVector*>(&xx); }
-	const CVector& GetRight() const { return *reinterpret_cast<const CVector*>(&xx); }
-
-	CVector& GetForward() { return *reinterpret_cast<CVector*>(&xz); }
-	const CVector& GetForward() const { return *reinterpret_cast<const CVector*>(&xz); }
-
-	CVector& GetUp() { return *reinterpret_cast<CVector*>(&xy); }
-	const CVector& GetUp() const { return *reinterpret_cast<const CVector*>(&xy); }
-
-	CVector& GetPosition() { return *reinterpret_cast<CVector*>(&tx); }
-	const CVector& GetPosition() const { return *reinterpret_cast<const CVector*>(&tx); }
 };
 
 VALIDATE_SIZE(CMatrix, 0x48);

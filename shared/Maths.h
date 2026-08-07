@@ -25,3 +25,5 @@ namespace plugin {
 #define PI (3.14159f)
 #define TWO_PI (PI*2)
 #define HALF_PI (PI/2)
+#define FORTH_PI (PI/4)
+#define EIGHT_PI (PI/8)

@@ -65,8 +65,8 @@ void CPedGroupMembership::Flush() {
 int addrof(CPedGroupMembership::From) = ADDRESS_BY_VERSION(0x5F7FE0, 0, 0, 0, 0, 0);
 int gaddrof(CPedGroupMembership::From) = GLOBAL_ADDRESS_BY_VERSION(0x5F7FE0, 0, 0, 0, 0, 0);
 
-void CPedGroupMembership::From(CPedGroupMembership const *obj) {
-    plugin::CallMethodDynGlobal<CPedGroupMembership *, CPedGroupMembership const *>(gaddrof(CPedGroupMembership::From), this, obj);
+void CPedGroupMembership::From(const CPedGroupMembership& src) {
+    plugin::CallMethodDynGlobal<CPedGroupMembership *, const CPedGroupMembership&>(gaddrof(CPedGroupMembership::From), this, src);
 }
 
 int addrof(CPedGroupMembership::GetLeader) = ADDRESS_BY_VERSION(0x5F69A0, 0, 0, 0, 0, 0);

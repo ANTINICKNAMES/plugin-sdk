@@ -79,8 +79,14 @@ signed int CGameLogic::RestorePedsWeapons(int a1) {
 }
 
 //Converted from char __cdecl CGameLogic::IsPlayerAllowedToGoInThisDirection(CPed *a1, float a2, float a3, float a4, float a5) 0x441E10
-bool CGameLogic::IsPlayerAllowedToGoInThisDirection(CPed *a1, float a2, float a3, float a4, float a5) {
-	return plugin::CallAndReturn<bool, 0x441E10, CPed*, float, float, float, float>(a1, a2, a3, a4, a5);
+bool CGameLogic::IsPlayerAllowedToGoInThisDirection(CPlayerPed* pPlayerPed, CVector Dir, float fExtraDist) {
+	return plugin::CallAndReturn<bool, 0x441E10, CPlayerPed*, CVector, float>(pPlayerPed, Dir, fExtraDist);
+}
+
+// 0x442020
+bool CGameLogic::IsPlayerUse2PlayerControls(CPlayerPed* pPlayerPed)
+{
+	return plugin::CallAndReturn<bool, 0x442020, CPlayerPed*>(pPlayerPed);
 }
 
 //Converted from void __cdecl CGameLogic::RestorePlayerStuffDuringResurrection(CPlayerPed *player, float x, float y, float z, float fAngle) 0x442060
